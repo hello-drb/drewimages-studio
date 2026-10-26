@@ -2,7 +2,7 @@
 // A case study goes in the sitemap, the Work page and the nav only when `published` is true.
 
 import type { ImageMetadata } from 'astro';
-import type { Photo } from './content';
+import { IMAGES, type Photo } from './content';
 import devilCover from '../assets/work/the-devil-i-knew-cover.jpg';
 
 export interface Credit {
@@ -40,6 +40,8 @@ export interface CaseStudy {
   shot: { when: string; where: string[] };
   credits: Credit[];
   quote?: { text: string; author: string; approved: boolean };
+  /** One behind-the-scenes photo for the sidebar, with its caption. */
+  bts?: { photo: Photo; caption: string };
   images: Photo[];
 }
 
@@ -77,12 +79,13 @@ export const CASE_STUDIES: CaseStudy[] = [
       { role: 'Hair & makeup', name: 'Irina Charkova' },
       { role: 'Behind-the-scenes video', name: 'Black Pixel Productions', type: 'Organization' },
     ],
-    // Nicole's line from her Oct 16 post. Shown only once Drew confirms she's OK with it being quoted here.
+    // Nicole's line from her Oct 16 post; Drew OK'd quoting it (Oct 26).
     quote: {
       text: 'Larry taught me the importance of the revision. Drew taught me the importance of vision.',
       author: 'Nicole Zuraitis',
-      approved: false,
+      approved: true,
     },
+    bts: { photo: IMAGES.aboutDetail, caption: 'On set in NYC, December 2025' },
     images: [],
   },
   {

@@ -119,10 +119,11 @@ export const IMAGES = {
   },
   aboutDetail: {
     src: 'v1768349930/DSC09840-Edit_pghftk.jpg',
-    name: 'Drew Bordeaux',
+    name: 'Drew Bordeaux and Nicole Zuraitis',
+    project: 'The Devil I Knew',
     photographer: 'Lindsey Lerner',
     year: 2025,
-    alt: 'Drew Bordeaux showing frames on the back of his camera to the woman he is photographing',
+    alt: 'Drew Bordeaux showing Nicole Zuraitis frames on the back of his camera during the shoot for The Devil I Knew',
   },
   contactHero: {
     src: 'v1768635524/Brister_BTS_111521_12_vxozvv.jpg',
