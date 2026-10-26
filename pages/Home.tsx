@@ -22,6 +22,19 @@ const Home: React.FC = () => {
       {/* Hero Section */}
       <HeroSlider />
 
+      {/* LATEST WORK: credit band */}
+      <div className="bg-ink text-paper border-t border-paper/10 relative z-10">
+          <Section className="py-8 md:py-10">
+              <Link to="/work/artists" className="group flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-10">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-mustard shrink-0">Latest work</span>
+                  <span className="font-serif text-2xl md:text-3xl leading-snug flex-grow">
+                      Art direction and photography for Nicole Zuraitis's album <span className="italic">The Devil I Knew</span>
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-paper/60 group-hover:text-paper transition-colors shrink-0">See the work →</span>
+              </Link>
+          </Section>
+      </div>
+
       {/* 01: INTRO / CAPABILITIES */}
       <div className="bg-teal text-ink bg-grain relative z-10">
           <Section className="py-16 md:py-32">

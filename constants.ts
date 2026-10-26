@@ -127,8 +127,8 @@ export const WORK_CATEGORIES: Record<string, WorkCategoryData> = {
       },
       { 
         src: IMAGES.artistNicole, 
-        title: "Nicole Zuraitis", 
-        subtitle: "Grammy Award–winning vocalist & composer" 
+        title: "Nicole Zuraitis",
+        subtitle: "Art direction & photography · The Devil I Knew (2026)"
       },
       { 
         src: IMAGES.artistRuleOfThree, 

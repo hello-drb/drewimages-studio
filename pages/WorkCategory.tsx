@@ -68,9 +68,8 @@ const WorkCategory: React.FC<WorkCategoryProps> = ({ categoryId }) => {
                            <img 
                                src={item.src} 
                                alt={item.title || `${category.title} ${idx}`} 
-                               className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" 
+                               className="w-full h-full object-cover [@media(hover:hover)]:grayscale [@media(hover:hover)]:group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                            />
-                           <div className="absolute inset-0 bg-burgundy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-multiply"></div>
                        </div>
                        {/* Caption Block */}
                        <div className="flex flex-col px-4 md:px-1">

@@ -14,10 +14,8 @@ const WorkCategoryGrid: React.FC = () => {
               <img 
                   src={cat.gallery[0].src} 
                   alt={cat.title} 
-                  className="w-full h-full object-cover grayscale contrast-[1.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" 
+                  className="w-full h-full object-cover [@media(hover:hover)]:grayscale [@media(hover:hover)]:group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-burgundy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-multiply"></div>
               
               {/* Floating Number */}
               <div className="absolute top-4 left-4 text-paper mix-blend-difference font-bold text-xs tracking-widest opacity-50">
