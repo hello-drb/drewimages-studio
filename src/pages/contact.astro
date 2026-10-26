@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Img from '../components/Img.astro';
+import { IMAGES, CONTACT } from '../data/content';
+import { WIDTHS } from '../data/cloudinary';
+
+const title = 'Inquire — DrewImages';
+const description = 'Start a creative direction or photography project with DrewImages. Include the project type, timeline and intended use.';
+---
+<Base title={title} description={description} pageType="ContactPage">
+  <div class="min-h-screen">
+    <Section class="py-20 md:py-32 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div class="flex flex-col h-full">
+          <h1 class="font-serif text-6xl md:text-7xl mb-12 text-burgundy">Inquire</h1>
+          <div class="mb-16">
+            <p class="text-xl font-serif italic text-ink/80 mb-8 max-w-md">
+              "New projects are considered by inquiry. Please include project type, timeline, and intended use."
+            </p>
+            <a href={`mailto:${CONTACT.email}`} class="text-sm font-bold uppercase tracking-widest border-b border-ink/30 pb-1 hover:text-teal hover:border-teal transition-colors">
+              {CONTACT.email}
+            </a>
+          </div>
+          <div class="mt-auto hidden lg:block aspect-[4/3] bg-gray-100 overflow-hidden">
+            <Img photo={IMAGES.contactHero} widths={WIDTHS.half} sizes="45vw" class="w-full h-full object-cover grayscale contrast-[1.1]" />
+          </div>
+        </div>
+
+        <div class="lg:pt-4">
+          <div id="form-success" hidden class="[&[hidden]]:hidden h-full flex flex-col items-center justify-center text-center p-12 bg-paper border border-teal/20">
+            <h2 class="font-serif text-3xl text-teal mb-4">Received.</h2>
+            <p class="text-ink/60">We&apos;ll be in touch shortly.</p>
+            <button type="button" id="form-reset" class="text-xs uppercase underline mt-6 text-ink/40 hover:text-ink font-bold">Send another</button>
+          </div>
+
+          <form id="inquiry-form" class="space-y-12" novalidate={false}>
+            <!-- Honeypot for bots: people never see or fill this -->
+            <input id="website" name="website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="group">
+              <label for="name" class="block text-xs uppercase tracking-widest mb-3 text-ink/40">Name</label>
+              <input required type="text" id="name" name="name" autocomplete="name" class="w-full bg-transparent border-b border-ink/20 py-4 text-lg" placeholder="Jane Doe" />
+            </div>
+
+            <div class="group">
+              <label for="email" class="block text-xs uppercase tracking-widest mb-3 text-ink/40">Email</label>
+              <input required type="email" id="email" name="email" autocomplete="email" class="w-full bg-transparent border-b border-ink/20 py-4 text-lg" placeholder="jane@example.com" />
+            </div>
+
+            <div class="group">
+              <label for="details" class="block text-xs uppercase tracking-widest mb-3 text-ink/40">Project Details</label>
+              <textarea required id="details" name="details" rows="4" class="w-full bg-transparent border-b border-ink/20 py-4 text-lg resize-none" placeholder="Type, timeline, goals..."></textarea>
+            </div>
+
+            <p id="form-error" hidden class="text-sm text-red-600" role="alert"></p>
+
+            <div class="pt-8">
+              <Button type="submit" class="w-full md:w-auto min-w-[200px]" variant="primary" id="form-submit">Request Session</Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </Section>
+  </div>
+</Base>
+
+<script>
+  // Same Web3Forms request the React site sent: JSON body, same key, subject and fields.
+  const form = document.getElementById('inquiry-form') as HTMLFormElement;
+  const success = document.getElementById('form-success')!;
+  const errorEl = document.getElementById('form-error')!;
+  const submit = document.getElementById('form-submit') as HTMLButtonElement;
+  const label = submit.textContent;
+
+  function showError(message: string) {
+    errorEl.textContent = message;
+    errorEl.hidden = false;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+    const data = new FormData(form);
+    if (data.get('website')) return; // bot protection
+
+    submit.textContent = 'Sending…';
+    submit.disabled = true;
+    try {
+      const payload = {
+        access_key: '30b1f025-d07a-4132-ac6a-31fe88fe6b32',
+        subject: 'New DrewImages Studio Inquiry',
+        from_name: 'DrewImages Studio',
+        name: data.get('name'),
+        email: data.get('email'),
+        message: data.get('details'),
+      };
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = await res.json();
+      if (result.success) {
+        form.reset();
+        form.hidden = true;
+        success.hidden = false;
+        if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { form: 'inquiry' });
+      } else {
+        showError('Something went wrong. Please try again or email hello@drewbordeaux.com');
+      }
+    } catch {
+      showError('Network error. Please try again.');
+    } finally {
+      submit.textContent = label;
+      submit.disabled = false;
+    }
+  });
+
+  document.getElementById('form-reset')!.addEventListener('click', () => {
+    success.hidden = true;
+    form.hidden = false;
+  });
+</script>

@@ -1,0 +1,29 @@
+---
+// A Cloudinary image with f_auto,q_auto, responsive widths and its written alt text.
+import { cld, srcset, WIDTHS } from '../data/cloudinary';
+import type { Photo } from '../data/content';
+
+interface Props {
+  photo: Photo;
+  sizes: string;
+  widths?: number[];
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  draggable?: 'true' | 'false';
+}
+
+const { photo, sizes, widths = WIDTHS.tile, class: className, loading = 'lazy', fetchpriority, draggable } = Astro.props;
+const fallback = widths[Math.min(2, widths.length - 1)];
+---
+<img
+  src={cld(photo.src, fallback)}
+  srcset={srcset(photo.src, widths)}
+  sizes={sizes}
+  alt={photo.alt}
+  class={className}
+  loading={loading}
+  decoding="async"
+  fetchpriority={fetchpriority}
+  draggable={draggable}
+/>

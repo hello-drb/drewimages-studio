@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import WorkCategoryGrid from '../components/WorkCategoryGrid.astro';
+import { breadcrumbs } from '../data/schema';
+
+const title = 'Work — DrewImages';
+const description = 'Selected creative direction and photography by DrewImages, organized by context: artists and creators, founders and leaders, brands and cultural projects.';
+---
+<Base title={title} description={description} pageType="CollectionPage" schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }])]}>
+  <div class="min-h-screen bg-paper">
+    <Section class="py-24 md:py-32">
+      <div class="mb-12 md:mb-20 border-b border-ink/20 pb-6 md:pb-8">
+        <h1 class="font-serif text-5xl md:text-8xl text-ink mb-4 md:mb-6">Work</h1>
+        <p class="text-base md:text-lg text-ink/60 max-w-md font-medium">
+          Archive organized by context. <br />
+          Select your area of focus.
+        </p>
+      </div>
+
+      <WorkCategoryGrid />
+    </Section>
+  </div>
+</Base>

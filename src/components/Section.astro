@@ -1,0 +1,13 @@
+---
+interface Props {
+  class?: string;
+  id?: string;
+  fullWidth?: boolean;
+}
+const { class: className = '', id, fullWidth = false } = Astro.props;
+---
+<section id={id} class={`w-full ${className}`}>
+  <div class={fullWidth ? 'w-full' : 'max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12'}>
+    <slot />
+  </div>
+</section>

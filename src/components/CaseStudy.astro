@@ -1,0 +1,282 @@
+---
+// A case study laid out like a magazine feature: folio and rule, the sleeve with its record,
+// a cover line, the story in columns, the square at three sizes, and liner-note credits.
+import { Picture, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Section from './Section.astro';
+import Button from './Button.astro';
+import Img from './Img.astro';
+import type { CaseStudy } from '../data/case-studies';
+import { publishedCaseStudies } from '../data/case-studies';
+import { SITE, DREW_ID, STUDIO_ID, breadcrumbs } from '../data/schema';
+import { WIDTHS } from '../data/cloudinary';
+
+interface Props {
+  study: CaseStudy;
+}
+
+const { study } = Astro.props;
+const url = `${SITE}/work/${study.slug}`;
+const ogPath = `/og/${study.slug}.jpg`;
+const label = study.cover ? await getImage({ src: study.cover.src, width: 480, format: 'webp' }) : undefined;
+const coverAbsolute = study.cover ? new URL((await getImage({ src: study.cover.src, width: 1200, format: 'jpg' })).src, SITE).href : undefined;
+const others = publishedCaseStudies().filter((c) => c.slug !== study.slug);
+
+const creativeWork = {
+  '@type': 'CreativeWork',
+  '@id': `${url}#work`,
+  name: `${study.release}: ${study.role.toLowerCase()}`,
+  url,
+  about: {
+    '@type': study.format === 'Single' ? 'MusicRecording' : 'MusicAlbum',
+    name: study.release,
+    byArtist: { '@type': 'Person', name: study.artist },
+  },
+  ...(coverAbsolute ? { image: coverAbsolute } : {}),
+  dateCreated: study.shot.when.match(/\d{4}/)?.[0],
+  locationCreated: study.shot.where.map((name) => ({ '@type': 'Place', name })),
+  creator: { '@type': 'Role', roleName: study.credits.find((c) => c.isDrew)?.role, creator: { '@id': DREW_ID } },
+  contributor: study.credits
+    .filter((c) => !c.isDrew)
+    .map((c) => ({ '@type': 'Role', roleName: c.role, contributor: { '@type': c.type ?? 'Person', name: c.name } })),
+  provider: { '@id': STUDIO_ID },
+};
+---
+<Base
+  title={study.metaTitle}
+  description={study.metaDescription}
+  ogImage={study.cover ? `${SITE}${ogPath}` : undefined}
+  ogImageAlt={study.cover?.alt}
+  noindex={!study.published}
+  schema={[
+    creativeWork,
+    breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }, { name: study.release, path: `/work/${study.slug}` }]),
+  ]}
+>
+  <article class="bg-paper bg-grain text-ink">
+    <!-- Folio and rule -->
+    <div class="pt-20 md:pt-28">
+      <Section>
+        <div class="flex items-center justify-between gap-4 pb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50">
+          <a href="/work" class="hover:text-burgundy transition-colors">&larr; Work</a>
+          <span>Case study No. {study.number}</span>
+          <span class="hidden md:inline">{study.artist} · {study.year}</span>
+        </div>
+        <div class="border-t-[3px] border-ink"></div>
+        <div class="mt-[3px] border-t border-ink"></div>
+      </Section>
+    </div>
+
+    <!-- Opening spread -->
+    <Section class="py-12 md:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16 items-center">
+        <div class="lg:col-span-6">
+          <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-teal mb-5">{study.artist} — {study.format}, {study.year}</span>
+          <h1 class="font-serif italic text-6xl sm:text-7xl md:text-8xl xl:text-9xl leading-[0.85] tracking-tight text-burgundy mb-8 text-balance">{study.release}</h1>
+          <p class="font-serif text-2xl md:text-3xl leading-snug text-ink/85 max-w-xl mb-8 text-balance">{study.dek}</p>
+          <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50">
+            {study.role} by <span class="text-ink">Drew Bordeaux</span>
+          </p>
+        </div>
+
+        {study.cover && (
+          <figure class="lg:col-span-6">
+            <div class="sleeve relative w-[78%] sm:w-[70%] lg:w-[78%]">
+              <div class="record absolute inset-[2%] rounded-full" aria-hidden="true">
+                <div class="absolute inset-[33%] rounded-full bg-cover bg-center" style={`background-image: url(${label?.src})`}></div>
+                <div class="absolute inset-[48.5%] rounded-full bg-paper"></div>
+              </div>
+              <Picture
+                src={study.cover.src}
+                alt={study.cover.alt}
+                widths={[400, 640, 800, 1200]}
+                sizes="(min-width: 1024px) 38vw, 78vw"
+                formats={['avif', 'webp']}
+                loading="eager"
+                fetchpriority="high"
+                class="relative z-10 w-full aspect-square object-cover shadow-[10px_10px_0_0_rgba(12,12,12,0.12)]"
+              />
+            </div>
+            {study.coverCaption && (
+              <figcaption class="mt-6 text-[10px] font-bold uppercase tracking-[0.2em] text-ink/60">{study.coverCaption}</figcaption>
+            )}
+          </figure>
+        )}
+      </div>
+    </Section>
+
+    <!-- Cover line -->
+    <div class="bg-burgundy text-paper bg-grain">
+      <Section class="py-14 md:py-24">
+        <p class="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] max-w-5xl text-balance">{study.coverLine}</p>
+      </Section>
+    </div>
+
+    <!-- The story -->
+    <Section class="py-16 md:py-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="lg:col-span-8 md:columns-2 md:gap-12 text-lg leading-relaxed font-light text-ink/85">
+          {study.body.map((p, i) => (
+            <p class={`mb-6 ${i === 0 ? 'first-letter:float-left first-letter:font-serif first-letter:text-[5.5rem] first-letter:leading-[0.8] first-letter:mr-3 first-letter:mt-1 first-letter:text-burgundy' : ''}`}>{p}</p>
+          ))}
+        </div>
+
+        <aside class="lg:col-span-3 lg:col-start-10">
+          <dl class="border-t border-ink/20 text-sm">
+            <div class="py-4 border-b border-ink/10">
+              <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-1">Role</dt>
+              <dd class="font-serif italic text-xl">{study.role}</dd>
+            </div>
+            <div class="py-4 border-b border-ink/10">
+              <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-1">{study.format}</dt>
+              <dd class="font-serif italic text-xl">{study.artist}, {study.release} ({study.year})</dd>
+            </div>
+            <div class="py-4 border-b border-ink/10">
+              <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-1">Shot</dt>
+              <dd class="font-serif italic text-xl">{study.shot.when}<br />{study.shot.where.join(' · ')}</dd>
+            </div>
+            <div class="py-4 border-b border-ink/10">
+              <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-2">What we made</dt>
+              <dd>
+                <ul class="space-y-1">
+                  {study.madeList.map((item) => (
+                    <li class="flex items-center gap-3 font-serif italic text-xl"><span class="w-1.5 h-1.5 rounded-full bg-mustard shrink-0"></span>{item}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </Section>
+
+    {study.quote?.approved && (
+      <div class="bg-teal text-ink bg-grain">
+        <Section class="py-16 md:py-24">
+          <figure class="max-w-4xl">
+            <blockquote class="font-serif text-3xl md:text-5xl leading-tight text-balance">“{study.quote.text}”</blockquote>
+            <figcaption class="mt-8 flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-ink/60">
+              <span class="h-px w-12 bg-ink/30"></span>{study.quote.author}
+            </figcaption>
+          </figure>
+        </Section>
+      </div>
+    )}
+
+    <!-- One square, three sizes -->
+    {study.cover && (
+      <div class="bg-ink text-paper">
+        <Section class="py-16 md:py-28">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+            <div class="lg:col-span-4">
+              <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-mustard mb-5">Where it lives</span>
+              <h2 class="font-serif text-4xl md:text-5xl leading-[0.95] mb-6 text-balance">One square, <span class="italic">three sizes.</span></h2>
+              <p class="text-base md:text-lg text-paper/70 font-light leading-relaxed max-w-sm">
+                A cover has to work at twelve inches on a shelf, on a phone in someone’s feed, and as a thumbnail in a playlist.
+              </p>
+            </div>
+            <div class="lg:col-span-8 flex items-end gap-6 sm:gap-10 md:gap-14">
+              {[
+                { size: 'w-[52%] max-w-[22rem]', label: '12 in.', where: 'The sleeve' },
+                { size: 'w-[26%] max-w-[11rem]', label: '1080 px', where: 'The post' },
+                { size: 'w-16', label: '64 px', where: 'The playlist' },
+              ].map((s) => (
+                <figure class={`${s.size} shrink-0`}>
+                  <Picture src={study.cover!.src} alt="" widths={[64, 128, 400, 800]} sizes="(min-width: 1024px) 22rem, 52vw" formats={['avif', 'webp']} class="w-full aspect-square object-cover" />
+                  <figcaption class="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-paper/50 leading-relaxed">
+                    <span class="block text-paper">{s.label}</span>{s.where}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </Section>
+      </div>
+    )}
+
+    {study.images.length > 0 && (
+      <Section class="py-16 md:py-24">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
+          {study.images.map((photo) => (
+            <figure class="aspect-square overflow-hidden bg-ink/5">
+              <Img photo={photo} sizes="(min-width: 768px) 33vw, 50vw" class="w-full h-full object-cover" />
+            </figure>
+          ))}
+        </div>
+      </Section>
+    )}
+
+    <!-- Liner notes -->
+    <Section class="py-16 md:py-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <h2 class="lg:col-span-3 text-[10px] font-bold uppercase tracking-[0.3em] text-ink/50">Liner notes</h2>
+        <dl class="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-x-16 border-t border-ink/20">
+          {study.credits.map((c) => (
+            <div class="py-5 border-b border-ink/10">
+              <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-1">{c.role}</dt>
+              <dd class={`font-serif text-2xl ${c.isDrew ? 'text-burgundy' : ''}`}>{c.name}</dd>
+            </div>
+          ))}
+          <div class="py-5 border-b border-ink/10">
+            <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-1">{study.shot.where.length > 1 ? 'Locations' : 'Location'}</dt>
+            <dd class="font-serif text-2xl">{study.shot.where.join(' · ')}</dd>
+          </div>
+        </dl>
+      </div>
+    </Section>
+
+    <!-- Next -->
+    <div class="bg-ink text-paper relative overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-teal/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <Section class="py-20 md:py-28 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+          <div class="lg:col-span-7">
+            <h2 class="font-serif text-4xl md:text-6xl leading-[0.95] mb-6">Making a record?</h2>
+            <p class="text-base md:text-lg text-paper/70 font-light leading-relaxed max-w-xl">
+              I’m a songwriter and record producer too, so I start a cover from the music. The records live at <a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=case_study" class="underline decoration-paper/30 underline-offset-4 hover:text-white hover:decoration-white transition-colors">drewbordeaux.com</a>.
+            </p>
+          </div>
+          <div class="lg:col-span-5 flex flex-col sm:flex-row lg:justify-end gap-4">
+            <Button href="/contact" variant="primary">Start a conversation</Button>
+            {others[0] ? (
+              <Button href={`/work/${others[0].slug}`} variant="outline" class="text-paper border-paper hover:bg-paper hover:text-ink">Next: {others[0].release}</Button>
+            ) : (
+              <Button href="/work" variant="outline" class="text-paper border-paper hover:bg-paper hover:text-ink">More work</Button>
+            )}
+          </div>
+        </div>
+      </Section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  /* The record behind the sleeve: grooves, then it slides out once on load. */
+  .record {
+    background:
+      radial-gradient(circle at 50% 50%, transparent 31%, rgba(255, 255, 255, 0.06) 31.5%, transparent 33%),
+      repeating-radial-gradient(circle at 50% 50%, #111 0, #111 2px, #1b1b1b 3px, #111 4px);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+    transform: translateX(30%);
+    animation: record-out 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+  }
+  @media (max-width: 639px) {
+    .record {
+      transform: translateX(22%);
+      animation-name: record-out-sm;
+    }
+  }
+  @keyframes record-out {
+    from { transform: translateX(0); }
+    to { transform: translateX(30%); }
+  }
+  @keyframes record-out-sm {
+    from { transform: translateX(0); }
+    to { transform: translateX(22%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .record {
+      animation: none;
+    }
+  }
+</style>

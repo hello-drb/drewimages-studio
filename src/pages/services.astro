@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import EditorialHeader from '../components/EditorialHeader.astro';
+import Img from '../components/Img.astro';
+import { IMAGES } from '../data/content';
+import { ogImage, WIDTHS } from '../data/cloudinary';
+
+const title = 'Services — DrewImages';
+const description = 'Identity sessions, campaign builds and ongoing creative direction for artists, founders and creative teams.';
+---
+<Base title={title} description={description} ogImage={ogImage(IMAGES.serviceIdentity.src, 'face')} ogImageAlt={IMAGES.serviceIdentity.alt}>
+  <div class="min-h-screen pb-0 bg-ink">
+    <div class="bg-paper py-24 md:py-48 z-20 relative bg-grain">
+      <Section>
+        <span class="block text-center text-[10px] font-bold uppercase tracking-[0.3em] text-ink/40 mb-6">Offerings</span>
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-8xl mb-6 md:mb-8 text-center text-ink text-balance">
+          Creative direction and photography, shaped with care and intention.
+        </h1>
+        <p class="text-base md:text-lg text-ink/70 text-center max-w-2xl mx-auto leading-relaxed font-light">
+          DrewImages.studio works with artists, founders, and creative teams who value clarity, tone, and thoughtful execution. Projects are approached with a calm, collaborative process — focused on creating imagery that feels considered and works in the real world.
+        </p>
+      </Section>
+    </div>
+
+    <!-- 01: Identity Sessions -->
+    <div class="bg-teal text-ink relative z-10">
+      <Section class="py-16 md:py-32">
+        <EditorialHeader number="01" title="Identity Sessions" colorClass="border-ink/20" variant="page" />
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-start">
+          <div class="order-2 lg:order-1">
+            <div class="aspect-[3/4] overflow-hidden bg-ink/10 mb-4">
+              <Img photo={IMAGES.serviceIdentity} widths={WIDTHS.half} sizes="(min-width: 1024px) 45vw, 100vw" class="w-full h-full object-cover" />
+            </div>
+            <div class="flex justify-between items-start text-[10px] font-bold uppercase tracking-widest opacity-60">
+              <span>Fig 1.0</span>
+              <span>Presence & Clarity</span>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2 lg:sticky lg:top-32">
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl mb-6 text-balance">Focused portrait sessions for people who need to be seen clearly.</h2>
+            <div class="text-lg text-ink/80 font-light mb-10 md:mb-12">
+              <p>Ideal for press, releases, profiles, and personal brands. Each session is guided by light direction, simple planning, and an emphasis on comfort and confidence.</p>
+            </div>
+            <div class="bg-paper/10 p-6 md:p-8 border border-ink/10 backdrop-blur-sm">
+              <ul class="space-y-4 mb-8 text-xs md:text-sm font-bold opacity-80 uppercase tracking-wide">
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-ink rounded-full"></span> Direction and visual planning</li>
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-ink rounded-full"></span> Studio or location shoot</li>
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-ink rounded-full"></span> Curated image selections</li>
+              </ul>
+              <div class="flex justify-between items-end border-t border-ink/10 pt-6">
+                <span class="text-[10px] uppercase tracking-widest">Starting at</span>
+                <span class="text-2xl md:text-3xl font-serif italic">$1,500</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+    </div>
+
+    <!-- 02: Campaign Builds -->
+    <div class="bg-mustard text-ink relative z-10">
+      <Section class="py-16 md:py-32">
+        <EditorialHeader number="02" title="Campaign Builds" colorClass="border-ink/20" variant="page" />
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-start">
+          <div>
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl mb-6 text-balance">Larger creative projects built around a defined visual direction.</h2>
+            <div class="text-lg text-ink/80 font-light mb-10 md:mb-12">
+              <p>Designed for albums, launches, and identity-driven campaigns that need more than a single shoot. These projects often include multiple concepts, locations, or looks — all shaped by a cohesive tone.</p>
+            </div>
+            <div class="bg-paper/10 p-6 md:p-8 border border-ink/10 backdrop-blur-sm shadow-sm">
+              <ul class="space-y-4 mb-8 text-xs md:text-sm font-bold opacity-80 uppercase tracking-wide">
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-ink rounded-full"></span> Creative direction & references</li>
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-ink rounded-full"></span> Multi-location or multi-look shoots</li>
+                <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-ink rounded-full"></span> Organized rollout assets</li>
+              </ul>
+              <div class="flex justify-between items-end border-t border-ink/10 pt-6">
+                <span class="text-[10px] uppercase tracking-widest">Starting at</span>
+                <span class="text-2xl md:text-3xl font-serif italic">$2,500</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2 aspect-video overflow-hidden bg-ink/10">
+              <Img photo={IMAGES.serviceCampaign} widths={WIDTHS.half} sizes="(min-width: 1024px) 45vw, 100vw" class="w-full h-full object-cover" />
+            </div>
+            <div class="aspect-square overflow-hidden bg-burgundy flex flex-col items-center justify-center p-4 md:p-6 text-center">
+              <span class="font-serif text-2xl md:text-3xl lg:text-4xl text-paper italic mb-2 md:mb-3">Era</span>
+              <span class="text-[10px] uppercase tracking-widest text-paper/70 font-bold leading-relaxed max-w-[140px]">A visual framework for a defined creative chapter</span>
+            </div>
+            <div class="aspect-square overflow-hidden bg-ink/10">
+              <Img photo={IMAGES.serviceCampaignDetail} widths={WIDTHS.tile} sizes="(min-width: 1024px) 22vw, 50vw" class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+      </Section>
+    </div>
+
+    <!-- 03: Ongoing Direction -->
+    <div class="bg-ink text-paper relative z-10">
+      <Section class="py-16 md:py-32">
+        <EditorialHeader number="03" title="Ongoing Direction" colorClass="border-paper/20" variant="page" />
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div class="lg:col-span-7">
+            <h2 class="font-serif text-3xl md:text-5xl lg:text-6xl mb-6 text-balance">Creative support for teams with consistent content needs.</h2>
+            <p class="text-lg text-paper/70 font-light leading-relaxed max-w-xl">
+              For artists, brands, or organizations who want continuity in their visual language over time. This option focuses on long-term alignment rather than one-off sessions.
+            </p>
+          </div>
+          <div class="lg:col-span-5">
+            <div class="bg-paper/5 border border-paper/10 p-8 md:p-12 text-center">
+              <span class="block font-serif italic text-2xl md:text-3xl mb-2">Available by Retainer</span>
+              <span class="text-[10px] uppercase tracking-widest opacity-50">Inquire for details</span>
+            </div>
+          </div>
+        </div>
+      </Section>
+    </div>
+
+    <div class="bg-paper py-24 md:py-32 text-center relative z-10">
+      <Section>
+        <h2 class="font-serif text-3xl md:text-4xl mb-6">Inquire about a project</h2>
+        <p class="text-xs font-bold uppercase tracking-widest text-ink/40 mb-10 max-w-md mx-auto leading-loose">
+          New projects are considered by inquiry.<br />
+          Please include timing, scope, and intended use.
+        </p>
+        <Button href="/contact" variant="primary">Inquire About a Project</Button>
+      </Section>
+    </div>
+  </div>
+</Base>

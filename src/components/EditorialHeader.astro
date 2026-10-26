@@ -1,0 +1,16 @@
+---
+// The "magazine header" rule above each numbered section.
+interface Props {
+  number: string;
+  title: string;
+  colorClass?: string;
+  /** Home sections sit further below the rule and carry a small circle on desktop. */
+  variant?: 'home' | 'page';
+}
+const { number, title, colorClass = 'border-current', variant = 'home' } = Astro.props;
+---
+<div class={`flex items-center gap-4 ${variant === 'home' ? 'mb-10 md:mb-24' : 'mb-10 md:mb-16'} pt-6 md:pt-8 border-t ${colorClass} w-full`}>
+  <span class="font-sans text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">({number})</span>
+  <span class="font-sans text-[10px] font-bold uppercase tracking-[0.2em] flex-grow opacity-60">{title}</span>
+  {variant === 'home' && <span class="hidden md:block w-4 h-4 rounded-full border border-current opacity-30"></span>}
+</div>

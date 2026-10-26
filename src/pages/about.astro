@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Img from '../components/Img.astro';
+import { IMAGES } from '../data/content';
+import { ogImage, WIDTHS } from '../data/cloudinary';
+
+const title = 'About — DrewImages';
+const description = 'DrewImages is the creative direction and photography studio of Drew Bordeaux, based in New York and the Hudson Valley.';
+---
+<Base title={title} description={description} pageType="AboutPage" ogImage={ogImage(IMAGES.aboutMain.src, 'face')} ogImageAlt={IMAGES.aboutMain.alt}>
+  <div class="min-h-screen">
+    <Section class="py-20 md:py-32">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+        <div class="lg:col-span-5 order-2 lg:order-1">
+          <div class="relative aspect-[3/4] overflow-hidden bg-gray-200">
+            <Img photo={IMAGES.aboutMain} widths={WIDTHS.half} sizes="(min-width: 1024px) 40vw, 100vw" class="w-full h-full object-cover grayscale contrast-[1.1]" />
+          </div>
+          <div class="flex gap-4 mt-4">
+            <div class="w-1/2 aspect-square bg-gray-100 overflow-hidden">
+              <Img photo={IMAGES.aboutDetail} sizes="(min-width: 1024px) 20vw, 50vw" class="w-full h-full object-cover grayscale" />
+            </div>
+            <div class="w-1/2 flex flex-col justify-end gap-1">
+              <p class="text-xs text-ink/40 uppercase tracking-widest leading-relaxed">In process — NYC, December 2025.</p>
+              <p class="text-[10px] text-ink/30 uppercase tracking-widest">Photo Credit: Lindsey Lerner</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 order-1 lg:order-2 lg:pl-12">
+          <h1 class="font-serif text-6xl md:text-8xl mb-12 text-burgundy leading-none">About<br />the Studio</h1>
+          <div class="text-lg text-ink/80 font-light leading-relaxed mb-16 space-y-8">
+            <p class="font-serif text-2xl italic text-ink">DrewImages.studio is the visual identity practice of Drew Bordeaux.</p>
+            <p>The studio works with artists, founders, and creative teams who want imagery that feels focused, cohesive, and grounded in real use — not just style for style’s sake.</p>
+            <p>The approach combines creative direction with practical execution, keeping projects efficient, collaborative, and clear.</p>
+          </div>
+          <div class="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            <p class="text-sm font-bold uppercase tracking-widest text-teal">Based in New York. Available worldwide.</p>
+            <Button href="/contact" variant="primary">Request a Session</Button>
+          </div>
+        </div>
+      </div>
+    </Section>
+  </div>
+</Base>

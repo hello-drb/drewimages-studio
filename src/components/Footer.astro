@@ -1,0 +1,28 @@
+---
+import { LOGO, CONTACT } from '../data/content';
+import { cld } from '../data/cloudinary';
+
+const year = new Date().getFullYear();
+---
+<footer class="bg-ink text-paper py-16 relative">
+  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-end gap-8">
+    <div>
+      <div class="mb-8">
+        <img src={cld(LOGO, 400)} alt="DrewImages.studio" class="h-10 w-auto invert grayscale opacity-90" loading="lazy" decoding="async" />
+      </div>
+      <div class="flex gap-6 text-xs font-bold uppercase tracking-widest text-paper/60">
+        <a href={`mailto:${CONTACT.email}`} class="hover:text-white transition-colors">Email</a>
+        <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a>
+      </div>
+    </div>
+
+    <div class="text-right">
+      <p class="text-xs uppercase tracking-widest text-paper/40 mb-1">Location</p>
+      <p class="font-serif italic text-xl text-paper">NYC / Hudson Valley</p>
+    </div>
+  </div>
+  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-white/10 text-[10px] uppercase tracking-widest text-paper/30 flex justify-between">
+    <span>&copy; {year} DrewImages.studio.</span>
+    <span>All rights reserved.</span>
+  </div>
+</footer>

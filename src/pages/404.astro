@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+---
+<Base title="Page not found — DrewImages" description="This page doesn’t exist. The work is one click away.">
+  <Section class="py-32 md:py-48">
+    <span class="block text-[10px] font-bold uppercase tracking-[0.3em] text-ink/40 mb-6">404</span>
+    <h1 class="font-serif text-5xl md:text-8xl text-burgundy mb-10 leading-none">Nothing here.</h1>
+    <div class="flex flex-wrap gap-4">
+      <Button href="/work" variant="primary">See the work</Button>
+      <Button href="/" variant="outline">Home</Button>
+    </div>
+  </Section>
+</Base>

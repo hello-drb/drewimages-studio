@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import Img from '../../components/Img.astro';
+import { WORK_CATEGORIES, ALBUM_ARTWORKS, type WorkCategory } from '../../data/content';
+import { ogImage, WIDTHS } from '../../data/cloudinary';
+import { breadcrumbs } from '../../data/schema';
+
+export function getStaticPaths() {
+  return WORK_CATEGORIES.map((category) => ({ params: { category: category.id }, props: { category } }));
+}
+
+const { category } = Astro.props as { category: WorkCategory };
+const testimonial = category.testimonial;
+---
+<Base
+  title={category.metaTitle}
+  description={category.metaDescription}
+  ogImage={ogImage(category.cover.src)}
+  ogImageAlt={category.cover.alt}
+  pageType="CollectionPage"
+  schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }, { name: category.title, path: `/work/${category.id}` }])]}
+>
+  <div class="min-h-screen bg-paper pb-20">
+    <div class="bg-ink text-paper relative overflow-hidden">
+      <Section class="py-24 md:py-32 relative z-10">
+        <div class="mb-6 md:mb-8 flex items-center gap-3">
+          <a href="/work" class="text-[10px] font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition-opacity hover:text-mustard">&larr; Work</a>
+          <span class="w-1 h-1 rounded-full bg-paper/30"></span>
+          <span class="text-[10px] font-bold uppercase tracking-widest opacity-50">{category.subtitle}</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
+          <div class="lg:col-span-7">
+            <h1 class="font-serif text-4xl md:text-5xl lg:text-8xl mb-6 md:mb-8 leading-[0.9] text-balance">{category.title}</h1>
+            <p class="text-base md:text-xl text-paper/80 font-light leading-relaxed max-w-2xl">{category.description}</p>
+          </div>
+
+          <div class="lg:col-span-5 w-full">
+            <div class="bg-paper/5 backdrop-blur-sm border border-paper/10 p-6 md:p-8">
+              <span class="block text-[10px] font-bold uppercase tracking-[0.2em] opacity-40 mb-4 md:mb-6">Core Engagements</span>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8">
+                {category.engagements.map((item) => (
+                  <li class="flex items-center gap-3 font-serif italic text-lg opacity-90">
+                    <span class="w-1.5 h-1.5 rounded-full bg-mustard shrink-0"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Section>
+      <div class="absolute inset-0 bg-grain opacity-5 pointer-events-none"></div>
+    </div>
+
+    <Section class="py-16 md:py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-1 md:gap-x-8 -mx-4 md:mx-0 mb-16 md:mb-24">
+        {category.gallery.map((item) => (
+          <figure class="group cursor-default">
+            <div class="aspect-[4/5] overflow-hidden bg-ink/5 relative mb-3 md:mb-4">
+              <Img
+                photo={item}
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                class="w-full h-full object-cover [@media(hover:hover)]:grayscale [@media(hover:hover)]:group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+              />
+            </div>
+            <figcaption class="flex flex-col px-4 md:px-1">
+              <span class="font-serif italic text-xl text-ink group-hover:text-burgundy transition-colors">{item.name}</span>
+              {item.role && <span class="text-[10px] font-bold uppercase tracking-widest text-ink/40 mt-1">{item.role}</span>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      {category.id === 'artists' && (
+        <div class="mb-20 md:mb-32 pt-12 border-t border-ink/10">
+          <h2 class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-8 ml-1">Recent release collaborations</h2>
+          <div class="w-full overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing" data-drag-scroll>
+            <ul class="flex gap-12 w-max px-1">
+              {ALBUM_ARTWORKS.map((cover) => (
+                <li class="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-ink/5 select-none">
+                  <Img photo={cover} widths={WIDTHS.thumb} sizes="(min-width: 768px) 160px, 128px" class="w-full h-full object-cover saturate-[0.85] contrast-[0.95]" draggable="false" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {testimonial && (
+        <div class="border-t border-ink/10 pt-16 md:pt-24 mb-16 md:mb-24">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+            <div class="md:col-span-5 lg:col-span-4 order-2 md:order-1">
+              <div class="aspect-[3/4] bg-ink/5 p-2 border border-ink/5 relative">
+                <Img photo={testimonial.photo} widths={WIDTHS.half} sizes="(min-width: 1024px) 33vw, (min-width: 768px) 42vw, 100vw" class="w-full h-full object-cover grayscale contrast-125" />
+              </div>
+            </div>
+
+            <figure class="md:col-span-7 lg:col-span-7 lg:col-start-6 order-1 md:order-2">
+              <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-teal mb-6 block">Perspective</span>
+              <blockquote
+                class={`font-serif text-ink mb-8 ${testimonial.quote.length > 300 ? 'text-lg md:text-2xl leading-relaxed whitespace-pre-line' : 'text-3xl md:text-4xl lg:text-5xl leading-tight text-balance'}`}
+              >“{testimonial.quote}”</blockquote>
+              <figcaption class="flex items-center gap-4">
+                <span class="h-px w-12 bg-ink/20"></span>
+                <div class="text-xs font-bold uppercase tracking-widest text-ink/50">
+                  {testimonial.author}
+                  {testimonial.role && <span class="opacity-50 font-medium normal-case ml-1"> — {testimonial.role}</span>}
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      )}
+
+      <div class="pt-8 md:pt-12 border-t border-ink/10 flex flex-col md:flex-row justify-between items-center gap-8">
+        <a href="/work" class="text-xs font-bold uppercase tracking-widest text-ink/40 hover:text-ink transition-colors">Back to Work</a>
+        <Button href="/contact" variant="primary" class="w-full md:w-auto">Start a Project</Button>
+      </div>
+    </Section>
+  </div>
+</Base>
+
+<script>
+  // Drag to scroll the album strip with a mouse (touch scrolls natively)
+  document.querySelectorAll<HTMLElement>('[data-drag-scroll]').forEach((el) => {
+    let startX = 0;
+    let startScroll = 0;
+    let dragging = false;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      dragging = true;
+      startX = e.clientX;
+      startScroll = el.scrollLeft;
+      el.setPointerCapture(e.pointerId);
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (dragging) el.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    const stop = () => (dragging = false);
+    el.addEventListener('pointerup', stop);
+    el.addEventListener('pointercancel', stop);
+  });
+</script>

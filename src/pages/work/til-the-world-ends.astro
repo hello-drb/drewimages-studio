@@ -1,0 +1,7 @@
+---
+import CaseStudy from '../../components/CaseStudy.astro';
+import { CASE_STUDIES } from '../../data/case-studies';
+
+const study = CASE_STUDIES.find((c) => c.slug === 'til-the-world-ends')!;
+---
+<CaseStudy study={study} />

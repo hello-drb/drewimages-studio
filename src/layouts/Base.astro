@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, website, studio, drew, webPage } from '../data/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute URL of a 1200×630 link-preview image. */
+  ogImage?: string;
+  ogImageAlt?: string;
+  /** schema.org page type: WebPage, CollectionPage, AboutPage, ContactPage. */
+  pageType?: string;
+  /** Extra JSON-LD nodes for this page (breadcrumbs, the case study). */
+  schema?: object[];
+  /** Drafts on the preview stay out of search results. */
+  noindex?: boolean;
+}
+
+const DEFAULT_OG = 'https://res.cloudinary.com/diduw1fmf/image/upload/c_fill,g_auto,w_1200,h_630,f_jpg,q_auto/v1768230293/Cyrille_Green_ug4lzg.png';
+
+const {
+  title,
+  description,
+  ogImage = DEFAULT_OG,
+  ogImageAlt = 'Portrait by DrewImages',
+  pageType,
+  schema = [],
+  noindex = false,
+} = Astro.props;
+
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
+const canonical = `${SITE}${path || '/'}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [website, studio, drew, webPage({ url: canonical, name: title, description, type: pageType, image: ogImage }), ...schema],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N5TF40P03G"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-N5TF40P03G');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#F3E6C8" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DrewImages" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <slot name="head" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="font-sans text-ink bg-paper">
+    <div class="min-h-screen flex flex-col font-sans text-ink bg-paper bg-grain selection:bg-burgundy selection:text-paper">
+      <Header />
+      <main class="flex-grow">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>
