@@ -6,8 +6,8 @@ import Img from '../components/Img.astro';
 import { IMAGES } from '../data/content';
 import { ogImage, WIDTHS } from '../data/cloudinary';
 
-const title = 'About — DrewImages';
-const description = 'DrewImages is the creative direction and photography studio of Drew Bordeaux, based in New York and the Hudson Valley.';
+const title = 'About Drew Bordeaux, art director and photographer — DrewImages';
+const description = 'DrewImages is the creative direction and photography studio of Drew Bordeaux: art director and photographer, songwriter and record producer. New York and the Hudson Valley.';
 ---
 <Base title={title} description={description} pageType="AboutPage" ogImage={ogImage(IMAGES.aboutMain.src, 'face')} ogImageAlt={IMAGES.aboutMain.alt}>
   <div class="min-h-screen">
@@ -31,13 +31,14 @@ const description = 'DrewImages is the creative direction and photography studio
         <div class="lg:col-span-7 order-1 lg:order-2 lg:pl-12">
           <h1 class="font-serif text-6xl md:text-8xl mb-12 text-burgundy leading-none">About<br />the Studio</h1>
           <div class="text-lg text-ink/80 font-light leading-relaxed mb-16 space-y-8">
-            <p class="font-serif text-2xl italic text-ink">DrewImages.studio is the visual identity practice of Drew Bordeaux.</p>
-            <p>The studio works with artists, founders, and creative teams who want imagery that feels focused, cohesive, and grounded in real use — not just style for style’s sake.</p>
-            <p>The approach combines creative direction with practical execution, keeping projects efficient, collaborative, and clear.</p>
+            <p class="font-serif text-2xl italic text-ink">DrewImages is the creative direction and photography studio of Drew Bordeaux.</p>
+            <p>I’m an art director and photographer. I’m also a songwriter and record producer, and most of my clients are musicians, so I start from the record: how it sounds, what it’s about, and who the artist is becoming on it. The pictures come out of that.</p>
+            <p>I run the whole visual side of a release: the concept, the team, the shoot and the files. My clients include Grammy-winning artists, among them Nicole Zuraitis, whose album <a href="/work/the-devil-i-knew" class="italic underline decoration-ink/30 underline-offset-4 hover:decoration-ink">The Devil I Knew</a> I art-directed and photographed. I also photograph founders and brands.</p>
+            <p>I’m a member of the Recording Academy. My own records and production work are at <a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=about" class="underline decoration-ink/30 underline-offset-4 hover:decoration-ink">drewbordeaux.com</a>.</p>
           </div>
           <div class="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <p class="text-sm font-bold uppercase tracking-widest text-teal">Based in New York. Available worldwide.</p>
-            <Button href="/contact" variant="primary">Request a Session</Button>
+            <p class="text-sm font-bold uppercase tracking-widest text-teal">New York and the Hudson Valley. Available worldwide.</p>
+            <Button href="/contact" variant="primary">Start a project</Button>
           </div>
         </div>
       </div>

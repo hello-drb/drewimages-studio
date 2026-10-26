@@ -107,7 +107,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     credits: [
       { role: 'Creative direction & photography', name: 'Drew Bordeaux', isDrew: true },
       { role: 'Styling', name: 'Marina Ross' },
-      { role: 'Production assistant', name: 'Lydmarie' },
+      { role: 'Production assistant', name: 'Lyd Marie' },
       { role: 'Hair', name: 'Glamnation' },
       { role: 'Makeup', name: 'AgileSMUA' },
     ],

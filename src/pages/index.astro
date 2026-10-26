@@ -10,7 +10,7 @@ import { IMAGES, SERVICES, PROCESS_STEPS, HOME_TESTIMONIALS, PRESS_LOGOS } from 
 import { cld, WIDTHS } from '../data/cloudinary';
 
 const title = 'DrewImages — creative direction and photography by Drew Bordeaux';
-const description = 'Creative direction, art direction and photography for artists, labels and brands. Led by Drew Bordeaux in New York and the Hudson Valley.';
+const description = 'Art direction and photography for album covers, press images and campaigns. Drew Bordeaux works with artists, labels and brands from New York and the Hudson Valley.';
 ---
 <Base title={title} description={description} ogImageAlt="Portrait of Cyrille Aimée by DrewImages">
   <div class="flex flex-col w-full">
@@ -21,8 +21,9 @@ const description = 'Creative direction, art direction and photography for artis
       <Section class="py-8 md:py-10">
         <a href="/work/the-devil-i-knew" class="group flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-10">
           <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-mustard shrink-0">Latest work</span>
-          <span class="font-serif text-2xl md:text-3xl leading-snug flex-grow">
-            Art direction and photography for Nicole Zuraitis's album <span class="italic">The Devil I Knew</span>
+          <span class="flex-grow">
+            <span class="block font-serif text-2xl md:text-3xl leading-snug">Art direction and photography for Nicole Zuraitis’s album <span class="italic">The Devil I Knew</span></span>
+            <span class="block mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-paper/50">For your consideration: Best Album Cover</span>
           </span>
           <span class="text-xs font-bold uppercase tracking-widest text-paper/60 group-hover:text-paper transition-colors shrink-0">See the work →</span>
         </a>
@@ -37,10 +38,10 @@ const description = 'Creative direction, art direction and photography for artis
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-start">
           <div class="lg:col-span-5 relative lg:sticky lg:top-24">
             <h2 class="font-serif text-4xl md:text-5xl lg:text-7xl mb-6 md:mb-8 leading-[0.95] md:leading-[0.9] text-balance">
-              Visuals for <br /> the <span class="italic text-paper">modern era.</span>
+              Made for <br /> the <span class="italic text-paper">square.</span>
             </h2>
             <p class="text-base md:text-lg leading-relaxed text-ink/80 mb-8 md:mb-10 font-light max-w-md">
-              DrewImages.studio focuses on visual identity — helping artists present their work with clarity, cohesion, and a strong sense of tone.
+              Most of what I make ends up in a square: an album cover, a post, a twelve-inch sleeve. I’m a songwriter and record producer too, so I start from the music and build the pictures around it.
             </p>
 
             <div class="flex flex-col gap-4 border-l border-ink/20 pl-6">
@@ -94,23 +95,20 @@ const description = 'Creative direction, art direction and photography for artis
               How things <br /><span class="italic text-white">come together.</span>
             </h2>
 
-            <p class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-60 mb-8 md:mb-12">
-              Focused direction. Thoughtful execution. Usable results.
-            </p>
 
             <div class="text-base md:text-lg leading-relaxed opacity-90 max-w-xl space-y-6 md:space-y-8 font-light">
               <p>
-                DrewImages.studio collaborates with artists, founders, and creative teams to shape visual identity with clarity and intention.
+                I work with artists and their teams, and with a few companies, on a single release or across several.
               </p>
               <p>
-                Projects begin with direction and planning, followed by a calm, efficient capture phase and a clean, organized delivery of final images.
+                Every project starts with a Signal Check: what the music or the brand is saying, and what the pictures need to do. Then I build the references and the team, we shoot, and you get files sized and named for the cover, press, streaming and social.
               </p>
-              <div class="pt-6 border-l-2 border-ink/20 pl-6">
-                <p class="font-serif italic text-xl md:text-2xl text-ink">
-                  The aim is simple: <br />
-                  Images that feel considered — and live well in the real world.
-                </p>
-              </div>
+              <a href="/work/the-devil-i-knew" class="group block pt-6 border-l-2 border-ink/20 pl-6">
+                <span class="block text-[10px] font-bold uppercase tracking-widest opacity-60 mb-2">Most recent</span>
+                <span class="block font-serif italic text-xl md:text-2xl text-ink group-hover:text-white transition-colors">
+                  The Devil I Knew, Nicole Zuraitis: art direction, cover, press images, lyric visuals and vinyl. &rarr;
+                </span>
+              </a>
             </div>
           </div>
 
@@ -132,11 +130,6 @@ const description = 'Creative direction, art direction and photography for artis
                   </li>
                 ))}
               </ul>
-              <div class="mt-8 md:mt-10 pt-6 border-t border-ink/10 text-[10px] font-bold uppercase tracking-widest opacity-50 flex flex-wrap gap-4 justify-between">
-                <span>Clear planning.</span>
-                <span>Efficient execution.</span>
-                <span>Usable results.</span>
-              </div>
             </div>
           </div>
         </div>
@@ -158,8 +151,8 @@ const description = 'Creative direction, art direction and photography for artis
             ))}
           </div>
           <div class="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center border-t border-ink/10 pt-6 text-[10px] font-bold uppercase tracking-widest opacity-50 gap-2">
-            <p>Scope and timing shape each project.</p>
-            <p>Details are discussed by inquiry.</p>
+            <p>Each project is quoted after a first call.</p>
+            <a href="/services" class="hover:opacity-100 transition-opacity">How projects work &rarr;</a>
           </div>
         </div>
       </Section>
@@ -224,9 +217,9 @@ const description = 'Creative direction, art direction and photography for artis
     <div class="bg-ink text-paper py-24 md:py-32 text-center relative overflow-hidden">
       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-teal/20 rounded-full blur-[120px] pointer-events-none"></div>
       <div class="relative z-10 max-w-2xl mx-auto px-6">
-        <span class="text-xs font-bold uppercase tracking-[0.3em] text-paper/40 mb-6 block">Start Your Campaign</span>
-        <h2 class="font-serif text-4xl md:text-5xl lg:text-7xl mb-10 md:mb-12">Inquire About<br />a Project</h2>
-        <Button href="/contact" variant="primary">Inquire Now</Button>
+        <span class="text-xs font-bold uppercase tracking-[0.3em] text-paper/40 mb-6 block">Inquiries</span>
+        <h2 class="font-serif text-4xl md:text-5xl lg:text-7xl mb-10 md:mb-12">Tell me what<br />you’re making.</h2>
+        <Button href="/contact" variant="primary">Start a project</Button>
       </div>
     </div>
   </div>

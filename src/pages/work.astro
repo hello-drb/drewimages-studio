@@ -1,11 +1,14 @@
 ---
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import WorkCategoryGrid from '../components/WorkCategoryGrid.astro';
+import { publishedCaseStudies } from '../data/case-studies';
 import { breadcrumbs } from '../data/schema';
 
-const title = 'Work — DrewImages';
-const description = 'Selected creative direction and photography by DrewImages, organized by context: artists and creators, founders and leaders, brands and cultural projects.';
+const title = 'Work: album covers, press images and campaigns — DrewImages';
+const description = 'Case studies and an archive of creative direction and photography by Drew Bordeaux, for artists and creators, founders and leaders, and brands.';
+const studies = publishedCaseStudies();
 ---
 <Base title={title} description={description} pageType="CollectionPage" schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }])]}>
   <div class="min-h-screen bg-paper">
@@ -13,11 +16,46 @@ const description = 'Selected creative direction and photography by DrewImages, 
       <div class="mb-12 md:mb-20 border-b border-ink/20 pb-6 md:pb-8">
         <h1 class="font-serif text-5xl md:text-8xl text-ink mb-4 md:mb-6">Work</h1>
         <p class="text-base md:text-lg text-ink/60 max-w-md font-medium">
-          Archive organized by context. <br />
-          Select your area of focus.
+          Case studies first, then the archive, <br class="hidden md:inline" />by who the work was for.
         </p>
       </div>
 
+      {studies.length > 0 && (
+        <div class="mb-20 md:mb-32">
+          <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-ink/50 mb-6">Case studies</h2>
+          <div class="border-t-[3px] border-ink"></div>
+          <div class="mt-[3px] border-t border-ink mb-10 md:mb-14"></div>
+          <ul class="space-y-16">
+            {studies.map((study) => (
+              <li>
+                <a href={`/work/${study.slug}`} class="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+                  {study.cover && (
+                    <div class="md:col-span-5 lg:col-span-4">
+                      <Picture
+                        src={study.cover.src}
+                        alt={study.cover.alt}
+                        widths={[400, 640, 800]}
+                        sizes="(min-width: 1024px) 30vw, (min-width: 768px) 40vw, 100vw"
+                        formats={['avif', 'webp']}
+                        class="w-full aspect-square object-cover shadow-[10px_10px_0_0_rgba(12,12,12,0.12)] group-hover:shadow-none group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all duration-300"
+                      />
+                    </div>
+                  )}
+                  <div class="md:col-span-7 lg:col-span-7 lg:col-start-6">
+                    <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-teal mb-4">No. {study.number} · {study.artist} — {study.format}, {study.year}</span>
+                    <h3 class="font-serif italic text-5xl md:text-7xl leading-[0.9] text-burgundy mb-6">{study.release}</h3>
+                    <p class="font-serif text-xl md:text-2xl leading-snug text-ink/80 max-w-xl mb-6">{study.dek}</p>
+                    {study.coverCaption && <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50 mb-6">{study.coverCaption}</p>}
+                    <span class="text-xs font-bold uppercase tracking-widest text-ink/50 group-hover:text-teal transition-colors">Read the case study &rarr;</span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-ink/50 mb-10">The archive</h2>
       <WorkCategoryGrid />
     </Section>
   </div>

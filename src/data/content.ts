@@ -159,24 +159,24 @@ export const PRESS_LOGOS = [
 export const SERVICES = [
   {
     title: 'Identity Sessions',
-    description: 'Focused shoots for releases, launches, and personal brands. Clear direction, thoughtful pacing, and images designed to live well across press, web, and social.',
+    description: 'One directed shoot: portraits and press images for a release, a tour or a new chapter.',
   },
   {
     title: 'Campaign Builds',
-    description: 'Larger creative projects shaped around a strong visual direction. Multiple looks, locations, or concepts — all tied together with a cohesive tone.',
+    description: 'Art direction and photography for an album or a launch: the concept, the cover, press images and the rollout.',
   },
   {
     title: 'Ongoing Direction',
-    description: 'Monthly creative support for teams with evolving content needs. Consistent imagery, aligned with a long-term visual language.',
+    description: 'For artists and teams who put out work all year. I stay on across releases, so the pictures keep up with the music.',
   },
 ];
 
 export const PROCESS_STEPS = [
-  { title: 'Signal Check', desc: 'Aligning on tone, goals, and visual direction.' },
-  { title: 'World-Build', desc: 'References, mood, and visual language take shape.' },
-  { title: 'Capture Phase', desc: 'Focused sessions designed to feel calm and intentional.' },
-  { title: 'Edit + Selects', desc: 'Refined images, thoughtfully delivered.' },
-  { title: 'Rollout Kit', desc: 'Assets organized for press, web, and campaigns.' },
+  { title: 'Signal Check', desc: 'A first call about the music or the brand, the release, and what the pictures need to do.' },
+  { title: 'World-Build', desc: 'References, locations, styling, and the team for the day.' },
+  { title: 'Shoot Day', desc: 'In a studio or on location, directed from the first frame.' },
+  { title: 'Edit + Selects', desc: 'I choose and retouch the strongest frames.' },
+  { title: 'Rollout Kit', desc: 'Files sized and named for the cover, press, streaming and social.' },
 ];
 
 export const HOME_TESTIMONIALS: Testimonial[] = [
@@ -231,7 +231,7 @@ export const WORK_CATEGORIES: WorkCategory[] = [
     id: 'artists',
     title: 'Artists & Creators',
     subtitle: 'Expression & Presence',
-    description: 'For people whose identity is their work — musicians, performers, writers, actors, and cultural figures. These projects focus on expression, presence, and visual storytelling for public-facing creative careers.',
+    description: 'Album covers, press images and portraits for musicians, performers, writers and actors: people whose work carries their name.',
     metaTitle: 'Photography and album covers for musicians and artists — DrewImages',
     metaDescription: 'Portraits, press photos and album cover photography for musicians, performers, writers and actors, including Nicole Zuraitis, Jazzmeia Horn and Monifah. Creative direction by Drew Bordeaux.',
     engagements: ['Album & Single Art', 'Press Kits (EPK)', 'Social Content', 'Tour Imagery'],
@@ -442,19 +442,21 @@ export const WORK_CATEGORIES: WorkCategory[] = [
   },
 ];
 
+// Release years and titles checked against Bandcamp, Apple Music and artist sites (Oct 26, 2026).
+// `credit` is set only where a published credit names Drew; the rest need Drew's confirmation.
 export const ALBUM_ARTWORKS: Photo[] = [
-  { src: 'v1768355919/karmastea_rainbow_grahtv.png', name: 'Karma’s Tea', project: 'Rainbow', alt: 'Rainbow by Karma’s Tea: the singer leaning back mid-dance in a haze of rainbow light' },
-  { src: 'v1768355835/ariel_arbisser_ingenue_corrupt_eae6y5.jpg', name: 'Ariel Arbisser', project: 'Ingenue Corrupt', alt: 'Ingenue Corrupt by Ariel Arbisser: her face resting on white pillows in pink and violet light' },
-  { src: 'v1768355870/cyrille_aimee_backtoyou_r1q2qc.png', name: 'Cyrille Aimée', project: 'Back to You', alt: 'Back to You by Cyrille Aimée: her chin in her hand, in a magenta sweater' },
-  { src: 'v1768355864/we_the_nighthawks_d9fiel.jpg', name: 'Kimberly Hawkey', project: 'We the Nighthawks', alt: 'We the Nighthawks by Kimberly Hawkey: seated at a pool table under green lamps' },
-  { src: 'v1768355883/lovegoes_fbqxeg.png', project: 'Love Goes', alt: 'Love Goes: a woman under a dark veil, her eyes closed' },
-  { src: 'v1768355914/pamhervey_somekindofway_ojoaju.png', name: 'Pam Hervey', project: 'Some Kind of Way', alt: 'Some Kind of Way by Pam Hervey: her hair flying as she holds a vintage microphone' },
-  { src: 'v1768355901/DEARLOVE-AlbumArtCover_t6kf34.png', name: 'Jazzmeia Horn and Her Noble Force', project: 'Dear Love', alt: 'Dear Love by Jazzmeia Horn and Her Noble Force: Jazzmeia in an orange dress and a crown of flowers against a blue sky' },
-  { src: 'v1768355876/od_choro_sivx17.png', name: 'Octávio Deluchi', project: 'Chôro da Saudade', alt: 'Chôro da Saudade by Octávio Deluchi: the guitarist playing on a stool in a pool of light' },
-  { src: 'v1768355858/katiej_ep_v5sghl.jpg', name: 'Katie Jacoby', alt: 'Katie Jacoby with her violin, surrounded by a crowd of green inflatable aliens' },
-  { src: 'v1768355846/vanessa_perea_this_is_the_moment_mo3izz.jpg', name: 'Vanessa Perea', project: 'This Is the Moment', alt: 'This Is the Moment by Vanessa Perea: seated on a red velvet chair in a bright loft' },
-  { src: 'v1768355841/mike_Bono_breakingsound_wh4zna.jpg', name: 'Mike Bono', project: 'Breaking Sound', alt: 'Breaking Sound by Mike Bono: a profile portrait in a leather jacket against black' },
-  { src: 'v1768355830/CL_suspensions_albumcover_kyoxbt.jpg', name: 'Chelsea Lane', project: 'Suspensions', alt: 'Suspensions by Chelsea Lane: standing on a stool beside her harp in a dark studio' },
+  { src: 'v1768355901/DEARLOVE-AlbumArtCover_t6kf34.png', name: 'Jazzmeia Horn and Her Noble Force', project: 'Dear Love', year: 2021, credit: 'Photography', alt: 'Dear Love by Jazzmeia Horn and Her Noble Force: Jazzmeia in an orange dress and a crown of flowers against a blue sky' },
+  { src: 'v1768355864/we_the_nighthawks_d9fiel.jpg', name: 'Kimberly Hawkey', project: 'We the Nighthawks', year: 2021, credit: 'Photography', alt: 'We the Nighthawks by Kimberly Hawkey: seated at a pool table under green lamps' },
+  { src: 'v1768355870/cyrille_aimee_backtoyou_r1q2qc.png', name: 'Cyrille Aimée', project: 'Back to You', year: 2023, alt: 'Back to You by Cyrille Aimée: her chin in her hand, in a magenta sweater' },
+  { src: 'v1768355830/CL_suspensions_albumcover_kyoxbt.jpg', name: 'Chelsea Lane', project: 'Suspensions', year: 2022, alt: 'Suspensions by Chelsea Lane: standing on a stool beside her harp in a dark studio' },
+  { src: 'v1768355846/vanessa_perea_this_is_the_moment_mo3izz.jpg', name: 'Vanessa Perea', project: 'This Is The Moment', year: 2023, alt: 'This Is The Moment by Vanessa Perea: seated on a red velvet chair in a bright loft' },
+  { src: 'v1768355841/mike_Bono_breakingsound_wh4zna.jpg', name: 'Mike Bono', project: 'Breaking Sound', year: 2024, alt: 'Breaking Sound by Mike Bono: a profile portrait in a leather jacket against black' },
+  { src: 'v1768355914/pamhervey_somekindofway_ojoaju.png', name: 'Pam Hervey', project: 'Some Kind of Way', year: 2024, alt: 'Some Kind of Way by Pam Hervey: her hair flying as she holds a vintage microphone' },
+  { src: 'v1768355835/ariel_arbisser_ingenue_corrupt_eae6y5.jpg', name: 'Ariel Arbisser', project: 'Ingenue Corrupt', year: 2024, credit: 'Photography', alt: 'Ingenue Corrupt by Ariel Arbisser: her face resting on white pillows in pink and violet light' },
+  { src: 'v1768355876/od_choro_sivx17.png', name: 'Octávio Deluchi', project: 'Chôro da Saudade', year: 2024, credit: 'Photography', alt: 'Chôro da Saudade by Octávio Deluchi: the guitarist playing on a stool in a pool of light' },
+  { src: 'v1768355883/lovegoes_fbqxeg.png', name: 'Lyd Marie', project: 'Love Goes', year: 2024, alt: 'Love Goes by Lyd Marie: a woman under a dark veil, her eyes closed' },
+  { src: 'v1768355858/katiej_ep_v5sghl.jpg', name: 'Katie Jacoby', project: 'Katie Jacoby (EP)', year: 2019, alt: 'Katie Jacoby’s EP: Katie with her violin, surrounded by a crowd of green inflatable aliens' },
+  { src: 'v1768355919/karmastea_rainbow_grahtv.png', name: 'Karma’s Tea', project: 'Rainbow', year: 2023, alt: 'Rainbow by Karma’s Tea: the singer leaning back mid-dance in a haze of rainbow light' },
 ];
 
 export const CONTACT = {

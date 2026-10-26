@@ -2,7 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
+import { Picture } from 'astro:assets';
 import Img from '../../components/Img.astro';
+import devilCover from '../../assets/work/the-devil-i-knew-cover.jpg';
 import { WORK_CATEGORIES, ALBUM_ARTWORKS, type WorkCategory } from '../../data/content';
 import { ogImage, WIDTHS } from '../../data/cloudinary';
 import { breadcrumbs } from '../../data/schema';
@@ -76,12 +78,23 @@ const testimonial = category.testimonial;
 
       {category.id === 'artists' && (
         <div class="mb-20 md:mb-32 pt-12 border-t border-ink/10">
-          <h2 class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-8 ml-1">Recent release collaborations</h2>
+          <h2 class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/40 mb-8 ml-1">Releases</h2>
           <div class="w-full overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing" data-drag-scroll>
-            <ul class="flex gap-12 w-max px-1">
+            <ul class="flex gap-8 md:gap-12 w-max px-1 pb-2">
+              <li class="w-32 md:w-40 shrink-0 select-none">
+                <a href="/work/the-devil-i-knew" class="group block" draggable="false">
+                  <Picture src={devilCover} alt="The Devil I Knew by Nicole Zuraitis: album cover" widths={[160, 320, 480]} sizes="(min-width: 768px) 160px, 128px" formats={['avif', 'webp']} class="w-32 h-32 md:w-40 md:h-40 object-cover" draggable="false" />
+                  <span class="block mt-3 font-serif italic text-base leading-tight text-ink group-hover:text-burgundy transition-colors">Nicole Zuraitis</span>
+                  <span class="block mt-1 text-[10px] font-bold uppercase tracking-widest text-ink/40 leading-relaxed">The Devil I Knew, 2026<br />Art direction &amp; photography</span>
+                </a>
+              </li>
               {ALBUM_ARTWORKS.map((cover) => (
-                <li class="w-32 h-32 md:w-40 md:h-40 shrink-0 bg-ink/5 select-none">
-                  <Img photo={cover} widths={WIDTHS.thumb} sizes="(min-width: 768px) 160px, 128px" class="w-full h-full object-cover saturate-[0.85] contrast-[0.95]" draggable="false" />
+                <li class="w-32 md:w-40 shrink-0 select-none">
+                  <div class="w-32 h-32 md:w-40 md:h-40 bg-ink/5">
+                    <Img photo={cover} widths={WIDTHS.thumb} sizes="(min-width: 768px) 160px, 128px" class="w-full h-full object-cover saturate-[0.85] contrast-[0.95]" draggable="false" />
+                  </div>
+                  <span class="block mt-3 font-serif italic text-base leading-tight text-ink">{cover.name}</span>
+                  <span class="block mt-1 text-[10px] font-bold uppercase tracking-widest text-ink/40 leading-relaxed">{cover.project}, {cover.year}</span>
                 </li>
               ))}
             </ul>
@@ -124,23 +137,30 @@ const testimonial = category.testimonial;
 </Base>
 
 <script>
-  // Drag to scroll the album strip with a mouse (touch scrolls natively)
+  // Drag to scroll the release strip with a mouse (touch scrolls natively). A drag never counts as a click.
   document.querySelectorAll<HTMLElement>('[data-drag-scroll]').forEach((el) => {
     let startX = 0;
     let startScroll = 0;
     let dragging = false;
+    let moved = false;
     el.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse') return;
       dragging = true;
+      moved = false;
       startX = e.clientX;
       startScroll = el.scrollLeft;
-      el.setPointerCapture(e.pointerId);
     });
     el.addEventListener('pointermove', (e) => {
-      if (dragging) el.scrollLeft = startScroll - (e.clientX - startX);
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 5) moved = true;
+      el.scrollLeft = startScroll - dx;
     });
     const stop = () => (dragging = false);
     el.addEventListener('pointerup', stop);
-    el.addEventListener('pointercancel', stop);
+    el.addEventListener('pointerleave', stop);
+    el.addEventListener('click', (e) => {
+      if (moved) e.preventDefault();
+    }, true);
   });
 </script>
