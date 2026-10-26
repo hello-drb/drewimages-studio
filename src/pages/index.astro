@@ -7,12 +7,14 @@ import WorkCategoryGrid from '../components/WorkCategoryGrid.astro';
 import EditorialHeader from '../components/EditorialHeader.astro';
 import Img from '../components/Img.astro';
 import { IMAGES, SERVICES, PROCESS_STEPS, HOME_TESTIMONIALS, PRESS_LOGOS } from '../data/content';
-import { cld, WIDTHS } from '../data/cloudinary';
+import { cld, srcset, WIDTHS } from '../data/cloudinary';
+import { HERO_SLIDES } from '../data/content';
 
 const title = 'DrewImages — creative direction and photography by Drew Bordeaux';
 const description = 'Art direction and photography for album covers, press images and campaigns. Drew Bordeaux works with artists, labels and brands from New York and the Hudson Valley.';
 ---
 <Base title={title} description={description} ogImageAlt="Portrait of Cyrille Aimée by DrewImages">
+  <link slot="head" rel="preload" as="image" imagesrcset={srcset(HERO_SLIDES[0].src, WIDTHS.hero)} imagesizes="100vw" fetchpriority="high" />
   <div class="flex flex-col w-full">
     <HeroSlider />
 

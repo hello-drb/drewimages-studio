@@ -31,6 +31,7 @@ const creativeWork = {
     '@type': study.format === 'Single' ? 'MusicRecording' : 'MusicAlbum',
     name: study.release,
     byArtist: { '@type': 'Person', name: study.artist },
+    ...(study.releaseDate ? { datePublished: study.releaseDate } : {}),
   },
   ...(coverAbsolute ? { image: coverAbsolute } : {}),
   dateCreated: study.shot.when.match(/\d{4}/)?.[0],

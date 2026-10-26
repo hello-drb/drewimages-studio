@@ -11,14 +11,20 @@ interface Props {
   loading?: 'lazy' | 'eager';
   fetchpriority?: 'high' | 'low' | 'auto';
   draggable?: 'true' | 'false';
+  /** Leave src/srcset in data attributes for a script to fill in later (hero slides 2–8). */
+  defer?: boolean;
 }
 
-const { photo, sizes, widths = WIDTHS.tile, class: className, loading = 'lazy', fetchpriority, draggable } = Astro.props;
+const { photo, sizes, widths = WIDTHS.tile, class: className, loading = 'lazy', fetchpriority, draggable, defer = false } = Astro.props;
 const fallback = widths[Math.min(2, widths.length - 1)];
+const src = cld(photo.src, fallback);
+const set = srcset(photo.src, widths);
 ---
 <img
-  src={cld(photo.src, fallback)}
-  srcset={srcset(photo.src, widths)}
+  src={defer ? undefined : src}
+  srcset={defer ? undefined : set}
+  data-src={defer ? src : undefined}
+  data-srcset={defer ? set : undefined}
   sizes={sizes}
   alt={photo.alt}
   class={className}

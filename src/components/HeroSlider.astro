@@ -21,6 +21,7 @@ import { WIDTHS } from '../data/cloudinary';
           sizes="100vw"
           loading={index === 0 ? 'eager' : 'lazy'}
           fetchpriority={index === 0 ? 'high' : undefined}
+          defer={index > 0}
           class="w-full h-full object-cover object-center md:object-[50%_25%] opacity-90 md:opacity-90"
         />
         <div class="hidden md:block absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink via-ink/40 to-transparent z-10"></div>
@@ -72,6 +73,14 @@ import { WIDTHS } from '../data/cloudinary';
     // Two rows of dots (phone and desktop), one dot per slide in each
     const dots = Array.from(hero.querySelectorAll<HTMLElement>('[data-dot]'));
     let current = 0;
+    // Slides 2–8 start loading once the page (and the first slide) has finished
+    const loadRest = () =>
+      hero.querySelectorAll<HTMLImageElement>('img[data-srcset]').forEach((img) => {
+        img.srcset = img.dataset.srcset!;
+        img.src = img.dataset.src!;
+      });
+    if (document.readyState === 'complete') loadRest();
+    else window.addEventListener('load', loadRest, { once: true });
     window.setInterval(() => {
       if (document.hidden) return;
       current = (current + 1) % slides.length;
