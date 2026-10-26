@@ -95,7 +95,7 @@ const creativeWork = {
                 formats={['avif', 'webp']}
                 loading="eager"
                 fetchpriority="high"
-                class="relative z-10 w-full aspect-square object-cover shadow-[10px_10px_0_0_rgba(12,12,12,0.12)]"
+                class="relative z-10 w-full aspect-square object-cover bg-ink shadow-[10px_10px_0_0_rgba(12,12,12,0.12)]"
               />
             </div>
             {study.coverCaption && (
@@ -186,10 +186,10 @@ const creativeWork = {
                 A cover has to work at twelve inches on a shelf, on a phone in someone’s feed, and as a thumbnail in a playlist.
               </p>
             </div>
-            <div class="lg:col-span-8 flex items-end gap-4 sm:gap-10 md:gap-14">
+            <div class="lg:col-span-8 flex items-end gap-3 sm:gap-10 md:gap-14">
               {[
-                { size: 'w-[46%] sm:w-[52%] max-w-[22rem]', label: '12 in.', where: 'The sleeve' },
-                { size: 'w-[23%] sm:w-[26%] max-w-[11rem]', label: '1080 px', where: 'The post' },
+                { size: 'w-[42%] sm:w-[52%] max-w-[22rem]', label: '12 in.', where: 'The sleeve' },
+                { size: 'w-[28%] sm:w-[26%] max-w-[11rem]', label: '1080 px', where: 'The post' },
                 { size: 'w-16', label: '64 px', where: 'The playlist' },
               ].map((s) => (
                 <figure class={`${s.size} shrink-0`}>
