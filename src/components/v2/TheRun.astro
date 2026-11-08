@@ -1,0 +1,143 @@
+---
+// "One shoot. Everywhere it went." The Devil I Knew from the set to the vinyl, as a filmstrip of real artifacts.
+import { Picture } from 'astro:assets';
+import Img from '../Img.astro';
+import { IMAGES } from '../../data/content';
+import { WIDTHS } from '../../data/cloudinary';
+import cover from '../../assets/work/the-devil-i-knew-cover.jpg';
+import sunburst from '../../assets/work/devil/sunburst-mirror.jpg';
+import p1 from '../../assets/work/devil/part-1-the-mirror.jpg';
+import p2 from '../../assets/work/devil/part-2-the-martyr.jpg';
+import p3 from '../../assets/work/devil/part-3-the-malediction.jpg';
+import p4 from '../../assets/work/devil/part-4-the-reckoning.jpg';
+import p5 from '../../assets/work/devil/part-5-the-requiem.jpg';
+
+const parts = [
+  { src: p1, name: 'Part I, the mirror' },
+  { src: p2, name: 'Part II, the martyr' },
+  { src: p3, name: 'Part III, the malediction' },
+  { src: p4, name: 'Part IV, the reckoning' },
+  { src: p5, name: 'Part V, the requiem' },
+];
+const card = 'snap-start shrink-0 w-[82vw] sm:w-[26rem] lg:w-[30rem] flex flex-col';
+const edge = 'flex items-baseline justify-between gap-4 pb-3 mb-4 border-b border-paper/20 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em]';
+---
+<section class="bg-ink text-paper py-20 md:py-28 overflow-hidden" aria-labelledby="run-title">
+  <div class="px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end mb-10 md:mb-14">
+    <div class="lg:col-span-7">
+      <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-saffron mb-4">Where the pictures went</span>
+      <h2 id="run-title" class="font-didone text-5xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight">One shoot. <span class="italic">Everywhere it went.</span></h2>
+    </div>
+    <div class="lg:col-span-5 flex lg:justify-end items-end gap-6">
+      <p class="font-grotesk text-sm md:text-base text-paper/70 max-w-sm leading-relaxed">
+        <em class="font-didone text-lg italic text-paper">The Devil I Knew</em>, Nicole Zuraitis, 2026. I was art director and photographer.
+      </p>
+      <div class="hidden md:flex gap-2 shrink-0">
+        <button type="button" data-run-prev class="w-11 h-11 border border-paper/30 hover:bg-paper hover:text-ink transition-colors" aria-label="Previous">&larr;</button>
+        <button type="button" data-run-next class="w-11 h-11 border border-paper/30 hover:bg-paper hover:text-ink transition-colors" aria-label="Next">&rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <ol class="flex gap-6 md:gap-10 overflow-x-auto snap-x snap-mandatory no-scrollbar px-4 md:px-8 pb-2 cursor-grab active:cursor-grabbing" data-run>
+    <li class={card}>
+      <p class={edge}><span><span class="text-saffron">01</span> On set</span><span class="text-paper/50">NYC, Dec 2025</span></p>
+      <div class="aspect-[4/5] overflow-hidden bg-paper/5">
+        <Img photo={IMAGES.aboutDetail} widths={WIDTHS.tile} sizes="(min-width: 1024px) 30rem, 82vw" class="w-full h-full object-cover grayscale" draggable="false" />
+      </div>
+      <p class="mt-4 font-didone italic text-lg text-paper/80">Checking frames with Nicole. Photo: Lindsey Lerner.</p>
+    </li>
+
+    <li class={card}>
+      <p class={edge}><span><span class="text-saffron">02</span> The photograph</span><span class="text-paper/50">Five looks</span></p>
+      <div class="aspect-[4/5] overflow-hidden bg-paper/5">
+        <Picture src={sunburst} alt="Nicole Zuraitis holding a gold sunburst mirror over her face in a dark room" widths={[480, 800, 1100]} sizes="(min-width: 1024px) 30rem, 82vw" formats={['avif', 'webp']} class="w-full h-full object-cover" draggable="false" />
+      </div>
+      <p class="mt-4 font-didone italic text-lg text-paper/80">A mirror in every frame, a different one for each chapter.</p>
+    </li>
+
+    <li class={card}>
+      <p class={edge}><span><span class="text-saffron">03</span> The cover</span><span class="text-paper/50">12 × 12</span></p>
+      <div class="aspect-[4/5] flex items-center justify-center bg-paper/5">
+        <Picture src={cover} alt="The Devil I Knew album cover" widths={[400, 640, 900]} sizes="(min-width: 1024px) 26rem, 72vw" formats={['avif', 'webp']} class="w-[86%] aspect-square object-cover shadow-[10px_10px_0_0_rgba(243,230,200,0.08)]" draggable="false" />
+      </div>
+      <p class="mt-4 font-didone italic text-lg text-paper/80">For your consideration: Best Album Cover.</p>
+    </li>
+
+    <li class={card}>
+      <p class={edge}><span><span class="text-saffron">04</span> The booklet</span><span class="text-paper/50">Parts I–V</span></p>
+      <div class="aspect-[4/5] relative bg-paper/5 overflow-hidden" aria-label="The five chapter portraits from the booklet">
+        {parts.map((part, i) => (
+          <Picture
+            src={part.src}
+            alt={`Booklet page: ${part.name}`}
+            widths={[320, 520]}
+            sizes="(min-width: 1024px) 15rem, 40vw"
+            formats={['avif', 'webp']}
+            class="absolute w-[52%] aspect-[1452/1652] object-cover shadow-[0_10px_30px_rgba(0,0,0,0.45)] transition-transform duration-500"
+            style={`left: ${6 + i * 10}%; top: ${8 + i * 8}%; transform: rotate(${(i - 2) * 3}deg); z-index: ${i};`}
+            draggable="false"
+          />
+        ))}
+      </div>
+      <p class="mt-4 font-didone italic text-lg text-paper/80">Five chapters, one portrait each. Booklet design: Veselić &amp; Veselić.</p>
+    </li>
+
+    <li class={card}>
+      <p class={edge}><span><span class="text-saffron">05</span> The record</span><span class="text-paper/50">La Reserve Records</span></p>
+      <div class="aspect-[4/5] flex items-center bg-paper/5 overflow-hidden">
+        <div class="relative w-[64%] ml-[8%]">
+          <div class="run-record absolute inset-[2%] rounded-full" aria-hidden="true"></div>
+          <Picture src={cover} alt="The Devil I Knew vinyl, the record sliding out of its sleeve" widths={[400, 640]} sizes="(min-width: 1024px) 20rem, 52vw" formats={['avif', 'webp']} class="relative z-10 w-full aspect-square object-cover bg-ink shadow-[8px_8px_0_0_rgba(0,0,0,0.35)]" draggable="false" />
+        </div>
+      </div>
+      <p class="mt-4 font-didone italic text-lg text-paper/80">Twelve inches, on La Reserve Records.</p>
+    </li>
+
+    <li class={`${card} justify-start pt-[calc(1rem+28px)]`}>
+      <a href="/work/the-devil-i-knew" class="group aspect-[4/5] flex flex-col justify-end p-6 md:p-8 bg-saffron text-chocolate hover:bg-paper transition-colors">
+        <span class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-3">The whole story</span>
+        <span class="font-grotesk font-black uppercase text-5xl md:text-6xl leading-[0.85] [font-stretch:62%]">The Devil I&nbsp;Knew</span>
+        <span class="mt-4 font-didone italic text-xl">Concept, team, chapters, credits &rarr;</span>
+      </a>
+    </li>
+  </ol>
+</section>
+
+<style>
+  .run-record {
+    background:
+      radial-gradient(circle at 50% 50%, #e9dcc0 0 4%, #8a2a47 4.5% 30%, transparent 31%),
+      repeating-radial-gradient(circle at 50% 50%, #111 0, #111 2px, #1b1b1b 3px, #111 4px);
+    transform: translateX(42%);
+  }
+</style>
+
+<script>
+  // Arrows step one frame; a mouse can drag the strip (touch scrolls natively).
+  document.querySelectorAll<HTMLElement>('[data-run]').forEach((strip) => {
+    const section = strip.closest('section')!;
+    const step = () => (strip.querySelector('li')?.getBoundingClientRect().width ?? 400) + 40;
+    section.querySelector('[data-run-next]')?.addEventListener('click', () => strip.scrollBy({ left: step(), behavior: 'smooth' }));
+    section.querySelector('[data-run-prev]')?.addEventListener('click', () => strip.scrollBy({ left: -step(), behavior: 'smooth' }));
+    let startX = 0;
+    let startScroll = 0;
+    let dragging = false;
+    strip.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      dragging = true;
+      startX = e.clientX;
+      startScroll = strip.scrollLeft;
+      strip.style.scrollSnapType = 'none';
+    });
+    strip.addEventListener('pointermove', (e) => {
+      if (dragging) strip.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    const stop = () => {
+      dragging = false;
+      strip.style.scrollSnapType = '';
+    };
+    strip.addEventListener('pointerup', stop);
+    strip.addEventListener('pointerleave', stop);
+  });
+</script>

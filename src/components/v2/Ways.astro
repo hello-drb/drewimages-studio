@@ -1,0 +1,23 @@
+---
+// Three ways to work, on the NOIR pairing (turquoise on maroon).
+const ways = [
+  { n: 'I', title: 'Release shoots', text: 'One directed shoot: portraits and press images for a release, a tour or a new chapter.' },
+  { n: 'II', title: 'Album campaigns', text: 'Art direction and photography for a record: the concept, the cover, press images, lyric visuals and the rollout.' },
+  { n: 'III', title: 'Ongoing direction', text: 'I work with a handful of artists across releases, so the pictures keep up with the music.' },
+];
+---
+<section class="bg-maroon text-turquoise py-20 md:py-28 px-4 md:px-8" aria-labelledby="ways-title">
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
+    <h2 id="ways-title" class="font-didone text-5xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight">Three ways <span class="italic">to work.</span></h2>
+    <a href="/services" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 self-start md:self-auto hover:opacity-80">How projects work, and what they cost &rarr;</a>
+  </div>
+  <ol class="grid grid-cols-1 md:grid-cols-3 border-t-2 border-turquoise/60">
+    {ways.map((w, i) => (
+      <li class={`py-8 md:py-10 md:px-8 first:md:pl-0 last:md:pr-0 border-b md:border-b-0 border-turquoise/30 ${i > 0 ? 'md:border-l' : ''}`}>
+        <span class="block font-didone italic text-6xl md:text-7xl leading-none mb-6">{w.n}</span>
+        <h3 class="font-grotesk font-black uppercase text-3xl md:text-4xl leading-none [font-stretch:62%] mb-4 text-paper">{w.title}</h3>
+        <p class="font-grotesk text-base md:text-lg leading-relaxed text-paper/80 max-w-sm">{w.text}</p>
+      </li>
+    ))}
+  </ol>
+</section>

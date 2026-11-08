@@ -1,0 +1,80 @@
+---
+// Usage, rights and AI: how the pictures can be used, who owns them, and where AI fits in.
+// Draft: noindex until Drew confirms the terms. Linked quietly from the footer and the contact page.
+import Base from '../layouts/Base.astro';
+
+const title = 'Usage, rights and AI — DrewImages';
+const description = 'How DrewImages photographs can be used, who owns them, what a license covers, and how AI tools fit into the retouching.';
+
+const sections = [
+  {
+    title: 'Who owns the pictures',
+    body: [
+      'I keep the copyright to every photograph I make. That’s standard for commissioned photography in the US. You get a license to use the pictures in the ways we agree on, and your agreement spells those out.',
+    ],
+  },
+  {
+    title: 'What a project usually includes',
+    body: [
+      'For an artist project, the license usually covers promoting the release or the artist: press and publicity, your website, social media, streaming profiles, playlists and your EPK.',
+      'For album artwork, it covers the cover and packaging for the release it was made for, physical and digital.',
+    ],
+  },
+  {
+    title: 'What needs its own license',
+    body: [
+      'Paid advertising (billboards, transit, paid social), merchandise, products, and a label or brand using the pictures in its own marketing each need a separate license, priced by where, how big and for how long. Exclusive use is priced on its own too.',
+      'If a photo is headed for a billboard, tell me. It’s an easy conversation, and I’d like to see it up there.',
+    ],
+  },
+  {
+    title: 'Credit',
+    body: [
+      'Where credits run (press, liner notes, the back of a record), the credit is “Photo: Drew Bordeaux”, or “Art direction and photography: Drew Bordeaux” when I directed the project. On Instagram, tag @drewimages.',
+    ],
+  },
+  {
+    title: 'AI in my process',
+    body: [
+      'I use AI-assisted tools in retouching: removing distractions, cleaning up a background, extending a frame to fit a different format, cutting a subject out for a layout, and upscaling.',
+      'I don’t change how you look without your OK, and I don’t generate people or places and present them as photographs. If a final image includes generated elements, I’ll tell you.',
+    ],
+  },
+  {
+    title: 'Your pictures and AI',
+    body: [
+      'Crops, filters and small edits for your own channels are fine. Please talk to me before using the photographs to train an AI model or to generate new images of you, or of anyone in them.',
+    ],
+  },
+  {
+    title: 'Files',
+    body: [
+      'You get retouched, high-resolution selects, sized for where they’ll run. Raw files aren’t part of the delivery.',
+    ],
+  },
+];
+---
+<Base title={title} description={description} noindex>
+  <article class="bg-paper text-ink pt-28 md:pt-40 pb-24 md:pb-32 px-4 md:px-8">
+    <header class="max-w-4xl mb-14 md:mb-20">
+      <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-ink/50 mb-5">The fine print, in plain English</span>
+      <h1 class="font-didone text-5xl md:text-7xl leading-[0.95] tracking-tight">Usage, rights <span class="italic">and AI.</span></h1>
+      <p class="mt-6 font-grotesk text-lg md:text-xl text-ink/75 max-w-2xl leading-relaxed">How the pictures can be used, who owns them, and where AI fits into the work.</p>
+    </header>
+
+    <div class="max-w-4xl divide-y divide-ink/15 border-y border-ink/15">
+      {sections.map((s) => (
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-10 py-8 md:py-10">
+          <h2 class="md:col-span-4 font-grotesk font-black uppercase text-xl md:text-2xl leading-tight [font-stretch:75%]">{s.title}</h2>
+          <div class="md:col-span-8 space-y-4 font-grotesk text-base md:text-lg leading-relaxed text-ink/85">
+            {s.body.map((p) => <p>{p}</p>)}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <p class="max-w-4xl mt-10 font-didone italic text-lg md:text-xl text-ink/70">
+      This page is how I usually work. Your signed agreement is what counts, and I’m happy to walk through it. <a href="/contact" class="not-italic font-grotesk text-sm font-bold uppercase tracking-widest border-b border-ink/40 hover:border-ink">Ask me</a>
+    </p>
+  </article>
+</Base>

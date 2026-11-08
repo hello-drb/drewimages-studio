@@ -1,0 +1,40 @@
+---
+// "The grid, with credits": album covers in the square they live in, each with its name on it.
+import { Picture } from 'astro:assets';
+import Img from '../Img.astro';
+import { ALBUM_ARTWORKS } from '../../data/content';
+import { WIDTHS } from '../../data/cloudinary';
+import devilCover from '../../assets/work/the-devil-i-knew-cover.jpg';
+
+const credit = 'absolute inset-x-0 bottom-0 p-3 md:p-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent text-paper';
+---
+<section class="bg-saffron text-chocolate py-20 md:py-28 px-4 md:px-8" aria-labelledby="grid-title">
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-14">
+    <div>
+      <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4">Album covers</span>
+      <h2 id="grid-title" class="font-grotesk font-black uppercase leading-[0.85] text-[clamp(3rem,9vw,8rem)] [font-stretch:62%]">The grid, <span class="font-didone normal-case italic font-normal [font-stretch:100%]">with credits.</span></h2>
+    </div>
+    <p class="font-didone italic text-xl md:text-2xl max-w-md leading-snug">Most of what I shoot ends up in a square. Here are the squares, and who they belong to.</p>
+  </div>
+
+  <ul class="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-2">
+    <li class="col-span-2 row-span-2 relative group">
+      <a href="/work/the-devil-i-knew" class="block">
+        <Picture src={devilCover} alt="The Devil I Knew by Nicole Zuraitis, album cover" widths={[480, 800, 1200]} sizes="(min-width: 768px) 50vw, 100vw" formats={['avif', 'webp']} class="w-full aspect-square object-cover" />
+        <span class={credit}>
+          <span class="block font-grotesk text-[10px] font-bold uppercase tracking-[0.2em] text-saffron">Art direction &amp; photography · 2026</span>
+          <span class="block font-didone italic text-2xl md:text-3xl">Nicole Zuraitis, <span class="not-italic">The Devil I Knew</span> &rarr;</span>
+        </span>
+      </a>
+    </li>
+    {ALBUM_ARTWORKS.map((c) => (
+      <li class="relative">
+        <Img photo={c} widths={WIDTHS.thumb.concat([640])} sizes="(min-width: 768px) 25vw, 50vw" class="w-full aspect-square object-cover" />
+        <span class={credit}>
+          <span class="block font-grotesk text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] opacity-80">{c.project}, {c.year}</span>
+          <span class="block font-didone italic text-sm md:text-lg leading-tight">{c.name}</span>
+        </span>
+      </li>
+    ))}
+  </ul>
+</section>

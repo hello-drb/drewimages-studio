@@ -1,20 +1,29 @@
 ---
 // Fixed header. On the home page it sits transparent over the hero until the page scrolls.
 // data-state is "transparent", "solid" or "menu" (phone menu open, or fading out); data-open tracks the phone menu.
+// With `cover`, the top state is "cover": no logo (the page's masthead is the logo) and colors from --cover-ink / --cover-bg.
 import { NAV_LINKS, LOGO } from '../data/content';
 import { cld } from '../data/cloudinary';
 
+interface Props {
+  cover?: boolean;
+}
+
+const { cover = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isHome = path === '/';
+const topState = cover ? 'cover' : 'transparent';
 ---
 <header
   id="site-header"
   data-home={String(isHome)}
-  data-state={isHome ? 'transparent' : 'solid'}
+  data-top={topState}
+  data-state={isHome ? topState : 'solid'}
   data-open="false"
   class="group/header fixed top-0 left-0 w-full z-50 transition-all duration-500
     data-[state=menu]:bg-[#F3E6C8] data-[state=menu]:transition-colors data-[state=menu]:duration-300
     data-[state=transparent]:bg-transparent data-[state=transparent]:border-transparent data-[state=transparent]:py-4 md:data-[state=transparent]:py-6
+    data-[state=cover]:bg-transparent data-[state=cover]:py-3 md:data-[state=cover]:py-5
     data-[state=solid]:bg-paper/95 data-[state=solid]:backdrop-blur-md data-[state=solid]:border-b data-[state=solid]:border-ink/10 data-[state=solid]:shadow-sm data-[state=solid]:py-3"
 >
   <!-- Phone gradient for legibility over the hero, only while transparent -->
@@ -27,7 +36,7 @@ const isHome = path === '/';
         srcset={`${cld(LOGO, 200)} 200w, ${cld(LOGO, 400)} 400w, ${cld(LOGO, 600)} 600w`}
         sizes="(min-width: 768px) 220px, 130px"
         alt="DrewImages Studio"
-        class={`h-8 md:h-14 w-auto object-contain transition-all duration-300 group-hover:opacity-80 opacity-100 group-data-[state=transparent]/header:invert group-data-[state=transparent]/header:brightness-0`}
+        class={`h-8 md:h-14 w-auto object-contain transition-all duration-300 group-hover:opacity-80 opacity-100 group-data-[state=transparent]/header:invert group-data-[state=transparent]/header:brightness-0 group-data-[state=cover]/header:opacity-0`}
       />
     </a>
 
@@ -36,12 +45,12 @@ const isHome = path === '/';
         <a
           href={link.path}
           aria-current={path === link.path ? 'page' : undefined}
-          class={`text-xs font-bold uppercase tracking-widest transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-current after:transition-all hover:after:w-full ${path === link.path ? 'after:w-full' : ''} text-ink hover:text-burgundy group-data-[state=transparent]/header:text-paper group-data-[state=transparent]/header:hover:text-white`}
+          class={`text-xs font-bold uppercase tracking-widest transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-current after:transition-all hover:after:w-full ${path === link.path ? 'after:w-full' : ''} text-ink hover:text-burgundy group-data-[state=transparent]/header:text-paper group-data-[state=transparent]/header:hover:text-white group-data-[state=cover]/header:text-[color:var(--cover-ink)] group-data-[state=cover]/header:hover:text-[color:var(--cover-ink)]`}
         >
           {link.label}
         </a>
       ))}
-      <a href="/contact" class={`ml-4 text-xs font-bold uppercase tracking-widest px-6 py-3 transition-colors shadow-sm bg-ink text-paper hover:bg-burgundy group-data-[state=transparent]/header:bg-paper group-data-[state=transparent]/header:text-ink group-data-[state=transparent]/header:hover:bg-white`}>
+      <a href="/contact" class={`ml-4 text-xs font-bold uppercase tracking-widest px-6 py-3 transition-colors shadow-sm bg-ink text-paper hover:bg-burgundy group-data-[state=transparent]/header:bg-paper group-data-[state=transparent]/header:text-ink group-data-[state=transparent]/header:hover:bg-white group-data-[state=cover]/header:bg-[color:var(--cover-ink)] group-data-[state=cover]/header:text-[color:var(--cover-bg)] group-data-[state=cover]/header:hover:bg-[color:var(--cover-ink)] group-data-[state=cover]/header:shadow-none`}>
         Inquire
       </a>
     </nav>
@@ -49,14 +58,14 @@ const isHome = path === '/';
     <div class="flex md:hidden items-center gap-3 z-50">
       <a
         href="/contact"
-        class={`group-data-[open=true]/header:hidden text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 border rounded-full transition-colors text-ink border-ink/20 group-data-[state=transparent]/header:text-paper group-data-[state=transparent]/header:border-paper/40`}
+        class={`group-data-[open=true]/header:hidden text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 border rounded-full transition-colors text-ink border-ink/20 group-data-[state=transparent]/header:text-paper group-data-[state=transparent]/header:border-paper/40 group-data-[state=cover]/header:text-[color:var(--cover-ink)] group-data-[state=cover]/header:border-current`}
       >
         Inquire
       </a>
       <button
         type="button"
         id="menu-toggle"
-        class={`p-1 focus:outline-none text-ink group-data-[state=transparent]/header:text-paper`}
+        class={`p-1 focus:outline-none text-ink group-data-[state=transparent]/header:text-paper group-data-[state=cover]/header:text-[color:var(--cover-ink)]`}
         aria-label="Toggle menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -98,13 +107,14 @@ const isHome = path === '/';
   const header = document.getElementById('site-header')!;
   const toggle = document.getElementById('menu-toggle')!;
   const isHome = header.dataset.home === 'true';
+  const topState = header.dataset.top || 'transparent';
   let open = false;
   let closing = false;
   let timer: number | undefined;
 
   function update() {
     const scrolled = window.scrollY > 20;
-    header.dataset.state = open || closing ? 'menu' : isHome && !scrolled ? 'transparent' : 'solid';
+    header.dataset.state = open || closing ? 'menu' : isHome && !scrolled ? topState : 'solid';
     header.dataset.open = String(open);
     toggle.setAttribute('aria-expanded', String(open));
   }

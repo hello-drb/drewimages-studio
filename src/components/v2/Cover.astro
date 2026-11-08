@@ -1,0 +1,142 @@
+---
+// The home page as a magazine cover. Each issue is one photograph cut out over a full-strength color,
+// with the DrewImages logo as the masthead. Issues crossfade every 7 seconds; the cover lines stay put
+// and change color with the issue (--cover-ink / --cover-bg, which the header reads too).
+import Masthead from '../../assets/brand/masthead.svg?raw';
+import { COVER_ISSUES, issueLine } from '../../data/covers';
+import { cutout, cutoutSrcset, WIDTHS } from '../../data/cloudinary';
+
+const issue = issueLine();
+const first = COVER_ISSUES[0];
+---
+<section
+  class="cover relative h-[100svh] min-h-[640px] md:min-h-[820px] max-h-[1100px] overflow-hidden text-[color:var(--cover-ink)] transition-colors duration-1000"
+  style={`--cover-bg: ${first.bg}; --cover-ink: ${first.ink}; --cover-accent: ${first.accent}; background: var(--cover-bg);`}
+  data-cover
+  aria-label="DrewImages, this issue"
+>
+  {COVER_ISSUES.map((c, i) => (
+    <div
+      class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 data-[active=true]:opacity-100"
+      style={`background: ${c.bg}; color: ${c.ink};`}
+      data-issue
+      data-active={String(i === 0)}
+      data-bg={c.bg}
+      data-ink={c.ink}
+      data-accent={c.accent}
+      aria-hidden={i === 0 ? undefined : 'true'}
+    >
+      <!-- Masthead -->
+      <div class="absolute left-4 right-4 md:left-8 md:right-8 top-[60px] md:top-[84px] [&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
+
+      <!-- The subject, in front of the masthead -->
+      <img
+        src={i === 0 ? cutout(c.photo.src, 960) : undefined}
+        srcset={i === 0 ? cutoutSrcset(c.photo.src, WIDTHS.cutout) : undefined}
+        data-src={i === 0 ? undefined : cutout(c.photo.src, 960)}
+        data-srcset={i === 0 ? undefined : cutoutSrcset(c.photo.src, WIDTHS.cutout)}
+        sizes={c.shape === 'tall' ? '(min-width: 768px) 46vw, 90vw' : '(min-width: 768px) 64vw, 140vw'}
+        alt={c.photo.alt}
+        fetchpriority={i === 0 ? 'high' : undefined}
+        decoding="async"
+        class={`absolute z-10 max-w-none select-none pointer-events-none ${
+          c.shape === 'tall'
+            ? 'bottom-0 h-[74%] md:h-[80%] left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-[7%]'
+            : 'w-[140%] md:w-[60%] bottom-[26%] md:bottom-0 left-1/2 -translate-x-[38%] md:left-auto md:translate-x-0 md:-right-[4%]'
+        }`}
+      />
+
+      <!-- Cover credit, set vertically like a spine -->
+      <p class="hidden md:block absolute z-20 right-3 bottom-8 origin-bottom-right -rotate-90 translate-x-full text-[10px] font-grotesk font-semibold uppercase tracking-[0.3em] whitespace-nowrap opacity-80">
+        Cover: {c.photo.name} · Photographed by Drew Bordeaux
+      </p>
+    </div>
+  ))}
+
+  <!-- Cover lines: shared by every issue -->
+  <div class="relative z-20 h-full pointer-events-none">
+    <p class="absolute top-[18px] md:top-[30px] left-4 md:left-8 font-grotesk text-[10px] md:text-xs font-semibold uppercase tracking-[0.25em]">
+      Vol. {issue.vol} · No. {issue.no}<span class="hidden sm:inline"> · {issue.month}</span>
+    </p>
+
+    <p class="absolute left-4 md:left-8 top-[calc(60px+(100vw-2rem)*0.2043+10px)] md:top-[calc(84px+(100vw-4rem)*0.2043+14px)] font-grotesk text-[10px] md:text-sm font-semibold uppercase tracking-[0.25em] max-w-[16rem] md:max-w-none">
+      Art direction &amp; photography <span class="opacity-60">·</span> New York &amp; the Hudson Valley
+    </p>
+
+    <!-- Also in this issue (desktop) -->
+    <p class="hidden lg:flex absolute left-8 top-[calc(84px+(100vw-4rem)*0.2043+44px)] gap-6 font-grotesk text-xs font-semibold uppercase tracking-[0.2em] pointer-events-auto">
+      <span class="opacity-60">Also inside</span>
+      <a href="/work/artists" class="border-b border-current hover:opacity-70">Thirteen album covers, credited</a>
+      <a href="/services" class="border-b border-current hover:opacity-70">How a shoot works</a>
+    </p>
+
+    <!-- The cover story -->
+    <div class="absolute left-0 right-0 bottom-0 px-4 md:px-8 pb-6 md:pb-10 pt-24 md:pt-0 bg-gradient-to-t from-[color:var(--cover-bg)] from-55% to-transparent md:bg-none transition-colors duration-1000">
+      <a href="/work/the-devil-i-knew" class="group block max-w-[34rem] pointer-events-auto">
+        <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-[color:var(--cover-accent)] transition-colors duration-1000 mb-2">For your consideration: Best Album Cover</span>
+        <span class="block font-grotesk font-black uppercase leading-[0.82] text-[clamp(3.25rem,10vw,6.5rem)] [font-stretch:62%] tracking-[-0.01em]">The Devil I&nbsp;Knew</span>
+        <span class="block mt-3 font-didone italic text-lg md:text-xl leading-snug max-w-[26rem]">Five chapters, five versions of Nicole Zuraitis. Inside the shoot, from the first frame to the vinyl. <span class="not-italic font-grotesk text-sm font-bold uppercase tracking-widest whitespace-nowrap group-hover:underline">Read it&nbsp;&rarr;</span></span>
+      </a>
+
+      <div class="mt-6 md:mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 pointer-events-auto">
+        <a href="/contact" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] px-6 py-4 bg-[color:var(--cover-ink)] text-[color:var(--cover-bg)] transition-colors duration-1000 hover:opacity-90">Start a project</a>
+        <a href="/work" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 hover:opacity-80">See the work</a>
+        <button type="button" class="ml-auto md:ml-0 font-grotesk text-[10px] font-bold uppercase tracking-[0.25em] opacity-70 hover:opacity-100" data-next-issue aria-label="Next cover">
+          <span data-issue-count>1</span> / {COVER_ISSUES.length} &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Flip to the next cover every 7 seconds (or on click). The page's colors follow the cover.
+  const cover = document.querySelector<HTMLElement>('[data-cover]');
+  if (cover) {
+    const issues = Array.from(cover.querySelectorAll<HTMLElement>('[data-issue]'));
+    const count = cover.querySelector('[data-issue-count]');
+    const root = document.documentElement;
+    let current = 0;
+
+    const paint = (el: HTMLElement) => {
+      for (const [name, value] of [['--cover-bg', el.dataset.bg], ['--cover-ink', el.dataset.ink], ['--cover-accent', el.dataset.accent]]) {
+        cover.style.setProperty(name!, value!);
+        root.style.setProperty(name!, value!);
+      }
+    };
+
+    const show = (i: number) => {
+      current = (i + issues.length) % issues.length;
+      issues.forEach((el, n) => {
+        el.dataset.active = String(n === current);
+        el.setAttribute('aria-hidden', String(n !== current));
+      });
+      paint(issues[current]);
+      if (count) count.textContent = String(current + 1);
+    };
+
+    // Later covers load once the page has
+    const loadRest = () =>
+      cover.querySelectorAll<HTMLImageElement>('img[data-srcset]').forEach((img) => {
+        img.srcset = img.dataset.srcset!;
+        img.src = img.dataset.src!;
+      });
+    if (document.readyState === 'complete') loadRest();
+    else window.addEventListener('load', loadRest, { once: true });
+
+    paint(issues[0]);
+    let timer = 0;
+    const start = () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(() => {
+        if (!document.hidden) show(current + 1);
+      }, 7000);
+    };
+    cover.querySelector('[data-next-issue]')?.addEventListener('click', () => {
+      show(current + 1);
+      start();
+    });
+    start();
+  }
+</script>

@@ -19,6 +19,8 @@ interface Props {
   schema?: object[];
   /** Drafts on the preview stay out of search results. */
   noindex?: boolean;
+  /** The page opens on a magazine cover: the header drops its logo and takes the cover's colors. */
+  cover?: boolean;
 }
 
 const DEFAULT_OG = 'https://res.cloudinary.com/diduw1fmf/image/upload/c_fill,g_auto,w_1200,h_630,f_jpg,q_auto/v1768230293/Cyrille_Green_ug4lzg.png';
@@ -31,6 +33,7 @@ const {
   pageType,
   schema = [],
   noindex = false,
+  cover = false,
 } = Astro.props;
 
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
@@ -83,7 +86,7 @@ const jsonLd = {
   </head>
   <body class="font-sans text-ink bg-paper">
     <div class="min-h-screen flex flex-col font-sans text-ink bg-paper bg-grain selection:bg-burgundy selection:text-paper">
-      <Header />
+      <Header cover={cover} />
       <main class="flex-grow">
         <slot />
       </main>

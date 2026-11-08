@@ -19,9 +19,19 @@ export function ogImage(path: CloudinaryPath, gravity: 'auto' | 'face' = 'auto')
   return `${BASE}/c_fill,g_${gravity},w_1200,h_630,f_jpg,q_auto/${path}`;
 }
 
+/** The subject cut out of its background and trimmed, for magazine-cover layouts (Cloudinary AI background removal). */
+export function cutout(path: CloudinaryPath, width: number): string {
+  return `${BASE}/e_background_removal/e_trim/f_auto,q_auto,c_limit,w_${width}/${path}`;
+}
+
+export function cutoutSrcset(path: CloudinaryPath, widths: number[]): string {
+  return widths.map((w) => `${cutout(path, w)} ${w}w`).join(', ');
+}
+
 export const WIDTHS = {
   hero: [640, 960, 1280, 1600, 1920, 2560],
   tile: [400, 600, 800, 1000, 1200],
   half: [480, 720, 960, 1200, 1600],
   thumb: [160, 240, 320, 480],
+  cutout: [640, 960, 1400],
 };
