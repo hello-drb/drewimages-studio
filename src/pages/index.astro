@@ -7,14 +7,14 @@ import TheRun from '../components/v2/TheRun.astro';
 import CoverGrid from '../components/v2/CoverGrid.astro';
 import Ways from '../components/v2/Ways.astro';
 import { PRESS_LOGOS, CONTACT } from '../data/content';
-import { COVER_ISSUES } from '../data/covers';
-import { cld, cutoutSrcset, WIDTHS } from '../data/cloudinary';
+import { COVER_ISSUES, COVER_WIDTHS, COVER_SIZES } from '../data/covers';
+import { cld, srcset } from '../data/cloudinary';
 
 const title = 'DrewImages — art direction and photography by Drew Bordeaux';
 const description = 'Album covers, press images and campaigns for musicians, labels and brands. Art direction and photography by Drew Bordeaux, New York and the Hudson Valley.';
 ---
-<Base title={title} description={description} cover ogImageAlt="Portrait of Cyrille Aimée by DrewImages">
-  <link slot="head" rel="preload" as="image" imagesrcset={cutoutSrcset(COVER_ISSUES[0].photo.src, WIDTHS.cutout)} imagesizes="(min-width: 768px) 46vw, 90vw" fetchpriority="high" />
+<Base title={title} description={description} cover ogImageAlt="Portrait by DrewImages">
+  <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVER_ISSUES[0].photo.src, COVER_WIDTHS)} imagesizes={COVER_SIZES} fetchpriority="high" />
 
   <Cover />
   <TheRun />

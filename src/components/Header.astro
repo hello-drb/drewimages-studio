@@ -4,13 +4,14 @@
 // With `cover`, the top state is "cover": no logo (the page's masthead is the logo) and colors from --cover-ink / --cover-bg.
 import { NAV_LINKS, LOGO } from '../data/content';
 import { cld } from '../data/cloudinary';
+import { cleanPath } from '../data/paths';
 
 interface Props {
   cover?: boolean;
 }
 
 const { cover = false } = Astro.props;
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = cleanPath(Astro.url.pathname);
 const isHome = path === '/';
 const topState = cover ? 'cover' : 'transparent';
 ---

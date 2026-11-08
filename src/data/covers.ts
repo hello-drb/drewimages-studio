@@ -1,33 +1,58 @@
-// The home page's rotating magazine covers: one photograph cut out over a full-strength color,
-// with the DrewImages logo as the masthead. Pairings come from Drew's two references (ORCHID, NOIR).
-// Cover photos are full-resolution originals from Cloudinary, so the cut-outs stay sharp on big screens.
+// The home page's rotating magazine covers, Rolling Stone style: the full photograph, the DrewImages
+// masthead set into it, and the subject's head in front of the letters. The "in front" layer is a
+// cut-out of the same frame (stored in Cloudinary as its own image, so it never has to be made on
+// the fly) laid exactly over the photo.
 
 import { HERO_SLIDES, type Photo } from './content';
 
 export interface CoverIssue {
   photo: Photo;
-  /** Ground, masthead/type, and accent colors. */
-  bg: string;
-  ink: string;
+  /** Cloudinary public ID of the stored cut-out: same frame, background removed, not trimmed. */
+  cutout: string;
+  /** Masthead color, cover-line color, kicker color. */
+  mast: string;
+  text: string;
   accent: string;
-  /** "tall" subjects size by height, "wide" ones by width. */
-  shape: 'tall' | 'wide';
+  /** A soft gradient behind the cover lines, dark or light to suit the photo. */
+  scrim: 'dark' | 'light';
+  /** object-position on desktop and on phones, chosen so the head sits on the masthead. */
+  focus: string;
+  focusPhone: string;
+  /** How far down the masthead sits on phones (desktop is fixed). */
+  mastTopPhone: string;
 }
 
-const jazzmeia = HERO_SLIDES.find((s) => s.name === 'Jazzmeia Horn')!;
+const slide = (name: string) => HERO_SLIDES.find((s) => s.name === name)!;
 
 export const COVER_ISSUES: CoverIssue[] = [
   {
     photo: {
-      src: 'Cyrille_9_hmjwm4',
-      name: 'Cyrille Aimée',
-      credit: 'Photography',
-      alt: 'Cyrille Aimée in a red corset top and red velvet trousers, one hand in her pocket, smiling over her shoulder',
+      src: 'lauren-minear-guitar-windswept',
+      name: 'Lauren Minear',
+      credit: 'Creative direction and photography',
+      project: 'Til The World Ends',
+      year: 2026,
+      alt: 'Lauren Minear playing an acoustic guitar in a sheer blush top, her hair blown back, on a gray seamless',
     },
-    bg: '#D9AB3F',
-    ink: '#3D1118',
+    cutout: 'drewimages-cover-cutout-lauren-guitar',
+    mast: '#8A2A47',
+    text: '#3D1118',
     accent: '#8A2A47',
-    shape: 'tall',
+    scrim: 'light',
+    focus: '50% 30%',
+    focusPhone: '58% 50%',
+    mastTopPhone: '15%',
+  },
+  {
+    photo: slide('Cyrille Aimée'),
+    cutout: 'drewimages-cover-cutout-cyrille-green',
+    mast: '#D9AB3F',
+    text: '#F3E6C8',
+    accent: '#D9AB3F',
+    scrim: 'dark',
+    focus: '50% 30%',
+    focusPhone: '55% 50%',
+    mastTopPhone: '8%',
   },
   {
     photo: {
@@ -36,13 +61,20 @@ export const COVER_ISSUES: CoverIssue[] = [
       credit: 'Photography',
       alt: 'Cellist Sasha Ono in a plum velvet gown, holding her cello and looking down at it',
     },
-    bg: '#5BC2C9',
-    ink: '#6D2B2E',
-    accent: '#3D1118',
-    shape: 'tall',
+    cutout: 'drewimages-cover-cutout-sasha-cello',
+    mast: '#6D2B2E',
+    text: '#3D1118',
+    accent: '#6D2B2E',
+    scrim: 'light',
+    focus: '50% 4%',
+    focusPhone: '50% 0%',
+    mastTopPhone: '5%',
   },
-  { photo: jazzmeia, bg: '#6D2B2E', ink: '#5BC2C9', accent: '#D9AB3F', shape: 'wide' },
 ];
+
+/** Image widths and sizes for the cover layers. A landscape photo on a phone fills the height, so it's drawn about 2.2× the screen width. */
+export const COVER_WIDTHS = [960, 1600, 2400];
+export const COVER_SIZES = '(max-width: 767px) 220vw, 100vw';
 
 /** "Vol. 26 · No. 11": the year and month the site was built, like a magazine issue line. */
 export function issueLine(date = new Date()): { vol: string; no: string; month: string } {
