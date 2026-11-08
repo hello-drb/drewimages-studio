@@ -4,6 +4,7 @@
 import type { ImageMetadata } from 'astro';
 import { IMAGES, type Photo } from './content';
 import devilCover from '../assets/work/the-devil-i-knew-cover.jpg';
+import laurenCover from '../assets/work/lauren/til-the-world-ends-cover.jpg';
 
 export interface Credit {
   role: string;
@@ -43,6 +44,8 @@ export interface CaseStudy {
   /** One behind-the-scenes photo for the sidebar, with its caption. */
   bts?: { photo: Photo; caption: string };
   images: Photo[];
+  /** A second set after the main story, e.g. later work with the same artist. */
+  more?: { title: string; images: Photo[] };
 }
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -90,8 +93,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: 'til-the-world-ends',
-    // Draft: waiting on the images. Not linked, not in the sitemap, and the page is noindex until published.
-    published: false,
+    published: true,
     number: '02',
     artist: 'Lauren Minear',
     release: 'Til The World Ends',
@@ -101,6 +103,11 @@ export const CASE_STUDIES: CaseStudy[] = [
     role: 'Creative direction and photography',
     metaTitle: 'Lauren Minear, Til The World Ends: creative direction and photography — DrewImages',
     metaDescription: 'Creative direction and photography for Lauren Minear’s single Til The World Ends: a white-on-white cover, film and photo content from one shared moodboard. Shot at Love Studios NYC.',
+    cover: {
+      src: laurenCover,
+      alt: 'Til The World Ends single artwork: Lauren Minear in white against white, her hair blown back, hands crossed at her chest',
+    },
+    coverCaption: 'Single artwork, 2026',
     coverLine: 'White on white. Windswept. Still.',
     dek: 'A song about being together at the end of the world. The obvious cover was the apocalypse. The song is quiet, so the cover is too.',
     body: [
@@ -110,7 +117,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Til The World Ends was our first full round of creative direction together. Lauren is one of a handful of artists I work with across releases, so there’s always new material for press, socials and the next record.',
     ],
     madeList: ['Single cover', 'Press images', 'Film and photo content for the release'],
-    shot: { when: '2026', where: ['Love Studios NYC'] },
+    shot: { when: 'April 2026', where: ['Love Studios NYC'] },
     credits: [
       { role: 'Creative direction & photography', name: 'Drew Bordeaux', isDrew: true },
       { role: 'Styling', name: 'Marina Ross' },
@@ -118,7 +125,23 @@ export const CASE_STUDIES: CaseStudy[] = [
       { role: 'Hair', name: 'Glamnation' },
       { role: 'Makeup', name: 'AgileSMUA' },
     ],
-    images: [],
+    images: [
+      { src: 'lauren-minear-guitar-windswept', name: 'Lauren Minear', alt: 'Lauren Minear playing an acoustic guitar in a sheer blush top, her hair blown back, on a gray seamless' },
+      { src: 'lauren-minear-black-dress-floor', name: 'Lauren Minear', alt: 'Lauren Minear in a black dress on a pale floor, propped on one hand, in warm sepia' },
+      { src: 'lauren-minear-double-exposure', name: 'Lauren Minear', alt: 'A double exposure of Lauren Minear lying on white in a black dress, her arms reaching overhead' },
+      { src: 'lauren-minear-black-dress-lying', name: 'Lauren Minear', alt: 'Lauren Minear lying on white in a black dress, one hand behind her head, looking up' },
+    ],
+    more: {
+      title: 'More with Lauren',
+      images: [
+        { src: 'lauren-minear-dark-leaves', name: 'Lauren Minear', alt: 'Lauren Minear holding an armful of dark purple leaves against a gray backdrop' },
+        { src: 'lauren-minear-autumn-leaves-silk', name: 'Lauren Minear', alt: 'Lauren Minear lying on rust silk under a scatter of autumn leaves, one arm above her head' },
+        { src: 'lauren-minear-motion', name: 'Lauren Minear', alt: 'Lauren Minear in motion against dark green, her arm sweeping out in a long blur' },
+        { src: 'lauren-minear-autumn-white-dress-1', name: 'Lauren Minear', alt: 'Lauren Minear in a white dress, sitting in fallen leaves at dusk and looking away' },
+        { src: 'lauren-minear-autumn-white-dress-2', name: 'Lauren Minear', alt: 'Lauren Minear in a white dress among falling autumn leaves, her hair across her face' },
+        { src: 'lauren-minear-autumn-black-and-white', name: 'Lauren Minear', alt: 'Lauren Minear in a white dress in the leaves, her hair caught by the wind, in black and white' },
+      ],
+    },
   },
 ];
 
