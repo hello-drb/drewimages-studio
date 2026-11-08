@@ -25,8 +25,8 @@ const layer = 'absolute inset-0 w-full h-full object-cover [object-position:var(
 >
   {COVER_ISSUES.map((c, i) => {
     const eager = i === 0;
-    const base = { src: cld(c.photo.src, 1600), set: srcset(c.photo.src, COVER_WIDTHS) };
-    const cut = { src: cld(c.cutout, 1600), set: srcset(c.cutout, COVER_WIDTHS) };
+    const base = { src: cld(c.photo.src, 1200), set: srcset(c.photo.src, COVER_WIDTHS) };
+    const cut = { src: cld(c.cutout, 1200), set: srcset(c.cutout, COVER_WIDTHS) };
     return (
       <div
         class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0 data-[active=true]:opacity-100"
@@ -65,6 +65,7 @@ const layer = 'absolute inset-0 w-full h-full object-cover [object-position:var(
           data-srcset={eager ? undefined : cut.set}
           sizes={COVER_SIZES}
           alt=""
+          fetchpriority={eager ? 'high' : undefined}
           decoding="async"
           class={`${layer} pointer-events-none select-none`}
         />

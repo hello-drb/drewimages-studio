@@ -1,0 +1,31 @@
+---
+// What clients say: Nicole's line set large, then the four portrait clients from the live site.
+import Img from '../Img.astro';
+import { HOME_TESTIMONIALS } from '../../data/content';
+import { WIDTHS } from '../../data/cloudinary';
+---
+<section class="bg-beet text-paper py-20 md:py-32 px-4 md:px-8" aria-label="What clients say">
+  <figure class="max-w-6xl mb-16 md:mb-24">
+    <blockquote class="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight">
+      “Larry taught me the importance of the revision. <span class="italic">Drew taught me the importance of vision.</span>”
+    </blockquote>
+    <figcaption class="mt-8 text-xs font-bold uppercase tracking-[0.25em] text-paper/70">Nicole Zuraitis, on <span class="italic normal-case font-serif text-base tracking-normal">The Devil I Knew</span></figcaption>
+  </figure>
+
+  <div class="border-t border-paper/25 pt-12 md:pt-16 grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-24 gap-y-12 md:gap-y-16">
+    {HOME_TESTIMONIALS.map((item) => (
+      <figure class="flex flex-col sm:flex-row gap-6 md:gap-8 items-start">
+        <div class="shrink-0 w-32 aspect-[3/2] md:w-44 border border-paper/25 p-1">
+          <Img photo={item.photo} widths={WIDTHS.thumb} sizes="(min-width: 768px) 176px, 128px" class="w-full h-full object-cover" />
+        </div>
+        <div>
+          <blockquote>
+            <p class="font-serif text-xl md:text-2xl leading-snug mb-3">“{item.quote}”</p>
+            {item.secondary && <p class="text-sm md:text-base text-paper/75 leading-relaxed">{item.secondary}</p>}
+          </blockquote>
+          <figcaption class="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-paper/60">{item.author}</figcaption>
+        </div>
+      </figure>
+    ))}
+  </div>
+</section>

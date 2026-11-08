@@ -1,0 +1,73 @@
+---
+// The Instagram bio link: a phone-first page that feels like the feed kept going.
+// Two clear next steps, the newest stories, and a grid of credited squares. Kept out of search
+// (noindex, not in the sitemap) because it repeats the home page; tag the bio link with UTMs.
+import { Picture } from 'astro:assets';
+import Masthead from '../assets/brand/masthead.svg?raw';
+import Base from '../layouts/Base.astro';
+import Img from '../components/Img.astro';
+import { publishedCaseStudies } from '../data/case-studies';
+import { ALBUM_ARTWORKS, CONTACT } from '../data/content';
+import { WIDTHS } from '../data/cloudinary';
+
+const studies = publishedCaseStudies();
+const feed = [
+  { src: 'lauren-minear-guitar-windswept', name: 'Lauren Minear', alt: 'Lauren Minear playing an acoustic guitar, her hair blown back' },
+  ALBUM_ARTWORKS.find((a) => a.name?.startsWith('Jazzmeia'))!,
+  { src: '7P3A1846-Edit_ei5oem', name: 'Sasha Ono', alt: 'Cellist Sasha Ono in a plum velvet gown with her cello' },
+  ALBUM_ARTWORKS.find((a) => a.name === 'Kimberly Hawkey')!,
+  { src: 'lauren-minear-autumn-leaves-silk', name: 'Lauren Minear', alt: 'Lauren Minear lying on rust silk under autumn leaves' },
+  { src: 'Cyrille_9_hmjwm4', name: 'Cyrille Aimée', alt: 'Cyrille Aimée in a red corset top, smiling over her shoulder' },
+  ALBUM_ARTWORKS.find((a) => a.name === 'Ariel Arbisser')!,
+  { src: 'lauren-minear-double-exposure', name: 'Lauren Minear', alt: 'A double exposure of Lauren Minear lying on white' },
+  ALBUM_ARTWORKS.find((a) => a.name === 'Octávio Deluchi')!,
+];
+const button = 'block w-full text-center text-xs font-bold uppercase tracking-[0.2em] px-6 py-5 transition-colors';
+---
+<Base title="Hello from Instagram — DrewImages" description="Art direction and photography for records. The latest work, and two ways to start." noindex>
+  <section class="bg-saffron text-chocolate pt-24 pb-12 px-4 md:px-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="[&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
+      <h1 class="mt-6 font-serif text-3xl md:text-4xl leading-tight">Art direction and photography <span class="italic">for records, and the people who make them.</span></h1>
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <a href="/contact?type=shoot&utm_source=instagram&utm_medium=bio" class={`${button} bg-chocolate text-saffron hover:bg-ink`}>Book a shoot</a>
+        <a href="/contact?type=campaign&utm_source=instagram&utm_medium=bio" class={`${button} border-2 border-chocolate hover:bg-chocolate hover:text-saffron`}>Start an album campaign</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper text-ink py-12 px-4 md:px-8">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-[10px] font-bold uppercase tracking-[0.25em] text-ink/50 mb-5">The latest stories</h2>
+      <ul class="grid grid-cols-2 gap-3">
+        {studies.map((s) => (
+          <li>
+            <a href={`/work/${s.slug}`} class="group block">
+              {s.cover && <Picture src={s.cover.src} alt={s.cover.alt} widths={[320, 640]} sizes="(min-width: 640px) 320px, 46vw" formats={['avif', 'webp']} class="w-full aspect-square object-cover" />}
+              <span class="block mt-2 font-serif italic text-lg leading-tight group-hover:underline">{s.release}</span>
+              <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50">{s.artist}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class="mt-12 text-[10px] font-bold uppercase tracking-[0.25em] text-ink/50 mb-5">The feed, with credits</h2>
+      <ul class="grid grid-cols-3 gap-1">
+        {feed.map((p) => (
+          <li class="relative aspect-square overflow-hidden">
+            <Img photo={p} widths={WIDTHS.thumb} sizes="(min-width: 640px) 210px, 33vw" class="w-full h-full object-cover" />
+            <span class="absolute inset-x-0 bottom-0 p-1.5 bg-gradient-to-t from-black/70 to-transparent text-paper text-[9px] font-bold uppercase tracking-[0.12em] leading-tight">{p.name}</span>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="mt-12 border-t border-ink/15 text-sm font-bold uppercase tracking-[0.15em]">
+        <li class="border-b border-ink/15"><a href="/work" class="flex justify-between py-4 hover:text-burgundy">All the work <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="border-b border-ink/15"><a href="/services" class="flex justify-between py-4 hover:text-burgundy">Services and prices <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="border-b border-ink/15"><a href="/credits" class="flex justify-between py-4 hover:text-burgundy">Credits <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="border-b border-ink/15"><a href={`mailto:${CONTACT.email}`} class="flex justify-between py-4 hover:text-burgundy normal-case tracking-normal font-normal text-base">{CONTACT.email} <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="border-b border-ink/15"><a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=hello" class="flex justify-between py-4 hover:text-burgundy">My records, at drewbordeaux.com <span aria-hidden="true">↗</span></a></li>
+      </ul>
+    </div>
+  </section>
+</Base>

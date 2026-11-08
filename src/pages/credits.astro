@@ -1,0 +1,89 @@
+---
+// Credits: every confirmed release credit in one list, the way labels and search tools read them.
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Img from '../components/Img.astro';
+import { confirmedCredits } from '../data/credits';
+import { SITE, DREW_ID, breadcrumbs } from '../data/schema';
+import { WIDTHS } from '../data/cloudinary';
+import devilCover from '../assets/work/the-devil-i-knew-cover.jpg';
+import laurenCover from '../assets/work/lauren/til-the-world-ends-cover.jpg';
+
+const title = 'Credits: album art direction and photography — DrewImages';
+const description = 'Release credits for Drew Bordeaux: album art direction and photography for Nicole Zuraitis, Lauren Minear, Jazzmeia Horn, Kimberly Hawkey and more, with year, label and role.';
+const local = { 'the-devil-i-knew': devilCover, 'til-the-world-ends': laurenCover } as const;
+const rows = confirmedCredits();
+
+const listSchema = {
+  '@type': 'ItemList',
+  name: 'Release credits',
+  itemListElement: rows.map((r, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': r.format === 'Single' ? 'MusicRecording' : 'MusicAlbum',
+      name: r.release,
+      byArtist: { '@type': 'MusicGroup', name: r.artist },
+      datePublished: String(r.year),
+      ...(r.label ? { recordLabel: { '@type': 'Organization', name: r.label } } : {}),
+      ...(r.href ? { url: `${SITE}${r.href}` } : {}),
+      creator: { '@type': 'Role', roleName: r.role, creator: { '@id': DREW_ID } },
+    },
+  })),
+};
+---
+<Base title={title} description={description} pageType="CollectionPage" schema={[listSchema, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Credits', path: '/credits' }])]}>
+  <section class="bg-paper bg-grain text-ink pt-32 md:pt-44 pb-20 md:pb-28 px-4 md:px-8">
+    <span class="block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-ink/50 mb-4">Liner notes</span>
+    <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight">Credits.</h1>
+    <p class="mt-6 max-w-2xl text-lg md:text-xl leading-relaxed text-ink/80">Records I’ve art-directed or photographed, with the year, the label and my role.</p>
+
+    <div class="mt-12 md:mt-16 border-t-[3px] border-ink"></div>
+    <div class="mt-[3px] border-t border-ink"></div>
+
+    <table class="w-full text-left">
+      <thead class="hidden md:table-header-group">
+        <tr class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50">
+          <th class="py-4 pr-4 font-bold w-16"><span class="sr-only">Cover</span></th>
+          <th class="py-4 pr-4 font-bold w-20">Year</th>
+          <th class="py-4 pr-4 font-bold">Artist · Release</th>
+          <th class="py-4 pr-4 font-bold">Label</th>
+          <th class="py-4 font-bold">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => {
+          const isLocal = r.cover.startsWith('local:');
+          const name = r.cover.replace('local:', '') as keyof typeof local;
+          return (
+            <tr class="border-t border-ink/15 align-middle grid grid-cols-[4rem_1fr] md:table-row gap-x-4 py-4 md:py-0">
+              <td class="md:py-4 md:pr-4 row-span-4">
+                {isLocal ? (
+                  <Picture src={local[name]} alt="" widths={[96, 160]} sizes="64px" formats={['avif', 'webp']} class="w-16 h-16 object-cover" />
+                ) : (
+                  <Img photo={{ src: r.cover, alt: '' }} widths={WIDTHS.thumb} sizes="64px" class="w-16 h-16 object-cover" />
+                )}
+              </td>
+              <td class="md:py-4 md:pr-4 text-xs font-bold uppercase tracking-[0.2em] text-ink/60">{r.year} · {r.format}</td>
+              <td class="md:py-4 md:pr-4">
+                <span class="block font-serif text-xl md:text-2xl leading-tight">{r.artist}</span>
+                {r.href ? (
+                  <a href={r.href} class="font-serif italic text-lg text-burgundy hover:underline">{r.release} &rarr;</a>
+                ) : (
+                  <span class="font-serif italic text-lg">{r.release}</span>
+                )}
+              </td>
+              <td class="md:py-4 md:pr-4 text-sm text-ink/70">{r.label ?? '—'}</td>
+              <td class="md:py-4 text-sm font-bold">{r.role}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="bg-chocolate text-saffron py-20 md:py-28 px-4 md:px-8">
+    <h2 class="font-serif text-5xl md:text-7xl leading-[0.92] tracking-tight max-w-4xl">Making a record? <span class="italic">Let’s talk.</span></h2>
+    <a href="/contact?type=campaign" class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">Start an album campaign</a>
+  </section>
+</Base>

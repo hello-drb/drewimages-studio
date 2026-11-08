@@ -1,11 +1,14 @@
 ---
-// v2 concept: the home page as a magazine. Cover, where one shoot went, the grid of covers,
-// three ways to work, a client's words, and the ask.
+// The home page as a magazine: the cover, this issue's features, where one shoot went, the grid of
+// album covers, three ways to work, what clients say, the archive, and the ask.
 import Base from '../layouts/Base.astro';
 import Cover from '../components/v2/Cover.astro';
+import Features from '../components/v2/Features.astro';
 import TheRun from '../components/v2/TheRun.astro';
 import CoverGrid from '../components/v2/CoverGrid.astro';
 import Ways from '../components/v2/Ways.astro';
+import Perspectives from '../components/v2/Perspectives.astro';
+import WorkCategoryGrid from '../components/WorkCategoryGrid.astro';
 import { PRESS_LOGOS, CONTACT } from '../data/content';
 import { COVER_ISSUES, COVER_WIDTHS, COVER_SIZES } from '../data/covers';
 import { cld, srcset } from '../data/cloudinary';
@@ -15,25 +18,27 @@ const description = 'Album covers, press images and campaigns for musicians, lab
 ---
 <Base title={title} description={description} cover ogImageAlt="Portrait by DrewImages">
   <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVER_ISSUES[0].photo.src, COVER_WIDTHS)} imagesizes={COVER_SIZES} fetchpriority="high" />
+  <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVER_ISSUES[0].cutout, COVER_WIDTHS)} imagesizes={COVER_SIZES} fetchpriority="high" />
 
   <Cover />
+  <Features />
   <TheRun />
   <CoverGrid />
   <Ways />
+  <Perspectives />
 
-  <!-- A client's words -->
-  <section class="bg-beet text-paper py-20 md:py-32 px-4 md:px-8">
-    <figure class="max-w-6xl">
-      <blockquote class="font-didone text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight">
-        “Larry taught me the importance of the revision. <span class="italic">Drew taught me the importance of vision.</span>”
-      </blockquote>
-      <figcaption class="mt-8 font-grotesk text-xs font-bold uppercase tracking-[0.25em] text-paper/70">Nicole Zuraitis, on <span class="italic normal-case font-didone text-base tracking-normal">The Devil I Knew</span></figcaption>
-    </figure>
+  <!-- The archive -->
+  <section class="bg-paper text-ink py-20 md:py-28 px-4 md:px-8" aria-labelledby="archive-title">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-14">
+      <h2 id="archive-title" class="font-serif text-5xl md:text-7xl leading-[0.92] tracking-tight">The <span class="italic">archive.</span></h2>
+      <p class="font-serif italic text-xl max-w-md">Portraits and campaigns for musicians, founders and brands, by who the work was for.</p>
+    </div>
+    <WorkCategoryGrid />
   </section>
 
   <!-- Press -->
-  <section class="bg-paper text-ink py-14 md:py-20 px-4 md:px-8">
-    <p class="font-grotesk text-center text-[10px] font-bold uppercase tracking-[0.3em] text-ink/40 mb-10">Selected editorial platforms</p>
+  <section class="bg-paper text-ink pb-16 md:pb-24 px-4 md:px-8">
+    <p class="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-ink/40 mb-10 pt-12 md:pt-16 border-t border-ink/10">Selected editorial platforms</p>
     <div class="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-60 mix-blend-multiply select-none">
       {PRESS_LOGOS.map((logo) => (
         <img src={cld(logo.src, 400)} alt={logo.name} class="h-5 md:h-7 w-auto object-contain brightness-0" loading="lazy" decoding="async" />
@@ -43,11 +48,11 @@ const description = 'Album covers, press images and campaigns for musicians, lab
 
   <!-- The ask -->
   <section class="bg-chocolate text-saffron py-24 md:py-36 px-4 md:px-8">
-    <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-paper/60 mb-6">Inquiries</span>
-    <h2 class="font-didone text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight max-w-5xl">Tell me what <span class="italic">you’re making.</span></h2>
+    <span class="block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-paper/60 mb-6">Now booking spring 2027 releases</span>
+    <h2 class="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight max-w-5xl">Tell me what <span class="italic">you’re making.</span></h2>
     <div class="mt-10 md:mt-14 flex flex-wrap items-center gap-x-8 gap-y-4">
-      <a href="/contact" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">Start a project</a>
-      <a href={`mailto:${CONTACT.email}`} class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] text-paper/80 border-b border-paper/40 pb-1 hover:text-paper">{CONTACT.email}</a>
+      <a href="/contact" class="text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">Start a project</a>
+      <a href={`mailto:${CONTACT.email}`} class="text-sm text-paper/80 border-b border-paper/40 pb-1 hover:text-paper">{CONTACT.email}</a>
     </div>
   </section>
 </Base>

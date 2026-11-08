@@ -4,9 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE, website, studio, drew, webPage } from '../data/schema';
 import { cleanPath } from '../data/paths';
-import serifItalic from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
-import serifNormal from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
-import interNormal from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import serifNormal from '@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-standard-normal.woff2?url';
+import sansNormal from '@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -79,8 +78,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://res.cloudinary.com" />
     <!-- The fonts every page's first screen uses, fetched early so headlines don't reflow -->
     <link rel="preload" href={serifNormal} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={serifItalic} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={interNormal} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansNormal} as="font" type="font/woff2" crossorigin />
     <slot name="head" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>

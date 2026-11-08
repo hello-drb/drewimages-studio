@@ -2,8 +2,8 @@
 // Fixed header. On the home page it sits transparent over the hero until the page scrolls.
 // data-state is "transparent", "solid" or "menu" (phone menu open, or fading out); data-open tracks the phone menu.
 // With `cover`, the top state is "cover": no logo (the page's masthead is the logo) and colors from --cover-ink / --cover-bg.
-import { NAV_LINKS, LOGO } from '../data/content';
-import { cld } from '../data/cloudinary';
+import Masthead from '../assets/brand/masthead.svg?raw';
+import { NAV_LINKS } from '../data/content';
 import { cleanPath } from '../data/paths';
 
 interface Props {
@@ -31,13 +31,10 @@ const topState = cover ? 'cover' : 'transparent';
   <div class={`md:hidden absolute inset-0 h-24 -z-10 pointer-events-none bg-gradient-to-b from-black/80 via-black/40 to-transparent opacity-0 group-data-[state=transparent]/header:opacity-100 transition-opacity duration-300`}></div>
 
   <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-12 md:h-16 relative z-50">
-    <a href="/" class="relative group block shrink-0 z-50" data-menu-close>
-      <img
-        src={cld(LOGO, 400)}
-        srcset={`${cld(LOGO, 200)} 200w, ${cld(LOGO, 400)} 400w, ${cld(LOGO, 600)} 600w`}
-        sizes="(min-width: 768px) 220px, 130px"
-        alt="DrewImages Studio"
-        class={`h-8 md:h-14 w-auto object-contain transition-all duration-300 group-hover:opacity-80 opacity-100 group-data-[state=transparent]/header:invert group-data-[state=transparent]/header:brightness-0 group-data-[state=cover]/header:opacity-0`}
+    <a href="/" class="relative group block shrink-0 z-50 text-ink" aria-label="DrewImages, home" data-menu-close>
+      <span
+        class="block h-7 md:h-10 aspect-[1077/220] [&>svg]:w-full [&>svg]:h-full transition-opacity duration-300 group-hover:opacity-80 group-data-[state=transparent]/header:text-paper group-data-[state=cover]/header:opacity-0"
+        set:html={Masthead}
       />
     </a>
 

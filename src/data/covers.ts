@@ -72,9 +72,9 @@ export const COVER_ISSUES: CoverIssue[] = [
   },
 ];
 
-/** Image widths and sizes for the cover layers. A landscape photo on a phone fills the height, so it's drawn about 2.2× the screen width. */
-export const COVER_WIDTHS = [960, 1600, 2400];
-export const COVER_SIZES = '(max-width: 767px) 220vw, 100vw';
+/** Image widths and sizes for the cover layers. A landscape photo on a phone fills the height, so it's drawn wider than the screen (160vw is the compromise between sharpness and speed). */
+export const COVER_WIDTHS = [800, 1200, 1600, 2400];
+export const COVER_SIZES = '(max-width: 767px) 160vw, 100vw';
 
 /** "Vol. 26 · No. 11": the year and month the site was built, like a magazine issue line. */
 export function issueLine(date = new Date()): { vol: string; no: string; month: string } {
