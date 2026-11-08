@@ -3,8 +3,9 @@
 // data-state is "transparent", "solid" or "menu" (phone menu open, or fading out); data-open tracks the phone menu.
 import { NAV_LINKS, LOGO } from '../data/content';
 import { cld } from '../data/cloudinary';
+import { cleanPath } from '../data/paths';
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = cleanPath(Astro.url.pathname);
 const isHome = path === '/';
 ---
 <header
