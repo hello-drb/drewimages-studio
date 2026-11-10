@@ -45,10 +45,9 @@ const strong = tone === 'dark' ? 'text-paper' : 'text-ink';
           <img src={cld(it.cloud!, 1400)} srcset={srcset(it.cloud!, WIDTHS)} sizes={`${Math.round(ratio(it) * 72)}vh`} alt={it.alt} class="w-full h-full object-cover" loading={n < 2 ? 'eager' : 'lazy'} decoding="async" draggable="false" />
         )}
       </div>
-      <p class={`mt-3 flex items-baseline gap-3 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] ${caption}`}>
-        <span class="tabular-nums">{String(n + 1).padStart(2, '0')}</span>
-        <span class={strong}>{it.name}</span>
-        {it.note && <span class="normal-case tracking-normal font-normal font-didone italic text-sm md:text-base">{it.note}</span>}
+      <p class={`mt-3 min-h-[1.5rem] flex items-baseline gap-3 text-sm md:text-base ${caption}`}>
+        {it.name && <span class={strong}>{it.name}</span>}
+        {it.note && <span class="font-didone italic">{it.note}</span>}
       </p>
     </li>
   ))}

@@ -1,41 +1,29 @@
 ---
-// The home page is an issue of the magazine: the cover and contents, the year's pictures sliding,
-// two features as spreads, the album covers, and the back of the book. Pictures lead; words are kept
-// for where they help someone decide (Drew, Nov 9: magazine in look and layout, not in word count).
-// What's in the issue lives in src/data/issue.ts.
+// The home page: the strongest photographs as full-screen covers, the artists by name, the pictures
+// sliding, one client's words, the album covers, and the studio. Pictures and names lead; words are
+// kept for where they help someone decide. What's shown lives in src/data/artists.ts.
 import Base from '../layouts/Base.astro';
-import Issue from '../components/mag/Issue.astro';
+import Covers from '../components/mag/Covers.astro';
+import ArtistIndex from '../components/mag/ArtistIndex.astro';
 import Spread from '../components/mag/Spread.astro';
 import Pictures from '../components/mag/Pictures.astro';
 import BackPage from '../components/mag/BackPage.astro';
 import CoverGrid from '../components/v2/CoverGrid.astro';
 import { CASE_STUDIES } from '../data/case-studies';
-import { ISSUE } from '../data/issue';
+import { COVERS } from '../data/artists';
 import { srcset } from '../data/cloudinary';
 
 const title = 'DrewImages — art direction and photography by Drew Bordeaux';
 const description = 'Album covers, press images and campaigns for musicians, labels and brands. Art direction and photography by Drew Bordeaux, New York and the Hudson Valley.';
-
-const study = (slug: string) => CASE_STUDIES.find((c) => c.slug === slug)!;
-const lauren = study('til-the-world-ends');
-const nicole = study('the-devil-i-knew');
+const nicole = CASE_STUDIES.find((c) => c.slug === 'the-devil-i-knew')!;
 ---
-<Base title={title} description={description} cover ogImageAlt="Portrait by DrewImages">
-  <link slot="head" rel="preload" as="image" imagesrcset={srcset(ISSUE.cover.src, [640, 960, 1280, 1600, 2400])} imagesizes="(max-width: 767px) 190vw, 70vw" fetchpriority="high" />
+<Base title={title} description={description} ogImageAlt="Portrait by DrewImages">
+  <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVERS[0].src, [800, 1280, 1920, 2560])} imagesizes="(max-width: 767px) 160vw, 100vw" fetchpriority="high" />
 
-  <Issue />
+  <Covers />
+  <ArtistIndex />
   <Pictures />
-  <Spread study={lauren} art="right" />
   <Spread study={nicole} line={nicole.quote!.text} attribution={`${nicole.quote!.author}, on The Devil I Knew`} art="left" tone="mustard" />
   <div id="covers" class="scroll-mt-12"><CoverGrid /></div>
   <BackPage />
 </Base>
-
-<style is:global>
-  /* The header reads these on the home page (cover state) */
-  :root {
-    --cover-ink: #3d1118;
-    --cover-bg: #f3e6c8;
-    --cover-accent: #8a2a47;
-  }
-</style>

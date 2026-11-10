@@ -1,0 +1,37 @@
+---
+// Under the covers: the nameplate, one sentence about the studio, and the artists by name,
+// each with who they are in a line. The index is the proof, so it does the talking.
+import Masthead from '../../assets/brand/masthead.svg?raw';
+import { ARTIST_INDEX } from '../../data/artists';
+
+const thumb = (src: string, w: number) => `https://res.cloudinary.com/diduw1fmf/image/upload/c_fill,g_auto,w_${w},h_${Math.round(w * 1.25)},f_auto,q_auto/${src}`;
+---
+<section class="bg-paper text-ink px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24" aria-labelledby="index-title">
+  <div class="text-chocolate [&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
+
+  <div class="mt-10 md:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+    <div class="lg:col-span-4">
+      <h1 class="font-didone text-[clamp(2.1rem,3.3vw,3.5rem)] leading-[1.04] tracking-tight text-balance">Art direction and photography for records, and the people who make them.</h1>
+      <p class="mt-6 text-base md:text-lg text-ink/70">Now booking spring 2027 releases.</p>
+      <p class="mt-8"><a href="/contact" class="inline-block text-sm font-semibold px-7 py-4 bg-ink text-paper hover:bg-burgundy transition-colors">Start a project</a></p>
+    </div>
+
+    <div class="lg:col-span-8">
+      <h2 id="index-title" class="pb-3 border-b-[3px] border-ink text-sm font-semibold">Artists</h2>
+      <ol class="md:columns-2 md:gap-x-10">
+        {ARTIST_INDEX.map((a) => (
+          <li class="break-inside-avoid border-b border-ink/15">
+            <a href={a.href} class="group flex items-center gap-4 py-2.5">
+              <img src={thumb(a.thumb, 96)} srcset={`${thumb(a.thumb, 96)} 1x, ${thumb(a.thumb, 192)} 2x`} alt="" width="48" height="60" class="w-12 h-[60px] object-cover shrink-0 bg-ink/10" loading="lazy" decoding="async" />
+              <span class="min-w-0">
+                <span class="block font-didone text-2xl md:text-[1.65rem] leading-tight group-hover:text-burgundy transition-colors">{a.name}</span>
+                {a.line && <span class="block text-sm leading-snug text-ink/60">{a.line}</span>}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-6"><a href="/work" class="text-sm underline underline-offset-4 decoration-ink/40 hover:decoration-ink">All the work</a></p>
+    </div>
+  </div>
+</section>

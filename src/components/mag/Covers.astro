@@ -1,0 +1,89 @@
+---
+// The opening: the studio's strongest photographs, one at a time, filling the screen.
+// Nothing sits on the picture but the artist's name. On a phone the photograph takes the top of
+// the screen and the name sits under it, so a wide frame isn't cropped to a sliver.
+import { COVERS } from '../../data/artists';
+import { cld, srcset } from '../../data/cloudinary';
+
+const WIDTHS = [800, 1280, 1920, 2560];
+---
+<section class="relative bg-ink text-paper md:h-[100svh] md:min-h-[620px]" data-covers aria-label="Photographs by Drew Bordeaux" aria-roledescription="carousel">
+  <div class="relative h-[66svh] min-h-[420px] md:absolute md:inset-0 md:h-auto overflow-hidden">
+    {COVERS.map((c, i) => (
+      <div class="absolute inset-0 transition-opacity duration-[1400ms] ease-in-out opacity-0 data-[active=true]:opacity-100" data-cover-slide data-active={String(i === 0)} aria-hidden={i === 0 ? undefined : 'true'}>
+        <img
+          src={i === 0 ? cld(c.src, 1920) : undefined}
+          srcset={i === 0 ? srcset(c.src, WIDTHS) : undefined}
+          data-src={i === 0 ? undefined : cld(c.src, 1920)}
+          data-srcset={i === 0 ? undefined : srcset(c.src, WIDTHS)}
+          sizes="(max-width: 767px) 160vw, 100vw"
+          alt={c.alt}
+          fetchpriority={i === 0 ? 'high' : undefined}
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover [object-position:var(--fp)] md:[object-position:var(--fd)]"
+          style={`--fd: ${c.focus}; --fp: ${c.focusPhone};`}
+        />
+      </div>
+    ))}
+    <!-- Just enough shade for the menu at the top and the name at the bottom -->
+    <div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/55 to-transparent pointer-events-none"></div>
+    <div class="hidden md:block absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none"></div>
+  </div>
+
+  <div class="relative md:absolute md:inset-x-0 md:bottom-0 px-4 md:px-8 pt-6 pb-8 md:pb-10 flex items-end justify-between gap-6">
+    <div class="grid min-h-[4.5rem] md:min-h-0">
+      {COVERS.map((c, i) => (
+        <p class="[grid-area:1/1] self-end transition-opacity duration-700 opacity-0 data-[active=true]:opacity-100" data-cover-name data-active={String(i === 0)} aria-hidden={i === 0 ? undefined : 'true'}>
+          {c.name && <span class="block font-didone leading-[0.95] tracking-tight text-[clamp(2.5rem,6vw,5.75rem)]">{c.name}</span>}
+          <span class="block mt-2 text-sm md:text-base text-paper/75">Photographed by Drew Bordeaux</span>
+        </p>
+      ))}
+    </div>
+    <div class="shrink-0 flex items-center gap-4 pb-1">
+      <div class="hidden sm:flex gap-1.5" aria-hidden="true">
+        {COVERS.map((_, i) => <span class="h-[3px] w-3 bg-paper/35 transition-all duration-500 data-[active=true]:w-9 data-[active=true]:bg-saffron" data-cover-tick data-active={String(i === 0)}></span>)}
+      </div>
+      <button type="button" class="text-sm underline underline-offset-4 decoration-paper/50 hover:decoration-paper" data-cover-next>Next</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-covers]');
+  if (root) {
+    const groups = ['[data-cover-slide]', '[data-cover-name]', '[data-cover-tick]'].map((s) => Array.from(root.querySelectorAll<HTMLElement>(s)));
+    const count = groups[0].length;
+    let current = 0;
+    const load = (i: number) =>
+      groups[0][i].querySelectorAll<HTMLImageElement>('img[data-srcset]').forEach((img) => {
+        img.srcset = img.dataset.srcset!;
+        img.src = img.dataset.src!;
+        img.removeAttribute('data-srcset');
+      });
+    const show = (i: number) => {
+      current = (i + count) % count;
+      load(current);
+      load((current + 1) % count);
+      groups.forEach((g) =>
+        g.forEach((el, n) => {
+          el.dataset.active = String(n === current);
+          if (!el.hasAttribute('data-cover-tick')) el.setAttribute('aria-hidden', String(n !== current));
+        }),
+      );
+    };
+    let timer = 0;
+    const start = () => {
+      window.clearInterval(timer);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = window.setInterval(() => {
+        if (!document.hidden) show(current + 1);
+      }, 5000);
+    };
+    root.querySelector('[data-cover-next]')?.addEventListener('click', () => {
+      show(current + 1);
+      start();
+    });
+    window.addEventListener('load', () => load(1), { once: true });
+    start();
+  }
+</script>
