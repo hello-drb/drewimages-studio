@@ -44,6 +44,8 @@ export interface CaseStudy {
   /** One behind-the-scenes photo for the sidebar, with its caption. */
   bts?: { photo: Photo; caption: string };
   images: Photo[];
+  /** The record on Spotify, so it can play while the pictures are open. */
+  spotify?: { kind: 'track' | 'album'; id: string };
   /** A second set after the main story, e.g. later work with the same artist. */
   more?: { title: string; images: Photo[] };
 }
@@ -58,6 +60,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     format: 'Album',
     year: 2026,
     releaseDate: '2026-07-17',
+    spotify: { kind: 'album', id: '1FDRos3c8K1qiOxmXLrLKw' },
     role: 'Art direction and photography',
     metaTitle: 'Nicole Zuraitis, The Devil I Knew: album art direction and photography — DrewImages',
     metaDescription: 'Drew Bordeaux was art director and photographer for Nicole Zuraitis’s concept album The Devil I Knew: the cover, press images, lyric visuals and vinyl. Shot at Caramoor and Love Studios NYC.',
@@ -100,6 +103,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     format: 'Single',
     year: 2026,
     releaseDate: '2026-06-03',
+    spotify: { kind: 'track', id: '5Qn1ukZ7Ow1ch23ceK3Krl' },
     role: 'Creative direction and photography',
     metaTitle: 'Lauren Minear, Til The World Ends: creative direction and photography — DrewImages',
     metaDescription: 'Creative direction and photography for Lauren Minear’s single Til The World Ends: a white-on-white cover, film and photo content from one shared moodboard. Shot at Love Studios NYC.',

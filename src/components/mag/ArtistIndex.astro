@@ -1,8 +1,8 @@
 ---
-// Under the covers: the nameplate, one sentence about the studio, and the artists by name,
-// each with who they are in a line. The index is the proof, so it does the talking.
+// Under the covers: the nameplate, what the studio does in two sentences, and the artists by name.
+// Each name opens that artist's cover (or their feature, when there is one). The index is the proof.
 import Masthead from '../../assets/brand/masthead.svg?raw';
-import { ARTIST_INDEX } from '../../data/artists';
+import { ARTIST_INDEX, artistSlug } from '../../data/artists';
 
 const thumb = (src: string, w: number) => `https://res.cloudinary.com/diduw1fmf/image/upload/c_fill,g_auto,w_${w},h_${Math.round(w * 1.25)},f_auto,q_auto/${src}`;
 ---
@@ -12,17 +12,23 @@ const thumb = (src: string, w: number) => `https://res.cloudinary.com/diduw1fmf/
   <div class="mt-10 md:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
     <div class="lg:col-span-4">
       <h1 class="font-didone text-[clamp(2.1rem,3.3vw,3.5rem)] leading-[1.04] tracking-tight text-balance">Art direction and photography for records, and the people who make them.</h1>
-      <p class="mt-6 text-base md:text-lg text-ink/70">Now booking spring 2027 releases.</p>
-      <p class="mt-8"><a href="/contact" class="inline-block text-sm font-semibold px-7 py-4 bg-ink text-paper hover:bg-burgundy transition-colors">Start a project</a></p>
+      <p class="mt-6 font-text text-xl md:text-[1.35rem] leading-relaxed text-ink/80">I write and produce records too, so every project starts with the music. Then we decide what it looks like.</p>
+      <p class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <a href="/contact" class="inline-block text-sm font-semibold px-7 py-4 bg-ink text-paper hover:bg-burgundy transition-colors">Start a project</a>
+        <span class="text-sm text-ink/60">Now booking spring 2027 releases.</span>
+      </p>
     </div>
 
     <div class="lg:col-span-8">
-      <h2 id="index-title" class="pb-3 border-b-[3px] border-ink text-sm font-semibold">Artists</h2>
+      <div class="pb-3 border-b-[3px] border-ink flex items-baseline justify-between gap-4">
+        <h2 id="index-title" class="text-sm font-semibold">Artists</h2>
+        <p class="font-text italic text-base text-ink/60">Pick a name. Everyone here gets a cover.</p>
+      </div>
       <ol class="md:columns-2 md:gap-x-10">
         {ARTIST_INDEX.map((a) => (
           <li class="break-inside-avoid border-b border-ink/15">
-            <a href={a.href} class="group flex items-center gap-4 py-2.5">
-              <img src={thumb(a.thumb, 96)} srcset={`${thumb(a.thumb, 96)} 1x, ${thumb(a.thumb, 192)} 2x`} alt="" width="48" height="60" class="w-12 h-[60px] object-cover shrink-0 bg-ink/10" loading="lazy" decoding="async" />
+            <a href={`/cover/${artistSlug(a.name)}`} class="group flex items-center gap-4 py-2.5">
+              <img src={thumb(a.thumb, 96)} srcset={`${thumb(a.thumb, 96)} 1x, ${thumb(a.thumb, 192)} 2x`} alt="" width="48" height="60" class="w-12 h-[60px] object-cover shrink-0 bg-ink/10 transition-transform duration-300 group-hover:scale-105" loading="lazy" decoding="async" />
               <span class="min-w-0">
                 <span class="block font-didone text-2xl md:text-[1.65rem] leading-tight group-hover:text-burgundy transition-colors">{a.name}</span>
                 {a.line && <span class="block text-sm leading-snug text-ink/60">{a.line}</span>}

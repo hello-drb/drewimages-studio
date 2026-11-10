@@ -11,11 +11,11 @@ const arrow = 'w-11 h-11 md:w-12 md:h-12 border border-paper/30 hover:bg-paper h
       <h2 id="pictures-title" class="font-didone leading-[0.85] text-[clamp(3.5rem,9vw,8rem)] tracking-tight">The pictures</h2>
     </div>
     <div class="flex items-center gap-3 md:gap-4 pb-2 md:pb-5">
-      <span class="hidden sm:block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-paper/60 tabular-nums" data-strip-count></span>
+      <span class="hidden sm:block text-sm text-paper/60 tabular-nums" data-strip-count></span>
       <button type="button" class={arrow} data-strip-prev aria-label="Previous picture">&larr;</button>
       <button type="button" class={arrow} data-strip-next aria-label="Next picture">&rarr;</button>
     </div>
   </div>
   <Strip items={BEST_PICTURES} label="Photographs by Drew Bordeaux" />
-  <p class="px-4 md:px-8 mt-8 md:mt-10"><a href="/work" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 hover:text-saffron">All the work &rarr;</a></p>
+  <p class="px-4 md:px-8 mt-8 md:mt-10"><a href="/work" class="text-sm underline underline-offset-4 decoration-paper/40 hover:decoration-paper">All the work</a></p>
 </section>

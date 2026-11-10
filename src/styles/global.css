@@ -1,6 +1,8 @@
 @import '@fontsource-variable/bodoni-moda/standard.css';
 @import '@fontsource-variable/bodoni-moda/standard-italic.css';
 @import '@fontsource-variable/archivo/standard.css';
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
 
 @tailwind base;
 @tailwind components;

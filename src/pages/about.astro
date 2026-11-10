@@ -15,30 +15,30 @@ const description = 'DrewImages is the creative direction and photography studio
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
         <div class="lg:col-span-5 order-2 lg:order-1">
           <div class="relative aspect-[3/4] overflow-hidden bg-gray-200">
-            <Img photo={IMAGES.aboutMain} widths={WIDTHS.half} sizes="(min-width: 1024px) 40vw, 100vw" class="w-full h-full object-cover grayscale contrast-[1.1]" />
+            <Img photo={IMAGES.aboutMain} widths={WIDTHS.half} sizes="(min-width: 1024px) 40vw, 100vw" class="w-full h-full object-cover " />
           </div>
           <div class="flex gap-4 mt-4">
             <div class="w-1/2 aspect-square bg-gray-100 overflow-hidden">
-              <Img photo={IMAGES.aboutDetail} sizes="(min-width: 1024px) 20vw, 50vw" class="w-full h-full object-cover grayscale" />
+              <Img photo={IMAGES.aboutDetail} sizes="(min-width: 1024px) 20vw, 50vw" class="w-full h-full object-cover" />
             </div>
             <div class="w-1/2 flex flex-col justify-end gap-1">
-              <p class="text-xs text-ink/40 uppercase tracking-widest leading-relaxed">On set with Nicole Zuraitis for <a href="/work/the-devil-i-knew" class="underline decoration-ink/20 underline-offset-2 hover:text-ink">The Devil I Knew</a> — NYC, December 2025.</p>
-              <p class="text-[10px] text-ink/30 uppercase tracking-widest">Photo Credit: Lindsey Lerner</p>
+              <p class="text-sm text-ink/60 leading-relaxed">On set with Nicole Zuraitis for <a href="/work/the-devil-i-knew" class="underline decoration-ink/20 underline-offset-2 hover:text-ink">The Devil I Knew</a> — NYC, December 2025.</p>
+              <p class="text-xs text-ink/50">Photo Credit: Lindsey Lerner</p>
             </div>
           </div>
         </div>
 
         <div class="lg:col-span-7 order-1 lg:order-2 lg:pl-12">
-          <span class="block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-ink/50 mb-4">About the studio</span>
-          <h1 class="font-serif text-6xl md:text-8xl mb-12 text-burgundy leading-[0.9] tracking-tight">Drew <span class="italic">Bordeaux.</span></h1>
-          <div class="text-lg text-ink/80 font-light leading-relaxed mb-16 space-y-8">
-            <p class="font-serif text-2xl italic text-ink">DrewImages is the creative direction and photography studio of Drew Bordeaux.</p>
+          
+          <h1 class="font-serif text-6xl md:text-8xl mb-12 leading-[0.9] tracking-tight">Drew Bordeaux</h1>
+          <div class="font-text text-xl text-ink/85 leading-relaxed mb-16 space-y-7">
+            <p class="text-2xl md:text-[1.7rem] leading-snug text-ink">DrewImages is the creative direction and photography studio of Drew Bordeaux.</p>
             <p>I’m an art director and photographer. I’m also a songwriter and record producer, and most of my clients are musicians, so I start from the record: how it sounds, what it’s about, and who the artist is becoming on it. The pictures come out of that.</p>
             <p>I run the whole visual side of a release: the concept, the team, the shoot and the files. My clients include Grammy-winning artists, among them Nicole Zuraitis: I art-directed and photographed her album <a href="/work/the-devil-i-knew" class="italic underline decoration-ink/30 underline-offset-4 hover:decoration-ink">The Devil I Knew</a>. I also photograph founders and brands.</p>
             <p>I’m a member of the Recording Academy. My own records and production work are at <a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=about" class="underline decoration-ink/30 underline-offset-4 hover:decoration-ink">drewbordeaux.com</a>.</p>
           </div>
           <div class="mb-16">
-            <h2 class="text-[10px] font-bold uppercase tracking-[0.25em] text-ink/50 mb-4">The people I bring in</h2>
+            <h2 class="text-sm font-semibold mb-4">The people I bring in</h2>
             <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 border-t border-ink/15">
               {[
                 ['Styling and assistant creative direction', 'Marina Ross'],
@@ -47,14 +47,14 @@ const description = 'DrewImages is the creative direction and photography studio
                 ['Behind-the-scenes video', 'Black Pixel Productions'],
               ].map(([role, name]) => (
                 <div class="py-4 border-b border-ink/10">
-                  <dt class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50 mb-1">{role}</dt>
+                  <dt class="text-sm text-ink/60 mb-1">{role}</dt>
                   <dd class="font-serif text-xl">{name}</dd>
                 </div>
               ))}
             </dl>
           </div>
           <div class="border-t border-ink/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <p class="text-sm font-bold uppercase tracking-widest text-teal">New York and the Hudson Valley. Available worldwide.</p>
+            <p class="text-sm text-ink/60">New York and the Hudson Valley. I travel for projects.</p>
             <Button href="/contact" variant="primary">Start a project</Button>
           </div>
         </div>

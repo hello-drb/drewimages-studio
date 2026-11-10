@@ -1,62 +1,82 @@
 ---
+// Work: the two stories, then a wall of photographs with names underneath, then the brand campaigns.
+// Almost no words: the pictures are the page.
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import Section from '../components/Section.astro';
-import WorkCategoryGrid from '../components/WorkCategoryGrid.astro';
 import { publishedCaseStudies } from '../data/case-studies';
+import { WALL, BRAND_WORK, ARTIST_INDEX, artistSlug } from '../data/artists';
 import { breadcrumbs } from '../data/schema';
+import { cld, srcset } from '../data/cloudinary';
 
 const title = 'Work: album covers, press images and campaigns — DrewImages';
-const description = 'Case studies and an archive of creative direction and photography by Drew Bordeaux, for artists and creators, founders and leaders, and brands.';
+const description = 'Art direction and photography by Drew Bordeaux: album covers, press images and campaigns for musicians, labels, ensembles and brands.';
 const studies = publishedCaseStudies();
+const covered = new Set(ARTIST_INDEX.map((a) => a.name));
+const W = [400, 700, 1000, 1400];
 ---
 <Base title={title} description={description} pageType="CollectionPage" schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }])]}>
-  <div class="min-h-screen bg-paper">
-    <Section class="py-24 md:py-32">
-      <div class="mb-12 md:mb-20 border-b border-ink/20 pb-6 md:pb-8">
-        <h1 class="font-serif text-5xl md:text-8xl text-ink mb-4 md:mb-6">Work</h1>
-        <p class="text-base md:text-lg text-ink/60 max-w-md font-medium">
-          Case studies first, then the archive, <br class="hidden md:inline" />by who the work was for.
-        </p>
+  <div class="bg-paper text-ink">
+    <header class="px-4 md:px-8 pt-28 md:pt-40 pb-8 md:pb-12 flex items-end justify-between gap-6">
+      <h1 class="font-didone text-7xl md:text-9xl leading-[0.85] tracking-tight">Work</h1>
+      <p class="pb-2 text-sm text-ink/60 text-right">Artists, records, ensembles and brands.<br /><a href="/credits" class="underline underline-offset-4 decoration-ink/40 hover:decoration-ink">Every credit</a></p>
+    </header>
+
+    <!-- The stories -->
+    <section class="px-4 md:px-8 pb-16 md:pb-24" aria-label="Stories">
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-8 border-t-[3px] border-ink pt-8 md:pt-10">
+        {studies.map((s) => (
+          <li>
+            <a href={`/work/${s.slug}`} class="group grid grid-cols-5 gap-5 md:gap-7 items-end">
+              {s.cover && <Picture src={s.cover.src} alt={s.cover.alt} widths={[320, 640, 900]} sizes="(min-width: 768px) 20vw, 40vw" formats={['avif', 'webp']} class="col-span-2 w-full aspect-square object-cover" style={`view-transition-name: art-${s.slug};`} />}
+              <span class="col-span-3 pb-1">
+                <span class="block text-sm text-ink/60">{s.artist}</span>
+                <span class="block mt-1 font-didone italic text-4xl md:text-5xl lg:text-6xl leading-[0.95] tracking-tight group-hover:text-burgundy transition-colors">{s.release}</span>
+                <span class="block mt-3 text-sm underline underline-offset-4 decoration-ink/40">The story and the pictures</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- The wall -->
+    <section class="px-4 md:px-8 pb-16 md:pb-24" aria-label="Photographs">
+      <div class="columns-2 md:columns-3 xl:columns-4 gap-3 md:gap-4">
+        {WALL.map((it, n) => {
+          const inner = (
+            <>
+              {it.local ? (
+                <Picture src={it.local} alt={it.alt} widths={[400, 700, 1000]} sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw" formats={['avif', 'webp']} class="w-full h-auto" loading={n < 4 ? 'eager' : 'lazy'} />
+              ) : (
+                <img src={cld(it.cloud!, 700)} srcset={srcset(it.cloud!, W)} sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw" alt={it.alt} width={it.w} height={it.h} class="w-full h-auto bg-ink/5" loading={n < 4 ? 'eager' : 'lazy'} decoding="async" />
+              )}
+              <figcaption class="mt-2 text-sm text-ink/70 min-h-[1.25rem]">{it.name}</figcaption>
+            </>
+          );
+          return (
+            <figure class="mb-5 md:mb-7 break-inside-avoid">
+              {it.name && covered.has(it.name) ? <a href={`/cover/${artistSlug(it.name)}`} class="block hover:opacity-90 transition-opacity">{inner}</a> : inner}
+            </figure>
+          );
+        })}
       </div>
+    </section>
 
-      {studies.length > 0 && (
-        <div class="mb-20 md:mb-32">
-          <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-ink/50 mb-6">Case studies</h2>
-          <div class="border-t-[3px] border-ink"></div>
-          <div class="mt-[3px] border-t border-ink mb-10 md:mb-14"></div>
-          <ul class="space-y-16">
-            {studies.map((study) => (
-              <li>
-                <a href={`/work/${study.slug}`} class="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
-                  {study.cover && (
-                    <div class="md:col-span-5 lg:col-span-4">
-                      <Picture
-                        src={study.cover.src}
-                        alt={study.cover.alt}
-                        widths={[400, 640, 800]}
-                        sizes="(min-width: 1024px) 30vw, (min-width: 768px) 40vw, 100vw"
-                        formats={['avif', 'webp']}
-                        class="w-full aspect-square object-cover shadow-[10px_10px_0_0_rgba(12,12,12,0.12)] group-hover:shadow-none group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all duration-300"
-                      />
-                    </div>
-                  )}
-                  <div class="md:col-span-7 lg:col-span-7 lg:col-start-6">
-                    <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-teal mb-4">No. {study.number} · {study.artist} — {study.format}, {study.year}</span>
-                    <h3 class="font-serif italic text-5xl md:text-7xl leading-[0.9] text-burgundy mb-6">{study.release}</h3>
-                    <p class="font-serif text-xl md:text-2xl leading-snug text-ink/80 max-w-xl mb-6">{study.dek}</p>
-                    {study.coverCaption && <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/50 mb-6">{study.coverCaption}</p>}
-                    <span class="text-xs font-bold uppercase tracking-widest text-ink/50 group-hover:text-teal transition-colors">Read the case study &rarr;</span>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-ink/50 mb-10">The archive</h2>
-      <WorkCategoryGrid />
-    </Section>
+    <!-- Brands and ensembles -->
+    <section class="bg-ink text-paper px-4 md:px-8 py-16 md:py-24" aria-labelledby="brands-title">
+      <div class="flex items-end justify-between gap-6 pb-4 mb-8 md:mb-10 border-b border-paper/25">
+        <h2 id="brands-title" class="font-didone text-4xl md:text-6xl leading-none tracking-tight">Brands and ensembles</h2>
+        <a href="/services#brands" class="text-sm underline underline-offset-4 decoration-paper/40 hover:decoration-paper">Campaigns</a>
+      </div>
+      <ul class="grid grid-cols-2 md:grid-cols-5 gap-x-3 gap-y-8 md:gap-x-4">
+        {BRAND_WORK.map((b) => (
+          <li>
+            <img src={cld(b.cloud!, 700)} srcset={srcset(b.cloud!, W)} sizes="(min-width: 768px) 20vw, 50vw" alt={b.alt} class="w-full aspect-[4/5] object-cover bg-paper/5" loading="lazy" decoding="async" />
+            <p class="mt-2.5 text-sm leading-snug"><span class="font-semibold">{b.name}</span><br /><span class="font-text italic text-base text-paper/70">{b.role}</span></p>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-10 text-sm text-paper/60">More in the archive: <a href="/work/artists" class="underline underline-offset-4">artists</a>, <a href="/work/founders" class="underline underline-offset-4">founders</a>, <a href="/work/brands" class="underline underline-offset-4">brands</a>.</p>
+    </section>
   </div>
 </Base>

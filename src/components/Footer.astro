@@ -1,35 +1,35 @@
 ---
-// The back page: the masthead full width, the links, and the small print.
+// The back cover: one line, the links, the publisher, and the nameplate.
 import Masthead from '../assets/brand/masthead.svg?raw';
 import { NAV_LINKS, CONTACT } from '../data/content';
 
 const year = new Date().getFullYear();
-const links = [...NAV_LINKS, { label: 'Artist development', path: '/artist-development' }, { label: 'Credits', path: '/credits' }, { label: 'Contact', path: '/contact' }];
+const links = [...NAV_LINKS, { label: 'Credits', path: '/credits' }, { label: 'Contact', path: '/contact' }];
 ---
 <footer class="bg-ink text-paper pt-16 md:pt-24 pb-8 relative overflow-hidden">
   <div class="px-4 md:px-8">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mb-14 md:mb-20">
-      <div class="md:col-span-5">
-        <p class="font-serif text-3xl md:text-4xl leading-tight max-w-md">Art direction and photography for records, <span class="italic">and the people who make them.</span></p>
-        <p class="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-paper/50">New York &amp; the Hudson Valley · Available worldwide</p>
+      <div class="md:col-span-6">
+        <p class="font-text text-2xl md:text-3xl leading-snug max-w-lg">Art direction and photography for records, and the people who make them.</p>
+        <p class="mt-4 text-sm text-paper/60">New York and the Hudson Valley. I travel for projects.</p>
       </div>
-      <nav class="md:col-span-3 md:col-start-7" aria-label="Footer">
-        <ul class="space-y-2 text-xs font-bold uppercase tracking-[0.2em]">
+      <nav class="md:col-span-2 md:col-start-8" aria-label="Footer">
+        <ul class="space-y-2 text-sm">
           {links.map((l) => <li><a href={l.path} class="hover:text-saffron transition-colors">{l.label}</a></li>)}
         </ul>
       </nav>
-      <ul class="md:col-span-3 space-y-2 text-xs font-bold uppercase tracking-[0.2em] text-paper/70">
-        <li><a href={`mailto:${CONTACT.email}`} class="hover:text-paper transition-colors normal-case tracking-normal text-sm font-normal">{CONTACT.email}</a></li>
-        <li><a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-paper transition-colors">Instagram ↗</a></li>
-        <li><a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=footer" class="hover:text-paper transition-colors">The records ↗</a></li>
-        <li><a href="/usage" class="hover:text-paper transition-colors">Usage, rights &amp; AI</a></li>
+      <ul class="md:col-span-3 space-y-2 text-sm text-paper/80">
+        <li><a href={`mailto:${CONTACT.email}`} class="hover:text-paper transition-colors">{CONTACT.email}</a></li>
+        <li><a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" class="hover:text-paper transition-colors">Instagram</a></li>
+        <li><a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=footer" class="hover:text-paper transition-colors">My records, at drewbordeaux.com</a></li>
+        <li><a href="/usage" class="hover:text-paper transition-colors">Usage, rights and AI</a></li>
       </ul>
     </div>
 
     <div class="text-paper/90 [&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
 
-    <div class="mt-6 flex flex-col sm:flex-row justify-between gap-2 text-[10px] uppercase tracking-[0.2em] text-paper/40">
-      <span>&copy; {year} DrewImages · Drew Bordeaux</span>
+    <div class="mt-6 flex flex-col sm:flex-row justify-between gap-2 text-xs text-paper/45">
+      <span>&copy; {year} DrewImages. Published by Drew Bordeaux.</span>
       <span>Recording Academy member</span>
     </div>
   </div>

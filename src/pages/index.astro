@@ -8,7 +8,7 @@ import ArtistIndex from '../components/mag/ArtistIndex.astro';
 import Spread from '../components/mag/Spread.astro';
 import Pictures from '../components/mag/Pictures.astro';
 import BackPage from '../components/mag/BackPage.astro';
-import CoverGrid from '../components/v2/CoverGrid.astro';
+import Records from '../components/mag/Records.astro';
 import { CASE_STUDIES } from '../data/case-studies';
 import { COVERS } from '../data/artists';
 import { srcset } from '../data/cloudinary';
@@ -24,6 +24,6 @@ const nicole = CASE_STUDIES.find((c) => c.slug === 'the-devil-i-knew')!;
   <ArtistIndex />
   <Pictures />
   <Spread study={nicole} line={nicole.quote!.text} attribution={`${nicole.quote!.author}, on The Devil I Knew`} art="left" tone="mustard" />
-  <div id="covers" class="scroll-mt-12"><CoverGrid /></div>
+  <Records />
   <BackPage />
 </Base>

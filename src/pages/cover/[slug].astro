@@ -1,0 +1,78 @@
+---
+// Every artist gets a cover: their photograph as an issue of DrewImages, with a link they can share.
+// One page per artist in the index. Kept out of search (thin pages); built to be passed around.
+import Base from '../../layouts/Base.astro';
+import Masthead from '../../assets/brand/masthead.svg?raw';
+import { ARTIST_INDEX, artistSlug } from '../../data/artists';
+
+export function getStaticPaths() {
+  return ARTIST_INDEX.map((artist, i) => ({ params: { slug: artistSlug(artist.name) }, props: { artist, i } }));
+}
+
+const { artist, i } = Astro.props;
+const next = ARTIST_INDEX[(i + 1) % ARTIST_INDEX.length];
+
+// The nameplate band changes with the issue, the way a magazine's does.
+const BANDS = [
+  { bg: '#F3E6C8', ink: '#3D1118' },
+  { bg: '#D9AB3F', ink: '#3D1118' },
+  { bg: '#3D1118', ink: '#D9AB3F' },
+  { bg: '#1F6E7A', ink: '#F3E6C8' },
+  { bg: '#8A2A47', ink: '#F3E6C8' },
+];
+const band = BANDS[i % BANDS.length];
+
+const BASE = 'https://res.cloudinary.com/diduw1fmf/image/upload';
+const crop = (w: number) => `${BASE}/c_fill,g_auto,ar_10:11,w_${w},f_auto,q_auto/${artist.thumb}`;
+const og = `${BASE}/c_fill,g_auto,w_1200,h_630,f_jpg,q_auto/${artist.thumb}`;
+
+const title = `${artist.name}, on the cover — DrewImages`;
+const description = `${artist.name}${artist.line ? `, ${artist.line.charAt(0).toLowerCase()}${artist.line.slice(1)},` : ''} photographed by Drew Bordeaux.`;
+---
+<Base title={title} description={description} ogImage={og} ogImageAlt={`${artist.name}, photographed by Drew Bordeaux`} noindex>
+  <section class="bg-ink text-paper min-h-[100svh] px-4 md:px-8 pt-24 md:pt-28 pb-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+    <div class="lg:col-span-7 flex justify-center lg:justify-end">
+      <figure class="w-[min(100%,calc((100svh-10rem)*0.74))] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.9)] [container-type:inline-size] [view-transition-name:the-cover]">
+        <div class="px-[4.5cqw] pt-[4cqw] pb-[2.5cqw]" style={`background: ${band.bg}; color: ${band.ink};`}>
+          <div class="[&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
+          <p class="mt-[1.6cqw] flex justify-between text-[2.3cqw] leading-none">
+            <span>Issue {i + 1}</span><span>Art direction and photography</span>
+          </p>
+        </div>
+        <div class="relative aspect-[10/11] bg-black">
+          <img src={crop(1000)} srcset={`${crop(600)} 600w, ${crop(1000)} 1000w, ${crop(1600)} 1600w`} sizes="(min-width: 1024px) 45vw, 92vw" alt={`${artist.name}, photographed by Drew Bordeaux`} class="absolute inset-0 w-full h-full object-cover" fetchpriority="high" decoding="async" />
+          <figcaption class="absolute inset-x-0 bottom-0 px-[4.5cqw] pb-[4.5cqw] pt-[22cqw] bg-gradient-to-t from-black/80 via-black/35 to-transparent">
+            <span class="block font-didone leading-[0.9] tracking-tight text-[12.5cqw]">{artist.name}</span>
+            {artist.line && <span class="block mt-[1.8cqw] font-text italic text-[3.9cqw] leading-snug text-paper/90">{artist.line}</span>}
+            <span class="block mt-[2.2cqw] text-[2.5cqw] text-paper/70">Photographed by Drew Bordeaux</span>
+          </figcaption>
+        </div>
+      </figure>
+    </div>
+
+    <div class="lg:col-span-4">
+      <h1 class="font-text text-2xl md:text-3xl leading-snug">{artist.name} is on the cover.</h1>
+      <p class="mt-3 text-sm text-paper/60">Everyone I photograph gets one. This one is theirs to share.</p>
+      <ul class="mt-8 space-y-3 text-base">
+        <li><button type="button" class="underline underline-offset-4 decoration-paper/40 hover:decoration-paper" data-copy>Copy the link to this cover</button> <span class="text-saffron text-sm" data-copied hidden>Copied.</span></li>
+        {artist.href && <li><a href={artist.href} class="underline underline-offset-4 decoration-paper/40 hover:decoration-paper">Read the story behind the pictures</a></li>}
+        <li><a href={`/cover/${artistSlug(next.name)}`} class="underline underline-offset-4 decoration-paper/40 hover:decoration-paper">Next cover: {next.name}</a></li>
+        <li><a href="/work" class="underline underline-offset-4 decoration-paper/40 hover:decoration-paper">See all the work</a></li>
+      </ul>
+      <p class="mt-10"><a href="/contact" class="inline-block text-sm font-semibold px-7 py-4 bg-saffron text-chocolate hover:bg-paper transition-colors">Start a project</a></p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('[data-copy]');
+  const done = document.querySelector<HTMLElement>('[data-copied]');
+  button?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(location.href.split('?')[0]);
+      if (done) done.hidden = false;
+    } catch {
+      window.prompt('Copy this link', location.href);
+    }
+  });
+</script>

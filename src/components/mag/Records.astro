@@ -1,0 +1,27 @@
+---
+// Album covers, in the square they were made for, with the artist and the record underneath.
+import { Picture } from 'astro:assets';
+import Img from '../Img.astro';
+import { ALBUM_ARTWORKS } from '../../data/content';
+import devilCover from '../../assets/work/the-devil-i-knew-cover.jpg';
+---
+<section id="covers" class="bg-paper text-ink px-4 md:px-8 py-16 md:py-24 scroll-mt-12" aria-labelledby="records-title">
+  <div class="flex items-end justify-between gap-6 pb-4 mb-8 md:mb-10 border-b-[3px] border-ink">
+    <h2 id="records-title" class="font-didone text-4xl md:text-6xl leading-none tracking-tight">Album covers</h2>
+    <a href="/credits" class="text-sm underline underline-offset-4 decoration-ink/40 hover:decoration-ink">Every credit</a>
+  </div>
+  <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-3 gap-y-7 md:gap-x-4">
+    <li class="col-span-2 row-span-2">
+      <a href="/work/the-devil-i-knew" class="group block">
+        <Picture src={devilCover} alt="The Devil I Knew by Nicole Zuraitis, album cover" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 33vw, 100vw" formats={['avif', 'webp']} class="w-full aspect-square object-cover" />
+        <p class="mt-2.5 text-sm"><span class="font-semibold group-hover:text-burgundy">Nicole Zuraitis</span> <span class="font-text italic text-base text-ink/70">The Devil I Knew, 2026</span></p>
+      </a>
+    </li>
+    {ALBUM_ARTWORKS.map((c) => (
+      <li>
+        <Img photo={c} widths={[240, 400, 640]} sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw" class="w-full aspect-square object-cover" />
+        <p class="mt-2.5 text-sm leading-snug"><span class="font-semibold">{c.name}</span><br /><span class="font-text italic text-base text-ink/70">{c.project}, {c.year}</span></p>
+      </li>
+    ))}
+  </ul>
+</section>

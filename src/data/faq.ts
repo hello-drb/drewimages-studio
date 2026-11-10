@@ -4,7 +4,7 @@
 export const FAQ: { q: string; a: string }[] = [
   {
     q: 'How much does it cost?',
-    a: 'Creative direction and artist development starts with four sessions and continues by the month; both are quoted after a first call. Release shoots start at $2,500, which covers the planning, the shoot and a retouched set of images. Album campaigns are quoted after a first call, because they depend on the release: how many looks, locations and people it needs.',
+    a: 'Creative direction and artist development starts with four sessions and continues by the month; both are quoted after a first call. Release shoots start at $2,500, which covers the planning, the shoot and a retouched set of images. Album campaigns and campaigns for labels and brands are quoted after a first call, with a written proposal, because they depend on how many looks, locations and people the work needs.',
   },
   {
     q: 'What is artist development?',

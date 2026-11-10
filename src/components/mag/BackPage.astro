@@ -1,13 +1,13 @@
 ---
-// The back of the book: where the pictures ran, the studio's three ways to work (no prices), and the ask.
+// The back of the book: where the pictures ran, the four ways to work (titles only), and the ask.
 import { OFFERS } from '../../data/offers';
 import { PRESS_LOGOS, CONTACT } from '../../data/content';
 import { cld } from '../../data/cloudinary';
 ---
 <!-- Where the pictures ran -->
-<section class="bg-paper text-ink px-4 md:px-8 py-12 md:py-16 border-t border-ink/10">
-  <div class="flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
-    <p class="shrink-0 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-ink/50">Where the pictures ran</p>
+<section class="bg-paper text-ink px-4 md:px-8 py-10 md:py-14 border-t border-ink/10">
+  <div class="flex flex-col md:flex-row md:items-center gap-6 md:gap-14">
+    <p class="shrink-0 text-sm text-ink/60">Where the pictures ran</p>
     <div class="flex flex-wrap items-center gap-x-10 gap-y-6 md:gap-x-16 opacity-70 mix-blend-multiply select-none">
       {PRESS_LOGOS.map((logo) => <img src={cld(logo.src, 400)} alt={logo.name} class="h-5 md:h-7 w-auto object-contain brightness-0" loading="lazy" decoding="async" />)}
     </div>
@@ -15,23 +15,19 @@ import { cld } from '../../data/cloudinary';
 </section>
 
 <!-- The studio -->
-<section id="studio" class="bg-chocolate text-paper px-4 md:px-8 pt-20 md:pt-28 pb-20 md:pb-28 scroll-mt-12" aria-labelledby="studio-title">
+<section id="studio" class="bg-chocolate text-paper px-4 md:px-8 py-20 md:py-28 scroll-mt-12" aria-labelledby="studio-title">
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
     <div class="lg:col-span-4">
-      <p class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-saffron">The studio</p>
-      <h2 id="studio-title" class="mt-5 font-didone text-5xl md:text-7xl leading-[0.92] tracking-tight">Three ways <span class="italic">to work.</span></h2>
-      <p class="mt-6 max-w-sm text-base md:text-lg leading-relaxed text-paper/75">I’m an art director and photographer, and I write and produce records. Every project starts with the songs.</p>
-      <p class="mt-8"><a href="/services" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 hover:text-saffron">How each one works &rarr;</a></p>
+      <h2 id="studio-title" class="font-didone text-5xl md:text-7xl leading-[0.95] tracking-tight">Working together</h2>
+      <p class="mt-6 max-w-sm font-text text-xl leading-relaxed text-paper/80">Four ways in, from a single shoot to a year of releases.</p>
+      <p class="mt-8"><a href="/services" class="text-sm underline underline-offset-4 decoration-paper/40 hover:decoration-paper">How each one works</a></p>
     </div>
     <ol class="lg:col-span-8 border-t-2 border-saffron/70">
       {OFFERS.map((o) => (
         <li class="border-b border-paper/15">
-          <a href={o.href ?? `/services#${o.id}`} class="group grid grid-cols-[3rem_1fr] md:grid-cols-[5rem_1fr_auto] gap-x-4 md:gap-x-8 items-baseline py-7 md:py-9">
-            <span class="font-didone italic text-4xl md:text-6xl leading-none text-saffron">{o.numeral}</span>
-            <span>
-              <span class="block font-grotesk font-black uppercase leading-[0.9] [font-stretch:62%] text-3xl md:text-5xl group-hover:text-saffron transition-colors">{o.title}</span>
-            </span>
-            <span class="hidden md:block font-grotesk text-sm transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+          <a href={o.href ?? `/services#${o.id}`} class="group flex items-baseline gap-5 md:gap-8 py-6 md:py-8">
+            <span class="font-didone italic text-3xl md:text-5xl leading-none text-saffron w-10 md:w-16 shrink-0">{o.numeral}</span>
+            <span class="font-didone text-3xl md:text-5xl leading-[1.02] tracking-tight group-hover:text-saffron transition-colors">{o.title}</span>
           </a>
         </li>
       ))}
@@ -41,14 +37,9 @@ import { cld } from '../../data/cloudinary';
 
 <!-- The ask -->
 <section class="bg-saffron text-chocolate px-4 md:px-8 py-24 md:py-36">
-  <p class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.28em] mb-6">Now booking spring 2027 releases</p>
-  <h2 class="font-didone text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight max-w-5xl">Tell me what <span class="italic">you’re making.</span></h2>
+  <h2 class="font-didone text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight max-w-5xl">Tell me what you’re making.</h2>
   <div class="mt-10 md:mt-14 flex flex-wrap items-center gap-x-8 gap-y-4">
-    <a href="/contact" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-chocolate text-saffron hover:bg-ink transition-colors">Start a project</a>
-    <a href={`mailto:${CONTACT.email}`} class="text-sm border-b border-chocolate/40 pb-1 hover:border-chocolate">{CONTACT.email}</a>
+    <a href="/contact" class="text-sm font-semibold px-8 py-5 bg-chocolate text-saffron hover:bg-ink transition-colors">Start a project</a>
+    <a href={`mailto:${CONTACT.email}`} class="text-base underline underline-offset-4 decoration-chocolate/40 hover:decoration-chocolate">{CONTACT.email}</a>
   </div>
-  <p class="mt-16 md:mt-24 pt-6 border-t border-chocolate/25 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em]">
-    Published by Drew Bordeaux <span class="mx-2 opacity-50">·</span>
-    <a href="https://www.drewbordeaux.com/?utm_source=drewimages&utm_medium=referral&utm_campaign=back-page" class="border-b border-current pb-0.5 hover:opacity-70">The records, at drewbordeaux.com ↗</a>
-  </p>
 </section>

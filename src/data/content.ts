@@ -43,7 +43,7 @@ export interface WorkCategory {
 
 export const NAV_LINKS = [
   { label: 'Work', path: '/work' },
-  { label: 'Services', path: '/services' },
+  { label: 'Studio', path: '/services' },
   { label: 'About', path: '/about' },
 ];
 

@@ -11,6 +11,8 @@ export default {
         sans: ['"Archivo Variable"', '"Archivo"', 'sans-serif'],
         didone: ['"Bodoni Moda Variable"', '"Bodoni Moda"', 'serif'],
         grotesk: ['"Archivo Variable"', '"Archivo"', 'sans-serif'],
+        // v4: the reading face, shared with drewbordeaux.com
+        text: ['"Newsreader Variable"', 'Newsreader', 'Georgia', 'serif'],
       },
       colors: {
         paper: '#F3E6C8', // Warm Cream

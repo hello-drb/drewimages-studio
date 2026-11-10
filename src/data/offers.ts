@@ -1,9 +1,9 @@
-// The three ways to work, used on the home page and on Services, in the order they're sold:
-// creative direction first, album campaigns second, shoots last.
+// The four ways to work, used on the home page and on the Studio page:
+// creative direction, album campaigns, release shoots, and campaigns for labels and brands.
 // Nov 9, 2026: no prices on creative direction yet (Drew's call); the number comes up on a call.
 
 export interface Offer {
-  id: 'direction' | 'campaign' | 'shoot';
+  id: 'direction' | 'campaign' | 'shoot' | 'brands';
   numeral: string;
   title: string;
   /** One or two sentences for the home page. */
@@ -53,5 +53,15 @@ export const OFFERS: Offer[] = [
     forWhom: 'For artists who need a strong set of portraits and press images for what’s coming out next.',
     includes: ['A first call about the music and where the images will run', 'References, styling and the plan for the day', 'A studio or location shoot', 'Retouched selects sized for press, streaming and social'],
     cta: 'Book a shoot',
+  },
+  {
+    id: 'brands',
+    numeral: 'IV',
+    title: 'Label & brand campaigns',
+    summary: 'For labels, ensembles and brands: the idea, the casting, the crew, the shoot days and a delivered library, with usage agreed up front.',
+    price: 'Scoped with a written proposal',
+    forWhom: 'For labels, ensembles and brands that need a whole campaign from one studio. I’ve built them for Talea Ensemble, Isa Tailored & Made, Living Pearl Jewelry, Lauretta’s British Ginger Tea and Trilogy Consignment.',
+    includes: ['A concept and a treatment you can share inside your team', 'Casting, styling, hair and makeup, locations and crew', 'Shoot days for stills, with video when the campaign needs it', 'A delivered library sized for every placement, with usage in writing'],
+    cta: 'Start a campaign',
   },
 ];
