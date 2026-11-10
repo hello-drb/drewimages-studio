@@ -26,6 +26,7 @@ ${credits.map((c) => `- ${c.year}: ${c.artist}, ${c.release}${c.label ? ` (${c.l
 ## Pages
 - [Work](${SITE}/work): case studies and the archive (artists, founders, brands)
 - [Credits](${SITE}/credits): release credits with year, label and role
+- [Creative direction and artist development](${SITE}/artist-development): how the four sessions and the monthly work run, with prices
 - [Services and FAQ](${SITE}/services): what each service includes, prices, and common questions
 - [About](${SITE}/about): Drew Bordeaux and the team he works with
 - [Contact](${SITE}/contact): start a project

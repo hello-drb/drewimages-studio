@@ -1,0 +1,77 @@
+---
+// The first screen: this issue's cover and its contents page.
+// On a phone the cover fills the screen and the contents follow. On a desktop the cover sits on
+// the page like a printed issue, with the contents beside it. One photograph, no cut-outs: the
+// masthead is printed onto the picture (multiply), above the subject's head.
+import Masthead from '../../assets/brand/masthead.svg?raw';
+import { ISSUE, issueLine } from '../../data/issue';
+import { cld, srcset } from '../../data/cloudinary';
+
+const { cover, contents } = ISSUE;
+const issue = issueLine();
+const WIDTHS = [640, 960, 1280, 1600, 2400];
+---
+<section class="bg-paper text-ink md:grid md:grid-cols-12 md:gap-10 lg:gap-14 md:items-start md:px-8 md:pt-24 md:pb-16" aria-label={`DrewImages, issue ${issue.no}`}>
+  <!-- The cover -->
+  <div class="md:col-span-5 lg:col-span-5 md:flex md:justify-end">
+    <a
+      href={cover.href}
+      class="issue-cover group relative block overflow-hidden h-[100svh] min-h-[620px] md:h-auto md:min-h-0 md:aspect-[4/5] md:w-[min(100%,calc((100svh-9rem)*0.8))] md:shadow-[0_34px_70px_-28px_rgba(61,17,24,0.55)] [container-type:inline-size]"
+      style={`background: ${cover.paper}; color: ${cover.ink};`}
+    >
+      <img
+        src={cld(cover.src, 1280)}
+        srcset={srcset(cover.src, WIDTHS)}
+        sizes="(max-width: 767px) 190vw, 70vw"
+        alt={cover.alt}
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.02] [view-transition-name:cover-story]"
+        style={`object-position: ${cover.focus};`}
+      />
+      <!-- Masthead, printed onto the photograph -->
+      <div class="absolute left-[4.5cqw] right-[4.5cqw] top-[9%] md:top-[3.5%] mix-blend-multiply [&>svg]:w-full [&>svg]:h-auto" style={`color: ${cover.mast};`} set:html={Masthead} aria-hidden="true" />
+
+      <!-- Cover lines -->
+      <div class="absolute inset-x-0 bottom-0 h-[58%] pointer-events-none" style="background: linear-gradient(to top, rgba(243,230,200,0.92) 0%, rgba(243,230,200,0.55) 34%, rgba(243,230,200,0) 100%);"></div>
+      <div class="absolute inset-x-0 bottom-0 px-[4.5cqw] pb-[5cqw] md:pb-[4.5cqw]">
+        <span class="block font-grotesk font-bold uppercase tracking-[0.25em] text-[10px] md:text-[2.2cqw] mb-[1.5cqw]" style={`color: ${cover.mast};`}>{cover.kicker}</span>
+        <span class="block font-grotesk font-black uppercase leading-[0.82] [font-stretch:62%] tracking-[-0.01em] text-[17cqw] md:text-[15.5cqw]">{cover.name}</span>
+        <span class="block mt-[2.5cqw] font-didone italic leading-snug text-lg md:text-[3.7cqw] max-w-[78cqw]">{cover.line}</span>
+        <span class="inline-block mt-[3.5cqw] font-grotesk font-bold uppercase tracking-[0.22em] text-xs md:text-[2.2cqw] border-b-2 border-current pb-1 group-hover:opacity-70">Read the feature &rarr;</span>
+      </div>
+      <span class="hidden md:block absolute right-[2cqw] top-1/2 origin-right rotate-90 translate-x-[-1cqw] font-grotesk font-semibold uppercase tracking-[0.3em] text-[1.7cqw] whitespace-nowrap opacity-70">Photographed by Drew Bordeaux</span>
+    </a>
+  </div>
+
+  <!-- The contents page -->
+  <div class="md:col-span-7 px-4 md:px-0 pt-14 pb-16 md:py-0 md:pt-2">
+    <p class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-ink/50">Issue {issue.no} <span class="mx-1">·</span> {issue.month}</p>
+    <h1 class="mt-5 font-didone text-[clamp(2.4rem,4.2vw,4.5rem)] leading-[0.98] tracking-tight text-balance">Art direction and photography for records, <span class="italic">and the people who make them.</span></h1>
+
+    <nav class="mt-10 md:mt-12" aria-label="In this issue">
+      <p class="pb-3 border-b-[3px] border-ink font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.3em]">Contents</p>
+      <ol>
+        {contents.map((c, n) => (
+          <li class="border-b border-ink/15">
+            <a href={c.href} class="group grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[3rem_8.5rem_1fr_auto] items-baseline gap-x-3 md:gap-x-4 py-3.5 md:py-4 hover:bg-ink/[0.04] transition-colors">
+              <span class="font-didone italic text-2xl md:text-3xl leading-none text-burgundy tabular-nums">{String(n + 1).padStart(2, '0')}</span>
+              <span class="hidden md:block font-grotesk text-[10px] font-bold uppercase tracking-[0.22em] text-ink/50">{c.section}</span>
+              <span class="min-w-0">
+                <span class="md:hidden block font-grotesk text-[9px] font-bold uppercase tracking-[0.22em] text-ink/50 mb-0.5">{c.section}</span>
+                <span class="font-didone text-xl md:text-2xl lg:text-[1.7rem] leading-tight">{c.title}</span>
+                {c.by && <span class="block md:inline mt-1 md:mt-0 md:ml-2 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.18em] text-ink/60 whitespace-nowrap">{c.by}</span>}
+              </span>
+              <span class="font-grotesk text-sm transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <div class="mt-8 md:mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
+      <a href="/contact" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] px-7 py-4 bg-ink text-paper hover:bg-burgundy transition-colors">Start a project</a>
+      <span class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-ink/50">Now booking spring 2027 releases</span>
+    </div>
+  </div>
+</section>

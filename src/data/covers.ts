@@ -7,6 +7,8 @@ import { HERO_SLIDES, type Photo } from './content';
 
 export interface CoverIssue {
   photo: Photo;
+  /** This cover's own line: who is on it and where to read or see more. `dek` can be empty. */
+  story: { kicker: string; headline: string; dek: string; href: string; cta: string };
   /** Cloudinary public ID of the stored cut-out: same frame, background removed, not trimmed. */
   cutout: string;
   /** Masthead color, cover-line color, kicker color. */
@@ -34,6 +36,13 @@ export const COVER_ISSUES: CoverIssue[] = [
       year: 2026,
       alt: 'Lauren Minear playing an acoustic guitar in a sheer blush top, her hair blown back, on a gray seamless',
     },
+    story: {
+      kicker: 'Creative direction and photography',
+      headline: 'Lauren Minear',
+      dek: 'Til The World Ends, her 2026 single. The song is quiet, so the cover is too.',
+      href: '/work/til-the-world-ends',
+      cta: 'Read it',
+    },
     cutout: 'drewimages-cover-cutout-lauren-guitar',
     mast: '#8A2A47',
     text: '#3D1118',
@@ -45,6 +54,7 @@ export const COVER_ISSUES: CoverIssue[] = [
   },
   {
     photo: slide('Cyrille Aimée'),
+    story: { kicker: 'Photography', headline: 'Cyrille Aimée', dek: '', href: '/work/artists', cta: 'More portraits' },
     cutout: 'drewimages-cover-cutout-cyrille-green',
     mast: '#D9AB3F',
     text: '#F3E6C8',
@@ -61,6 +71,7 @@ export const COVER_ISSUES: CoverIssue[] = [
       credit: 'Photography',
       alt: 'Cellist Sasha Ono in a plum velvet gown, holding her cello and looking down at it',
     },
+    story: { kicker: 'Photography', headline: 'Sasha Ono', dek: '', href: '/work/artists', cta: 'More portraits' },
     cutout: 'drewimages-cover-cutout-sasha-cello',
     mast: '#6D2B2E',
     text: '#3D1118',

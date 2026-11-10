@@ -2,7 +2,7 @@
 // The home page as a magazine cover, Rolling Stone style. Each issue is a full photograph with the
 // DrewImages masthead set into it and the subject's head in front of the letters: the masthead sits
 // between the photo and a cut-out of the same frame laid exactly on top. Issues crossfade every
-// 7 seconds; the cover lines stay put and take each issue's colors (--cover-ink / --cover-bg /
+// 7 seconds; each issue brings its own cover line, and the lines take the issue's colors (--cover-ink / --cover-bg /
 // --cover-accent, which the header reads too).
 import Masthead from '../../assets/brand/masthead.svg?raw';
 import { COVER_ISSUES, COVER_WIDTHS, COVER_SIZES, issueLine } from '../../data/covers';
@@ -79,30 +79,35 @@ const layer = 'absolute inset-0 w-full h-full object-cover [object-position:var(
     );
   })}
 
-  <!-- Cover lines: shared by every issue -->
+  <!-- Cover lines -->
   <div class="relative z-20 h-full pointer-events-none">
     <p class="absolute top-[18px] md:top-[30px] left-4 md:left-8 font-grotesk text-[10px] md:text-xs font-semibold uppercase tracking-[0.25em] [text-shadow:0_1px_8px_rgba(0,0,0,0.12)]">
       Vol. {issue.vol} · No. {issue.no}<span class="hidden sm:inline"> · {issue.month}</span>
     </p>
 
-    <p class="hidden md:block absolute left-8 top-[calc(84px+(100vw-4rem)*0.2043+14px)] font-grotesk text-sm font-semibold uppercase tracking-[0.25em]">
-      Art direction &amp; photography <span class="opacity-60">·</span> New York &amp; the Hudson Valley
-    </p>
-
-    <p class="hidden lg:flex absolute left-8 top-[calc(84px+(100vw-4rem)*0.2043+44px)] gap-6 font-grotesk text-xs font-semibold uppercase tracking-[0.2em] pointer-events-auto">
+    <p class="hidden lg:flex absolute left-8 top-[calc(84px+(100vw-4rem)*0.2043+14px)] gap-6 font-grotesk text-xs font-semibold uppercase tracking-[0.2em] pointer-events-auto">
       <span class="opacity-70">Also inside</span>
       <a href="/work/artists" class="border-b border-current hover:opacity-70">Thirteen album covers, credited</a>
       <a href="/services" class="border-b border-current hover:opacity-70">How a shoot works</a>
     </p>
 
-    <!-- The cover story -->
+    <!-- What the studio does, then this cover's own line (one per issue, stacked; only the active one shows) -->
     <div class="absolute left-0 right-0 bottom-0 px-4 md:px-8 pb-6 md:pb-10">
-      <p class="md:hidden mb-4 font-grotesk text-[10px] font-semibold uppercase tracking-[0.25em] opacity-90">Art direction &amp; photography · New York &amp; the Hudson Valley</p>
-      <a href="/work/the-devil-i-knew" class="group block max-w-[34rem] pointer-events-auto">
-        <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-[color:var(--cover-accent)] transition-colors duration-1000 mb-2">For your consideration: Best Album Cover</span>
-        <span class="block font-grotesk font-black uppercase leading-[0.82] text-[clamp(3.25rem,10vw,6.5rem)] [font-stretch:62%] tracking-[-0.01em]">The Devil I&nbsp;Knew</span>
-        <span class="block mt-3 font-didone italic text-lg md:text-xl leading-snug max-w-[26rem]">Five chapters, five versions of Nicole Zuraitis. Inside the shoot, from the first frame to the vinyl. <span class="not-italic font-grotesk text-sm font-bold uppercase tracking-widest whitespace-nowrap group-hover:underline">Read it&nbsp;&rarr;</span></span>
-      </a>
+      <h1 class="mb-5 md:mb-7 font-didone italic text-xl md:text-2xl leading-snug max-w-[22rem] md:max-w-[30rem]">Art direction and photography for records, and the people who make them.</h1>
+      <div class="grid">
+        {COVER_ISSUES.map((c, i) => (
+          <a
+            href={c.story.href}
+            class="group block max-w-[34rem] md:max-w-none pointer-events-auto [grid-area:1/1] self-end transition-opacity duration-1000 opacity-0 invisible data-[active=true]:opacity-100 data-[active=true]:visible"
+            data-story
+            data-active={String(i === 0)}
+          >
+            <span class="block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-[color:var(--cover-accent)] transition-colors duration-1000 mb-2">On the cover · {c.story.kicker}</span>
+            <span class="block font-grotesk font-black uppercase leading-[0.82] text-[clamp(3.25rem,10vw,6.5rem)] [font-stretch:62%] tracking-[-0.01em] md:whitespace-nowrap">{c.story.headline}</span>
+            <span class="block mt-3 font-didone italic text-lg md:text-xl leading-snug max-w-[26rem]">{c.story.dek} <span class="not-italic font-grotesk text-sm font-bold uppercase tracking-widest whitespace-nowrap group-hover:underline">{c.story.cta}&nbsp;&rarr;</span></span>
+          </a>
+        ))}
+      </div>
 
       <div class="mt-6 md:mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 pointer-events-auto">
         <a href="/contact" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] px-6 py-4 bg-[color:var(--cover-ink)] text-[color:var(--cover-bg)] transition-colors duration-1000 hover:opacity-90">Start a project</a>
@@ -120,6 +125,7 @@ const layer = 'absolute inset-0 w-full h-full object-cover [object-position:var(
   const cover = document.querySelector<HTMLElement>('[data-cover]');
   if (cover) {
     const issues = Array.from(cover.querySelectorAll<HTMLElement>('[data-issue]'));
+    const stories = Array.from(cover.querySelectorAll<HTMLElement>('[data-story]'));
     const count = cover.querySelector('[data-issue-count]');
     const root = document.documentElement;
     let current = 0;
@@ -137,6 +143,7 @@ const layer = 'absolute inset-0 w-full h-full object-cover [object-position:var(
         el.dataset.active = String(n === current);
         el.setAttribute('aria-hidden', String(n !== current));
       });
+      stories.forEach((el, n) => (el.dataset.active = String(n === current)));
       paint(issues[current]);
       if (count) count.textContent = String(current + 1);
     };

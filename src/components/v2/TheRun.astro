@@ -5,6 +5,12 @@ import Img from '../Img.astro';
 import { IMAGES } from '../../data/content';
 import { WIDTHS } from '../../data/cloudinary';
 import cover from '../../assets/work/the-devil-i-knew-cover.jpg';
+
+interface Props {
+  /** Ends with a link to the case study. Off when the strip is on the case study itself. */
+  link?: boolean;
+}
+const { link = true } = Astro.props;
 import sunburst from '../../assets/work/devil/sunburst-mirror.jpg';
 import p1 from '../../assets/work/devil/part-1-the-mirror.jpg';
 import p2 from '../../assets/work/devil/part-2-the-martyr.jpg';
@@ -61,7 +67,7 @@ const edge = 'flex items-baseline justify-between gap-4 pb-3 mb-4 border-b borde
       <div class="aspect-[4/5] flex items-center justify-center bg-paper/5">
         <Picture src={cover} alt="The Devil I Knew album cover" widths={[400, 640, 900]} sizes="(min-width: 1024px) 26rem, 72vw" formats={['avif', 'webp']} class="w-[86%] aspect-square object-cover shadow-[10px_10px_0_0_rgba(243,230,200,0.08)]" draggable="false" />
       </div>
-      <p class="mt-4 font-didone italic text-lg text-paper/80">For your consideration: Best Album Cover.</p>
+      <p class="mt-4 font-didone italic text-lg text-paper/80">The cover, at twelve inches.</p>
     </li>
 
     <li class={card}>
@@ -94,6 +100,7 @@ const edge = 'flex items-baseline justify-between gap-4 pb-3 mb-4 border-b borde
       <p class="mt-4 font-didone italic text-lg text-paper/80">Twelve inches, on La Reserve Records.</p>
     </li>
 
+    {link && (
     <li class={`${card} justify-start pt-[calc(1rem+28px)]`}>
       <a href="/work/the-devil-i-knew" class="group aspect-[4/5] flex flex-col justify-end p-6 md:p-8 bg-saffron text-chocolate hover:bg-paper transition-colors">
         <span class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-3">The whole story</span>
@@ -101,6 +108,7 @@ const edge = 'flex items-baseline justify-between gap-4 pb-3 mb-4 border-b borde
         <span class="mt-4 font-didone italic text-xl">Concept, team, chapters, credits &rarr;</span>
       </a>
     </li>
+    )}
   </ol>
 </section>
 

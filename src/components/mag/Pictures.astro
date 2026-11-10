@@ -1,0 +1,22 @@
+---
+// "The pictures": the year's photographs as one long sliding strip.
+import Strip from './Strip.astro';
+import { PICTURES_2026 } from '../../data/issue';
+
+const arrow = 'w-11 h-11 md:w-12 md:h-12 border border-paper/30 hover:bg-paper hover:text-ink transition-colors';
+---
+<section id="pictures" class="bg-ink text-paper pt-16 md:pt-24 pb-14 md:pb-20 overflow-hidden scroll-mt-12" aria-labelledby="pictures-title">
+  <div class="px-4 md:px-8 flex items-end justify-between gap-6 mb-8 md:mb-12">
+    <div class="flex items-end gap-5 md:gap-8">
+      <h2 id="pictures-title" class="font-didone leading-[0.8] text-[clamp(5.5rem,17vw,15rem)] tracking-tight"><span class="sr-only">The pictures, </span>2026</h2>
+      <p class="pb-2 md:pb-5 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.28em] text-saffron leading-relaxed">The pictures<br /><span class="text-paper/50">Frame by frame</span></p>
+    </div>
+    <div class="flex items-center gap-3 md:gap-4 pb-2 md:pb-5">
+      <span class="hidden sm:block font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-paper/60 tabular-nums" data-strip-count></span>
+      <button type="button" class={arrow} data-strip-prev aria-label="Previous picture">&larr;</button>
+      <button type="button" class={arrow} data-strip-next aria-label="Next picture">&rarr;</button>
+    </div>
+  </div>
+  <Strip items={PICTURES_2026} label="Photographs from 2026" />
+  <p class="px-4 md:px-8 mt-8 md:mt-10"><a href="/work" class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 hover:text-saffron">All the work &rarr;</a></p>
+</section>

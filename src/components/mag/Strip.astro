@@ -1,0 +1,103 @@
+---
+// A filmstrip of photographs at one height, each at its own width: the sliding pictures.
+// Touch scrolls it natively, a mouse can drag it, and any [data-strip-prev] / [data-strip-next]
+// button in the same <section> steps it one frame. [data-strip-count] shows "3 / 11".
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { cld, srcset } from '../../data/cloudinary';
+
+export interface StripItem {
+  /** A Cloudinary public ID with its pixel size, or an image in the repo. */
+  cloud?: string;
+  w?: number;
+  h?: number;
+  local?: ImageMetadata;
+  alt: string;
+  /** Who, then what: "Lauren Minear" / "Til The World Ends, 2026". */
+  name: string;
+  note?: string;
+}
+
+interface Props {
+  items: StripItem[];
+  label: string;
+  /** Light captions for dark sections (default) or dark captions for paper. */
+  tone?: 'dark' | 'light';
+}
+
+const { items, label, tone = 'dark' } = Astro.props;
+const ratio = (i: StripItem) => (i.local ? i.local.width / i.local.height : (i.w ?? 3) / (i.h ?? 2));
+const WIDTHS = [600, 900, 1400, 2000];
+const caption = tone === 'dark' ? 'text-paper/60' : 'text-ink/60';
+const strong = tone === 'dark' ? 'text-paper' : 'text-ink';
+---
+<ol
+  class="flex gap-3 md:gap-5 overflow-x-auto snap-x snap-proximity scroll-px-4 md:scroll-px-8 no-scrollbar px-4 md:px-8 cursor-grab active:cursor-grabbing"
+  data-strip
+  aria-label={label}
+>
+  {items.map((it, n) => (
+    <li class="snap-start shrink-0">
+      <div class="h-[56svh] md:h-[72vh] max-h-[820px] overflow-hidden bg-black/10" style={`aspect-ratio: ${ratio(it).toFixed(4)};`}>
+        {it.local ? (
+          <Picture src={it.local} alt={it.alt} widths={[480, 800, 1200, 1600]} sizes={`${Math.round(ratio(it) * 72)}vh`} formats={['avif', 'webp']} class="w-full h-full object-cover" loading={n < 2 ? 'eager' : 'lazy'} draggable="false" />
+        ) : (
+          <img src={cld(it.cloud!, 1400)} srcset={srcset(it.cloud!, WIDTHS)} sizes={`${Math.round(ratio(it) * 72)}vh`} alt={it.alt} class="w-full h-full object-cover" loading={n < 2 ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+        )}
+      </div>
+      <p class={`mt-3 flex items-baseline gap-3 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] ${caption}`}>
+        <span class="tabular-nums">{String(n + 1).padStart(2, '0')}</span>
+        <span class={strong}>{it.name}</span>
+        {it.note && <span class="normal-case tracking-normal font-normal font-didone italic text-sm md:text-base">{it.note}</span>}
+      </p>
+    </li>
+  ))}
+</ol>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-strip]').forEach((strip) => {
+    const section = strip.closest('section');
+    const frames = Array.from(strip.children) as HTMLElement[];
+    const count = section?.querySelector('[data-strip-count]');
+    const index = () => {
+      const left = strip.scrollLeft + 24;
+      let i = 0;
+      frames.forEach((f, n) => {
+        if (f.offsetLeft - strip.offsetLeft <= left) i = n;
+      });
+      return i;
+    };
+    const go = (n: number) => {
+      const f = frames[Math.max(0, Math.min(frames.length - 1, n))];
+      strip.scrollTo({ left: f.offsetLeft - strip.offsetLeft - parseFloat(getComputedStyle(strip).paddingLeft), behavior: 'smooth' });
+    };
+    section?.querySelector('[data-strip-next]')?.addEventListener('click', () => go(index() + 1));
+    section?.querySelector('[data-strip-prev]')?.addEventListener('click', () => go(index() - 1));
+    const paint = () => {
+      if (count) count.textContent = `${index() + 1} / ${frames.length}`;
+    };
+    strip.addEventListener('scroll', paint, { passive: true });
+    paint();
+
+    // Mouse drag
+    let startX = 0;
+    let startScroll = 0;
+    let dragging = false;
+    strip.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      dragging = true;
+      startX = e.clientX;
+      startScroll = strip.scrollLeft;
+      strip.style.scrollSnapType = 'none';
+    });
+    strip.addEventListener('pointermove', (e) => {
+      if (dragging) strip.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    const stop = () => {
+      dragging = false;
+      strip.style.scrollSnapType = '';
+    };
+    strip.addEventListener('pointerup', stop);
+    strip.addEventListener('pointerleave', stop);
+  });
+</script>

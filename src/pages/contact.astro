@@ -1,6 +1,6 @@
 ---
 // Contact: the inquiry form. Same Web3Forms request as the old site, plus project type, timing,
-// links and budget, so the first reply can be useful. ?type=shoot|campaign|ongoing preselects the type.
+// links and budget, so the first reply can be useful. ?type=direction|campaign|shoot preselects the type.
 import Base from '../layouts/Base.astro';
 import Img from '../components/Img.astro';
 import { IMAGES, CONTACT } from '../data/content';
@@ -51,9 +51,9 @@ const label = 'block text-[10px] font-bold uppercase tracking-[0.2em] mb-2 text-
             <label for="project_type" class={label}>What’s it for?</label>
             <select id="project_type" name="project_type" class={`${field} appearance-none`}>
               <option value="">Choose one</option>
-              <option value="shoot">A release shoot</option>
+              <option value="direction">Creative direction and artist development</option>
               <option value="campaign">An album campaign</option>
-              <option value="ongoing">Ongoing creative direction</option>
+              <option value="shoot">A release shoot</option>
               <option value="other">Something else</option>
             </select>
           </div>

@@ -29,6 +29,7 @@ export const GET: APIRoute = async () => {
       images: [cloud(c.cover.src), ...c.gallery.map((g) => cloud(g.src)), ...(c.id === 'artists' ? ALBUM_ARTWORKS.map((a) => cloud(a.src)) : [])],
     })),
     { path: '/credits', images: confirmedCredits().filter((c) => !c.cover.startsWith('local:')).map((c) => cloud(c.cover)) },
+    { path: '/artist-development', images: [cloud('lauren-minear-autumn-white-dress-1')] },
     { path: '/services', images: [cloud(IMAGES.serviceIdentity.src)] },
     { path: '/about', images: [cloud(IMAGES.aboutMain.src), cloud(IMAGES.aboutDetail.src)] },
     { path: '/contact', images: [] },

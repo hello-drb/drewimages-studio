@@ -11,15 +11,18 @@ import { WIDTHS, ogImage } from '../data/cloudinary';
 import devilCover from '../assets/work/the-devil-i-knew-cover.jpg';
 import laurenCover from '../assets/work/lauren/til-the-world-ends-cover.jpg';
 
-const title = 'Services: release shoots, album campaigns and creative direction — DrewImages';
-const description = 'Release shoots from $2,500, album campaigns for artists, labels and management, and ongoing creative direction. Art direction and photography by Drew Bordeaux, New York and the Hudson Valley.';
+const title = 'Services: creative direction, album campaigns and release shoots — DrewImages';
+const description = 'Creative direction and artist development for artists with a record underway, album campaigns for artists, labels and management, and release shoots from $2,500. By Drew Bordeaux, New York and the Hudson Valley.';
 
 const faqSchema = {
   '@type': 'FAQPage',
   mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 };
 
-const [shoot, campaign, ongoing] = OFFERS;
+const offer = (id: string) => OFFERS.find((o) => o.id === id)!;
+const direction = offer('direction');
+const campaign = offer('campaign');
+const shoot = offer('shoot');
 const label = 'block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4';
 ---
 <Base title={title} description={description} ogImage={ogImage(IMAGES.serviceIdentity.src, 'face')} ogImageAlt={IMAGES.serviceIdentity.alt} schema={[faqSchema]}>
@@ -36,22 +39,24 @@ const label = 'block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em
     </nav>
   </section>
 
-  <!-- I. Release shoots -->
-  <section id={shoot.id} class="bg-teal text-paper py-20 md:py-28 px-4 md:px-8 scroll-mt-16">
+  <!-- I. Creative direction and artist development -->
+  <section id={direction.id} class="bg-ink text-paper py-20 md:py-28 px-4 md:px-8 scroll-mt-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
       <div class="lg:col-span-5 order-2 lg:order-1">
-        <div class="aspect-[3/4] overflow-hidden bg-ink/10">
-          <Img photo={IMAGES.serviceIdentity} widths={WIDTHS.half} sizes="(min-width: 1024px) 40vw, 100vw" class="w-full h-full object-cover" />
+        <div class="aspect-[2/3] overflow-hidden bg-paper/5 max-w-md">
+          <Img photo={{ src: 'lauren-minear-autumn-white-dress-1', name: 'Lauren Minear', alt: 'Lauren Minear in a white dress, sitting in fallen leaves at dusk and looking away' }} widths={WIDTHS.half} sizes="(min-width: 1024px) 30vw, 100vw" class="w-full h-full object-cover" />
         </div>
+        <p class="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-paper/50">Lauren Minear, one of the artists I work with across releases</p>
       </div>
       <div class="lg:col-span-6 lg:col-start-7 order-1 lg:order-2 lg:sticky lg:top-28">
-        <span class={`${label} text-mustard`}>{shoot.numeral}. {shoot.price}</span>
-        <h2 class="font-sans font-black uppercase leading-[0.85] text-[clamp(3rem,7vw,6rem)] [font-stretch:62%]">{shoot.title}</h2>
-        <p class="mt-6 font-serif text-2xl leading-snug">{shoot.forWhom}</p>
+        <span class={`${label} text-mustard`}>{direction.numeral}. {direction.price}</span>
+        <h2 class="font-sans font-black uppercase leading-[0.85] text-[clamp(3rem,7vw,6rem)] [font-stretch:62%]">{direction.title}</h2>
+        <p class="mt-6 font-serif text-2xl leading-snug">{direction.forWhom}</p>
         <ul class="mt-8 border-t border-paper/25">
-          {shoot.includes.map((i) => <li class="py-3 border-b border-paper/15 text-base md:text-lg">{i}</li>)}
+          {direction.includes.map((i) => <li class="py-3 border-b border-paper/15 text-base md:text-lg">{i}</li>)}
         </ul>
-        <a href={`/contact?type=${shoot.id}`} class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-paper text-teal hover:bg-mustard hover:text-ink transition-colors">{shoot.cta}</a>
+        <p class="mt-6 text-sm text-paper/70"><a href="/artist-development" class="underline underline-offset-4 hover:text-paper">How the four sessions and the monthly work run</a>.</p>
+        <a href={`/contact?type=${direction.id}`} class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-mustard text-ink hover:bg-paper transition-colors">{direction.cta}</a>
       </div>
     </div>
   </section>
@@ -84,23 +89,22 @@ const label = 'block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em
     </div>
   </section>
 
-  <!-- III. Ongoing creative direction -->
-  <section id={ongoing.id} class="bg-ink text-paper py-20 md:py-28 px-4 md:px-8 scroll-mt-16">
+  <!-- III. Release shoots -->
+  <section id={shoot.id} class="bg-teal text-paper py-20 md:py-28 px-4 md:px-8 scroll-mt-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
       <div class="lg:col-span-5 order-2 lg:order-1">
-        <div class="aspect-[2/3] overflow-hidden bg-paper/5 max-w-md">
-          <Img photo={{ src: 'lauren-minear-autumn-white-dress-1', name: 'Lauren Minear', alt: 'Lauren Minear in a white dress, sitting in fallen leaves at dusk and looking away' }} widths={WIDTHS.half} sizes="(min-width: 1024px) 30vw, 100vw" class="w-full h-full object-cover" />
+        <div class="aspect-[3/4] overflow-hidden bg-ink/10">
+          <Img photo={IMAGES.serviceIdentity} widths={WIDTHS.half} sizes="(min-width: 1024px) 40vw, 100vw" class="w-full h-full object-cover" />
         </div>
-        <p class="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-paper/50">Lauren Minear, one of the artists I work with across releases</p>
       </div>
       <div class="lg:col-span-6 lg:col-start-7 order-1 lg:order-2 lg:sticky lg:top-28">
-        <span class={`${label} text-mustard`}>{ongoing.numeral}. {ongoing.price}</span>
-        <h2 class="font-sans font-black uppercase leading-[0.85] text-[clamp(3rem,7vw,6rem)] [font-stretch:62%]">{ongoing.title}</h2>
-        <p class="mt-6 font-serif text-2xl leading-snug">{ongoing.forWhom}</p>
+        <span class={`${label} text-mustard`}>{shoot.numeral}. {shoot.price}</span>
+        <h2 class="font-sans font-black uppercase leading-[0.85] text-[clamp(3rem,7vw,6rem)] [font-stretch:62%]">{shoot.title}</h2>
+        <p class="mt-6 font-serif text-2xl leading-snug">{shoot.forWhom}</p>
         <ul class="mt-8 border-t border-paper/25">
-          {ongoing.includes.map((i) => <li class="py-3 border-b border-paper/15 text-base md:text-lg">{i}</li>)}
+          {shoot.includes.map((i) => <li class="py-3 border-b border-paper/15 text-base md:text-lg">{i}</li>)}
         </ul>
-        <a href={`/contact?type=${ongoing.id}`} class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-mustard text-ink hover:bg-paper transition-colors">{ongoing.cta}</a>
+        <a href={`/contact?type=${shoot.id}`} class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-paper text-teal hover:bg-mustard hover:text-ink transition-colors">{shoot.cta}</a>
       </div>
     </div>
   </section>
@@ -126,7 +130,7 @@ const label = 'block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em
   <!-- The ask -->
   <section class="bg-chocolate text-saffron py-20 md:py-28 px-4 md:px-8">
     <h2 class="font-serif text-5xl md:text-7xl leading-[0.92] tracking-tight max-w-4xl">Tell me what <span class="italic">you’re making.</span></h2>
-    <p class="mt-6 text-paper/75 text-lg max-w-xl">Projects start at $2,500. Album campaigns and ongoing direction are quoted after a first call.</p>
+    <p class="mt-6 text-paper/75 text-lg max-w-xl">Release shoots start at $2,500. Creative direction and album campaigns are quoted after a first call.</p>
     <a href="/contact" class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">Start a project</a>
   </section>
 </Base>

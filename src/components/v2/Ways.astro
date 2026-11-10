@@ -11,9 +11,10 @@ import { OFFERS } from '../../data/offers';
     {OFFERS.map((w, i) => (
       <li class={`py-8 md:py-10 md:px-8 first:md:pl-0 last:md:pr-0 border-b md:border-b-0 border-turquoise/30 flex flex-col ${i > 0 ? 'md:border-l' : ''}`}>
         <span class="block font-serif italic text-6xl md:text-7xl leading-none mb-6">{w.numeral}</span>
-        <h3 class="font-sans font-black uppercase text-3xl md:text-4xl leading-none [font-stretch:62%] mb-4 text-paper">{w.title}</h3>
+        <h3 class="font-sans font-black uppercase text-3xl md:text-4xl leading-none [font-stretch:62%] mb-4 text-paper">{w.href ? <a href={w.href} class="hover:text-turquoise transition-colors">{w.title}</a> : w.title}</h3>
         <p class="text-base md:text-lg leading-relaxed text-paper/80 max-w-sm mb-6">{w.summary}</p>
-        <p class="mt-auto text-xs font-bold uppercase tracking-[0.2em]">{w.price}</p>
+        <p class="mt-auto text-xs font-bold uppercase tracking-[0.2em] leading-relaxed">{w.price}</p>
+        {w.href && <p class="mt-4"><a href={w.href} class="text-xs font-bold uppercase tracking-[0.2em] text-paper border-b-2 border-paper/50 pb-1 hover:border-paper">How it works &rarr;</a></p>}
       </li>
     ))}
   </ol>

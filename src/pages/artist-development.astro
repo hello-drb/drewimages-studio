@@ -1,0 +1,137 @@
+---
+// Creative direction and artist development: the lead offer. Four sessions to set the direction,
+// then a monthly partnership across the releases. DRAFT COPY (Nov 9, 2026): no prices shown (Drew's call);
+// the session list and the "two new artists" line are waiting on his OK.
+import Base from '../layouts/Base.astro';
+import Img from '../components/Img.astro';
+import { OFFERS } from '../data/offers';
+import { WIDTHS, ogImage } from '../data/cloudinary';
+import { STUDIO_ID, breadcrumbs } from '../data/schema';
+
+const offer = OFFERS.find((o) => o.id === 'direction')!;
+
+const title = 'Creative direction and artist development for musicians — DrewImages';
+const description = 'Creative direction and artist development with Drew Bordeaux, art director, photographer and record producer. Four sessions to set the direction of a record, then month to month across the releases.';
+
+const lauren = {
+  src: 'lauren-minear-autumn-white-dress-1',
+  name: 'Lauren Minear',
+  alt: 'Lauren Minear in a white dress, sitting in fallen leaves at dusk and looking away',
+};
+
+const sessions = [
+  'Who you are on this record: what has changed since the last one, and what the songs are about',
+  'The look: references, color, and wardrobe with stylist Marina Ross',
+  'The release plan: which songs come out, in what order, and what each one needs',
+  'Art direction for the first release: the cover idea and the plan for the shoot',
+];
+
+const monthly = [
+  'Creative direction for each single and the album: artwork, photographs, video and the rollout',
+  'Artist strategy: which shows to play, what to wear, the set list, what to say yes to',
+  'Two calls a month, messages in between, and a longer planning session each quarter',
+  'Notes on mixes and masters from someone who makes records',
+];
+
+const serviceSchema = {
+  '@type': 'Service',
+  name: 'Creative direction and artist development',
+  serviceType: 'Creative direction and artist development for musicians',
+  provider: { '@id': STUDIO_ID },
+  description,
+};
+
+const label = 'block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] mb-4';
+const cta = `/contact?type=${offer.id}`;
+---
+<Base
+  title={title}
+  description={description}
+  ogImage={ogImage(lauren.src, 'face')}
+  ogImageAlt={lauren.alt}
+  schema={[serviceSchema, breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }, { name: 'Creative direction and artist development', path: '/artist-development' }])]}
+>
+  <!-- Header -->
+  <section class="bg-paper bg-grain text-ink pt-32 md:pt-44 pb-16 md:pb-24 px-4 md:px-8">
+    <span class={`${label} text-ink/50`}>Creative direction &amp; artist development</span>
+    <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight max-w-6xl">A creative director <span class="italic">for the whole record.</span></h1>
+    <p class="mt-8 max-w-2xl text-lg md:text-xl leading-relaxed text-ink/80">
+      I work with a few artists across a full run of releases. I’m an art director and photographer, and I write and produce records, so I start with the songs. Together we decide who you are on this record, what it looks like and how it comes out. Then I direct the shoots and the artwork that carry it.
+    </p>
+    <a href={cta} class="inline-block mt-10 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-ink text-paper hover:bg-burgundy transition-colors">{offer.cta}</a>
+  </section>
+
+  <!-- Who it's for -->
+  <section class="bg-teal text-paper py-20 md:py-28 px-4 md:px-8" aria-labelledby="who-title">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+      <h2 id="who-title" class={`${label} lg:col-span-3 text-mustard`}>Who it’s for</h2>
+      <div class="lg:col-span-8">
+        <p class="font-serif text-3xl md:text-5xl leading-[1.08] tracking-tight">Artists with songs underway and a producer making them.</p>
+        <p class="mt-6 max-w-2xl text-lg md:text-xl leading-relaxed text-paper/85">The music is in hand. What’s still open is everything people see: the cover, the photographs, the wardrobe, the order of the singles, the stage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- I. The first four sessions -->
+  <section id="sessions" class="bg-mustard text-ink py-20 md:py-28 px-4 md:px-8 scroll-mt-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div class="lg:col-span-5">
+        <span class={`${label} text-burgundy`}>I. To start</span>
+        <h2 class="font-sans font-black uppercase leading-[0.85] text-[clamp(3rem,7vw,6rem)] [font-stretch:62%]">The first four sessions</h2>
+        <p class="mt-6 font-serif text-2xl leading-snug">We start with four working sessions. Each one settles a part of the record.</p>
+      </div>
+      <div class="lg:col-span-6 lg:col-start-7">
+        <ol class="border-t border-ink/25">
+          {sessions.map((s, i) => (
+            <li class="py-4 border-b border-ink/15 flex gap-5 text-base md:text-lg">
+              <span class="font-serif italic text-2xl leading-none w-6 shrink-0">{i + 1}</span>
+              <span>{s}</span>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-6 text-base md:text-lg leading-relaxed">You leave with a written direction for the record that a photographer, a designer or a label can work from.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- II. Month to month -->
+  <section id="monthly" class="bg-ink text-paper py-20 md:py-28 px-4 md:px-8 scroll-mt-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div class="lg:col-span-5">
+        <span class={`${label} text-mustard`}>II. By the month</span>
+        <h2 class="font-sans font-black uppercase leading-[0.85] text-[clamp(3rem,7vw,6rem)] [font-stretch:62%]">Then, month to month</h2>
+        <p class="mt-6 font-serif text-2xl leading-snug">After the four sessions I stay on as creative director across the releases.</p>
+      </div>
+      <div class="lg:col-span-6 lg:col-start-7">
+        <ul class="border-t border-paper/25">
+          {monthly.map((m) => <li class="py-4 border-b border-paper/15 text-base md:text-lg">{m}</li>)}
+        </ul>
+        <p class="mt-6 text-base md:text-lg leading-relaxed text-paper/80">Shoots and video days are booked as the releases need them, at my day rate.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lauren -->
+  <section class="bg-paper bg-grain text-ink py-20 md:py-28 px-4 md:px-8" aria-labelledby="lauren-title">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div class="lg:col-span-5">
+        <div class="aspect-[2/3] overflow-hidden bg-ink/10 max-w-md">
+          <Img photo={lauren} widths={WIDTHS.half} sizes="(min-width: 1024px) 34vw, 100vw" class="w-full h-full object-cover" />
+        </div>
+      </div>
+      <div class="lg:col-span-6 lg:col-start-7">
+        <span class={`${label} text-teal`}>How it has gone</span>
+        <h2 id="lauren-title" class="font-serif italic text-5xl md:text-7xl leading-[0.95] tracking-tight text-burgundy">Lauren Minear</h2>
+        <p class="mt-6 max-w-xl text-lg md:text-xl leading-relaxed text-ink/80">Lauren and I started this way in 2026. I’ve directed and photographed her releases since, <em>Til The World Ends</em> among them.</p>
+        <p class="mt-8"><a href="/work/til-the-world-ends" class="text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 hover:text-burgundy">Read about Til The World Ends &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The ask -->
+  <section class="bg-chocolate text-saffron py-24 md:py-36 px-4 md:px-8">
+    <span class="block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-paper/60 mb-6">Taking on two new artists for 2027</span>
+    <h2 class="font-serif text-6xl md:text-8xl leading-[0.9] tracking-tight max-w-5xl">Tell me about <span class="italic">the record.</span></h2>
+    <a href={cta} class="inline-block mt-10 md:mt-14 text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">{offer.cta}</a>
+  </section>
+</Base>

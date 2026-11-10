@@ -1,58 +1,40 @@
 ---
-// The home page as a magazine: the cover, this issue's features, where one shoot went, the grid of
-// album covers, three ways to work, what clients say, the archive, and the ask.
+// The home page is an issue of the magazine: the cover and contents, the lead feature as a spread,
+// the year's pictures sliding, a second feature, the album covers, and the back of the book.
+// What's in the issue lives in src/data/issue.ts.
 import Base from '../layouts/Base.astro';
-import Cover from '../components/v2/Cover.astro';
-import Features from '../components/v2/Features.astro';
-import TheRun from '../components/v2/TheRun.astro';
+import Issue from '../components/mag/Issue.astro';
+import Spread from '../components/mag/Spread.astro';
+import Pictures from '../components/mag/Pictures.astro';
+import BackPage from '../components/mag/BackPage.astro';
 import CoverGrid from '../components/v2/CoverGrid.astro';
-import Ways from '../components/v2/Ways.astro';
-import Perspectives from '../components/v2/Perspectives.astro';
-import WorkCategoryGrid from '../components/WorkCategoryGrid.astro';
-import { PRESS_LOGOS, CONTACT } from '../data/content';
-import { COVER_ISSUES, COVER_WIDTHS, COVER_SIZES } from '../data/covers';
-import { cld, srcset } from '../data/cloudinary';
+import { CASE_STUDIES } from '../data/case-studies';
+import { ISSUE } from '../data/issue';
+import { srcset } from '../data/cloudinary';
 
 const title = 'DrewImages — art direction and photography by Drew Bordeaux';
 const description = 'Album covers, press images and campaigns for musicians, labels and brands. Art direction and photography by Drew Bordeaux, New York and the Hudson Valley.';
+
+const study = (slug: string) => CASE_STUDIES.find((c) => c.slug === slug)!;
+const lauren = study('til-the-world-ends');
+const nicole = study('the-devil-i-knew');
 ---
 <Base title={title} description={description} cover ogImageAlt="Portrait by DrewImages">
-  <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVER_ISSUES[0].photo.src, COVER_WIDTHS)} imagesizes={COVER_SIZES} fetchpriority="high" />
-  <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVER_ISSUES[0].cutout, COVER_WIDTHS)} imagesizes={COVER_SIZES} fetchpriority="high" />
+  <link slot="head" rel="preload" as="image" imagesrcset={srcset(ISSUE.cover.src, [640, 960, 1280, 1600, 2400])} imagesizes="(max-width: 767px) 190vw, 70vw" fetchpriority="high" />
 
-  <Cover />
-  <Features />
-  <TheRun />
-  <CoverGrid />
-  <Ways />
-  <Perspectives />
-
-  <!-- The archive -->
-  <section class="bg-paper text-ink py-20 md:py-28 px-4 md:px-8" aria-labelledby="archive-title">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-14">
-      <h2 id="archive-title" class="font-serif text-5xl md:text-7xl leading-[0.92] tracking-tight">The <span class="italic">archive.</span></h2>
-      <p class="font-serif italic text-xl max-w-md">Portraits and campaigns for musicians, founders and brands, by who the work was for.</p>
-    </div>
-    <WorkCategoryGrid />
-  </section>
-
-  <!-- Press -->
-  <section class="bg-paper text-ink pb-16 md:pb-24 px-4 md:px-8">
-    <p class="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-ink/40 mb-10 pt-12 md:pt-16 border-t border-ink/10">Selected editorial platforms</p>
-    <div class="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-60 mix-blend-multiply select-none">
-      {PRESS_LOGOS.map((logo) => (
-        <img src={cld(logo.src, 400)} alt={logo.name} class="h-5 md:h-7 w-auto object-contain brightness-0" loading="lazy" decoding="async" />
-      ))}
-    </div>
-  </section>
-
-  <!-- The ask -->
-  <section class="bg-chocolate text-saffron py-24 md:py-36 px-4 md:px-8">
-    <span class="block text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-paper/60 mb-6">Now booking spring 2027 releases</span>
-    <h2 class="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] tracking-tight max-w-5xl">Tell me what <span class="italic">you’re making.</span></h2>
-    <div class="mt-10 md:mt-14 flex flex-wrap items-center gap-x-8 gap-y-4">
-      <a href="/contact" class="text-xs font-bold uppercase tracking-[0.2em] px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">Start a project</a>
-      <a href={`mailto:${CONTACT.email}`} class="text-sm text-paper/80 border-b border-paper/40 pb-1 hover:text-paper">{CONTACT.email}</a>
-    </div>
-  </section>
+  <Issue />
+  <Spread study={lauren} line="The obvious cover was the apocalypse. The song is quiet, so the cover is too." art="right" />
+  <Pictures />
+  <Spread study={nicole} line={nicole.quote!.text} attribution={`${nicole.quote!.author}, on The Devil I Knew`} art="left" tone="mustard" />
+  <div id="covers" class="scroll-mt-12"><CoverGrid /></div>
+  <BackPage />
 </Base>
+
+<style is:global>
+  /* The header reads these on the home page (cover state) */
+  :root {
+    --cover-ink: #3d1118;
+    --cover-bg: #f3e6c8;
+    --cover-accent: #8a2a47;
+  }
+</style>
