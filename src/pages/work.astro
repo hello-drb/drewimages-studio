@@ -72,7 +72,7 @@ const W = [400, 700, 1000, 1400];
       </div>
       <ul class="grid grid-cols-2 md:grid-cols-5 gap-x-3 gap-y-8 md:gap-x-4">
         {BRAND_WORK.map((b) => (
-          <li>
+          <li id={artistSlug(b.name)} class="scroll-mt-24">
             <img src={cld(b.cloud!, 700)} srcset={srcset(b.cloud!, W)} sizes="(min-width: 768px) 20vw, 50vw" alt={b.alt} class="w-full aspect-[4/5] object-cover bg-paper/5" loading="lazy" decoding="async" />
             <p class="mt-2.5 text-sm leading-snug"><span class="font-semibold">{b.name}</span><br /><span class="font-text italic text-base text-paper/70">{b.role}</span></p>
           </li>
