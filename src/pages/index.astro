@@ -1,6 +1,7 @@
 ---
-// The home page is an issue of the magazine: the cover and contents, the lead feature as a spread,
-// the year's pictures sliding, a second feature, the album covers, and the back of the book.
+// The home page is an issue of the magazine: the cover and contents, the year's pictures sliding,
+// two features as spreads, the album covers, and the back of the book. Pictures lead; words are kept
+// for where they help someone decide (Drew, Nov 9: magazine in look and layout, not in word count).
 // What's in the issue lives in src/data/issue.ts.
 import Base from '../layouts/Base.astro';
 import Issue from '../components/mag/Issue.astro';
@@ -23,8 +24,8 @@ const nicole = study('the-devil-i-knew');
   <link slot="head" rel="preload" as="image" imagesrcset={srcset(ISSUE.cover.src, [640, 960, 1280, 1600, 2400])} imagesizes="(max-width: 767px) 190vw, 70vw" fetchpriority="high" />
 
   <Issue />
-  <Spread study={lauren} line="The obvious cover was the apocalypse. The song is quiet, so the cover is too." art="right" />
   <Pictures />
+  <Spread study={lauren} art="right" />
   <Spread study={nicole} line={nicole.quote!.text} attribution={`${nicole.quote!.author}, on The Devil I Knew`} art="left" tone="mustard" />
   <div id="covers" class="scroll-mt-12"><CoverGrid /></div>
   <BackPage />

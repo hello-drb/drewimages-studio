@@ -1,7 +1,7 @@
 ---
-// A case study as a magazine feature: an opening spread with the artwork, a standfirst, the story
-// in columns with a drop cap, full-bleed photographs, a pull line, a sliding strip of more work,
-// and liner-note credits. Same data and structured data as the older CaseStudy layout.
+// A case study as a magazine feature, pictures first: an opening spread with the artwork and a
+// standfirst, full-bleed photographs, a sliding strip of more work, then one paragraph of story
+// (the rest opens on request) and liner-note credits. Same data and structured data as the older CaseStudy layout.
 import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Strip, { type StripItem } from './Strip.astro';
@@ -97,7 +97,39 @@ const label = 'font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-
       </figure>
     )}
 
-    <!-- The story -->
+    <!-- A pair -->
+    {second && third && (
+      <div class="px-4 md:px-8 py-3 md:py-5 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
+        {[second, third].map((p) => (
+          <figure>
+            <img src={cld(p.src, 1400)} srcset={srcset(p.src, HALF)} sizes="(min-width: 768px) 50vw, 100vw" alt={p.alt} class="w-full aspect-[3/2] object-cover" loading="lazy" decoding="async" />
+          </figure>
+        ))}
+      </div>
+    )}
+
+    {rest.map((p) => (
+      <figure>
+        <img src={cld(p.src, 1920)} srcset={srcset(p.src, WIDE)} sizes="100vw" alt={p.alt} class="w-full max-h-[92vh] object-cover" loading="lazy" decoding="async" />
+      </figure>
+    ))}
+
+    <!-- More with the same artist, sliding -->
+    {more.length > 0 && (
+      <section class="bg-ink text-paper pt-16 md:pt-24 pb-14 md:pb-20 overflow-hidden" aria-labelledby="more-title">
+        <div class="px-4 md:px-8 flex items-end justify-between gap-6 mb-8 md:mb-12">
+          <h2 id="more-title" class="font-didone italic text-5xl md:text-7xl leading-[0.92] tracking-tight">{study.more!.title}</h2>
+          <div class="flex items-center gap-3">
+            <span class={`${label} hidden sm:block text-paper/60 tabular-nums`} data-strip-count></span>
+            <button type="button" class="w-11 h-11 border border-paper/30 hover:bg-paper hover:text-ink transition-colors" data-strip-prev aria-label="Previous picture">&larr;</button>
+            <button type="button" class="w-11 h-11 border border-paper/30 hover:bg-paper hover:text-ink transition-colors" data-strip-next aria-label="Next picture">&rarr;</button>
+          </div>
+        </div>
+        <Strip items={more} label={study.more!.title} />
+      </section>
+    )}
+
+    <!-- The story: one paragraph, the rest behind a button -->
     <div class="px-4 md:px-8 py-16 md:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
       <aside class="lg:col-span-3 order-2 lg:order-1">
         <dl class="border-t-[3px] border-ink">
@@ -113,63 +145,25 @@ const label = 'font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-
       </aside>
       <div class="lg:col-span-8 lg:col-start-5 order-1 lg:order-2">
         <p class="feature-lede text-lg md:text-xl leading-[1.75] text-ink/90 max-w-[42rem]">{firstPara}</p>
-        <div class="mt-6 space-y-6 text-lg md:text-xl leading-[1.75] text-ink/85 max-w-[42rem]">
-          {otherParas.slice(0, 1).map((p) => <p>{p}</p>)}
-        </div>
+        {otherParas.length > 0 && (
+          <details class="group mt-8 max-w-[42rem]">
+            <summary class="inline-flex items-center gap-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 hover:text-burgundy">
+              <span class="group-open:hidden">Read the story</span><span class="hidden group-open:inline">Close the story</span>
+              <span class="transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <div class="mt-8 space-y-6 text-lg md:text-xl leading-[1.75] text-ink/85">
+              {otherParas.map((p) => <p>{p}</p>)}
+            </div>
+          </details>
+        )}
       </div>
     </div>
-
-    <!-- A pair -->
-    {second && third && (
-      <div class="px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5">
-        {[second, third].map((p) => (
-          <figure>
-            <img src={cld(p.src, 1400)} srcset={srcset(p.src, HALF)} sizes="(min-width: 768px) 50vw, 100vw" alt={p.alt} class="w-full aspect-[3/2] object-cover" loading="lazy" decoding="async" />
-          </figure>
-        ))}
-      </div>
-    )}
-
-    <!-- The pull line -->
-    <div class="px-4 md:px-8 py-20 md:py-36 text-center">
-      <p class="font-grotesk font-black uppercase leading-[0.86] [font-stretch:62%] tracking-[-0.01em] text-[clamp(3rem,10.5vw,10rem)] text-burgundy text-balance">{study.coverLine}</p>
-    </div>
-
-    <!-- The rest of the story -->
-    {otherParas.length > 1 && (
-      <div class="px-4 md:px-8 pb-16 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div class="lg:col-span-8 lg:col-start-5 space-y-6 text-lg md:text-xl leading-[1.75] text-ink/85 [&>p]:max-w-[42rem]">
-          {otherParas.slice(1).map((p) => <p>{p}</p>)}
-        </div>
-      </div>
-    )}
-
-    {rest.map((p) => (
-      <figure>
-        <img src={cld(p.src, 1920)} srcset={srcset(p.src, WIDE)} sizes="100vw" alt={p.alt} class="w-full max-h-[92vh] object-cover" loading="lazy" decoding="async" />
-      </figure>
-    ))}
 
     {study.quote?.approved && (
       <figure class="bg-saffron text-chocolate px-4 md:px-8 py-20 md:py-32">
         <blockquote class="font-didone leading-[1.04] tracking-tight text-[clamp(2.2rem,5vw,5rem)] max-w-6xl text-balance">&ldquo;{study.quote.text}&rdquo;</blockquote>
         <figcaption class={`${label} mt-8`}>{study.quote.author}</figcaption>
       </figure>
-    )}
-
-    <!-- More with the same artist, sliding -->
-    {more.length > 0 && (
-      <section class="bg-ink text-paper pt-16 md:pt-24 pb-14 md:pb-20 overflow-hidden" aria-labelledby="more-title">
-        <div class="px-4 md:px-8 flex items-end justify-between gap-6 mb-8 md:mb-12">
-          <h2 id="more-title" class="font-didone italic text-5xl md:text-7xl leading-[0.92] tracking-tight">{study.more!.title}</h2>
-          <div class="flex items-center gap-3">
-            <span class={`${label} hidden sm:block text-paper/60 tabular-nums`} data-strip-count></span>
-            <button type="button" class="w-11 h-11 border border-paper/30 hover:bg-paper hover:text-ink transition-colors" data-strip-prev aria-label="Previous picture">&larr;</button>
-            <button type="button" class="w-11 h-11 border border-paper/30 hover:bg-paper hover:text-ink transition-colors" data-strip-next aria-label="Next picture">&rarr;</button>
-          </div>
-        </div>
-        <Strip items={more} label={study.more!.title} />
-      </section>
     )}
 
     <!-- Liner notes -->

@@ -7,7 +7,7 @@ import type { CaseStudy } from '../../data/case-studies';
 interface Props {
   study: CaseStudy;
   /** The line set large. Drew's own words go without quotation marks; a client's go with them. */
-  line: string;
+  line?: string;
   /** Who said it, when it's a quote. */
   attribution?: string;
   /** Which page the artwork sits on. */
@@ -23,12 +23,16 @@ const rule = tone === 'mustard' ? 'border-chocolate/25' : 'border-ink/15';
   <a href={`/work/${study.slug}`} class="group grid grid-cols-1 md:grid-cols-2 md:min-h-[88vh]">
     <div class={`flex flex-col justify-center py-2 md:py-24 ${art === 'right' ? `md:pr-12 lg:pr-20 md:border-r ${rule}` : `md:pl-12 lg:pl-20 md:order-2`}`}>
       <span class="font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.28em] opacity-60">Feature <span class="mx-1">·</span> {study.artist} <span class="mx-1">·</span> {study.format}, {study.year}</span>
-      <p class={`mt-6 md:mt-8 font-didone leading-[1.02] tracking-tight text-balance text-[clamp(2.2rem,4.4vw,4.5rem)] ${attribution ? '' : 'italic'}`}>
-        {attribution ? <>&ldquo;{line}&rdquo;</> : line}
-      </p>
+      {line ? (
+        <p class={`mt-6 md:mt-8 font-didone leading-[1.02] tracking-tight text-balance text-[clamp(2.2rem,4.4vw,4.5rem)] ${attribution ? '' : 'italic'}`}>
+          {attribution ? <>&ldquo;{line}&rdquo;</> : line}
+        </p>
+      ) : (
+        <p class="mt-6 md:mt-8 font-didone italic leading-[0.9] tracking-tight text-balance text-[clamp(3.5rem,8vw,8.5rem)]">{study.release}</p>
+      )}
       {attribution && <span class="mt-5 font-grotesk text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] opacity-70">{attribution}</span>}
       <span class="mt-8 md:mt-12 flex items-baseline gap-4 flex-wrap">
-        <span class="font-grotesk font-black uppercase leading-none [font-stretch:62%] text-3xl md:text-5xl">{study.release}</span>
+        {line && <span class="font-grotesk font-black uppercase leading-none [font-stretch:62%] text-3xl md:text-5xl">{study.release}</span>}
         <span class="font-grotesk text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-current pb-1 group-hover:opacity-60">{study.role} &rarr;</span>
       </span>
     </div>
