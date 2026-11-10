@@ -6,10 +6,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // v2: a high-contrast Didone for headlines and a width-variable grotesk for everything else
-        serif: ['"Bodoni Moda Variable"', '"Bodoni Moda"', 'serif'],
+        // v4: a condensed Caslon for names and titles (the bridge until a licensed face), Newsreader for reading, Archivo small for the interface
+        serif: ['"Libre Caslon Condensed Variable"', '"Libre Caslon Condensed"', 'Georgia', 'serif'],
         sans: ['"Archivo Variable"', '"Archivo"', 'sans-serif'],
-        didone: ['"Bodoni Moda Variable"', '"Bodoni Moda"', 'serif'],
+        didone: ['"Libre Caslon Condensed Variable"', '"Libre Caslon Condensed"', 'Georgia', 'serif'],
         grotesk: ['"Archivo Variable"', '"Archivo"', 'sans-serif'],
         // v4: the reading face, shared with drewbordeaux.com
         text: ['"Newsreader Variable"', 'Newsreader', 'Georgia', 'serif'],

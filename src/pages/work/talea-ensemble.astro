@@ -1,0 +1,7 @@
+---
+import BrandStory from '../../components/mag/BrandStory.astro';
+import { BRAND_STORIES } from '../../data/brand-stories';
+
+const story = BRAND_STORIES.find((s) => s.slug === 'talea-ensemble')!;
+---
+<BrandStory story={story} />

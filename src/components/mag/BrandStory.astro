@@ -1,0 +1,73 @@
+---
+// A campaign for a brand or an ensemble, told mostly in pictures: who it was for, what it was,
+// what was made, and the photographs at full size. The few lines of story come from Drew.
+import Base from '../../layouts/Base.astro';
+import { cld, srcset, ogImage } from '../../data/cloudinary';
+import { breadcrumbs } from '../../data/schema';
+import type { BrandStory } from '../../data/brand-stories';
+import { BRAND_STORIES } from '../../data/brand-stories';
+
+interface Props {
+  story: BrandStory;
+}
+
+const { story } = Astro.props;
+const next = BRAND_STORIES.find((s) => s.slug !== story.slug);
+const WIDE = [800, 1280, 1920, 2560];
+const title = `${story.client}: ${story.what.toLowerCase()} — DrewImages`;
+const description = `${story.what} for ${story.client}, by Drew Bordeaux. ${story.made.join(', ')}.`;
+---
+<Base
+  title={title}
+  description={description}
+  ogImage={ogImage(story.pictures[0].src)}
+  ogImageAlt={story.pictures[0].alt}
+  noindex={!story.confirmed}
+  schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }, { name: story.client, path: `/work/${story.slug}` }])]}
+>
+  <article class="bg-paper text-ink">
+    <header class="px-4 md:px-8 pt-28 md:pt-36 pb-12 md:pb-16">
+      <p class="flex items-center gap-4 pb-4 border-b-[3px] border-ink text-sm"><span class="font-semibold">{story.kind}</span><span class="ml-auto text-ink/50">{story.what}</span></p>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end mt-10 md:mt-14">
+        <h1 class="lg:col-span-7 font-didone leading-[0.88] tracking-tight text-[clamp(3.75rem,10vw,10rem)] text-balance">{story.client}</h1>
+        <div class="lg:col-span-5">
+          {story.lines.map((l) => <p class="font-text text-xl md:text-2xl leading-snug mb-4">{l}</p>)}
+          <dl class="mt-6 border-t border-ink/25">
+            <div class="py-3 border-b border-ink/15 flex gap-6"><dt class="w-20 shrink-0 text-sm text-ink/55">Made</dt><dd class="text-base">{story.made.join(', ')}</dd></div>
+            <div class="py-3 border-b border-ink/15 flex gap-6"><dt class="w-20 shrink-0 text-sm text-ink/55">My part</dt><dd class="text-base">{story.role}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </header>
+
+    {story.pictures.map((p, i) =>
+      p.wide ? (
+        <figure class="cursor-zoom-in" data-view data-view-name={story.client} data-view-full={cld(p.src, 2560)}>
+          <img src={cld(p.src, 1920)} srcset={srcset(p.src, WIDE)} sizes="100vw" alt={p.alt} class="w-full h-auto" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+        </figure>
+      ) : (
+        <figure class="px-4 md:px-8 py-10 md:py-20 flex justify-center cursor-zoom-in" data-view data-view-name={story.client} data-view-full={cld(p.src, 2560)}>
+          <img src={cld(p.src, 1280)} srcset={srcset(p.src, WIDE)} sizes="(min-width: 768px) 60vw, 100vw" alt={p.alt} class="w-full max-w-3xl h-auto shadow-[0_30px_60px_-30px_rgba(12,12,12,0.55)]" loading="lazy" decoding="async" />
+        </figure>
+      ),
+    )}
+
+    <div class="bg-chocolate text-paper px-4 md:px-8 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-14">
+      {next && (
+        <a href={`/work/${next.slug}`} class="group block">
+          <span class="text-sm text-saffron">Next</span>
+          <span class="block mt-4 font-didone text-5xl md:text-7xl leading-[0.92] group-hover:text-saffron transition-colors">{next.client}</span>
+          <span class="block mt-4 text-sm text-paper/60">{next.what}</span>
+        </a>
+      )}
+      <div class="lg:border-l lg:border-paper/20 lg:pl-14">
+        <span class="text-sm text-saffron">Planning a campaign?</span>
+        <p class="mt-4 font-didone text-3xl md:text-4xl leading-tight max-w-md">Tell me what it’s for and when it launches.</p>
+        <p class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a href="/contact?type=brands" class="inline-block text-sm font-semibold px-8 py-5 bg-saffron text-chocolate hover:bg-paper transition-colors">Start a campaign</a>
+          <a href="/drewimages-studio.pdf" class="text-sm underline underline-offset-4 decoration-paper/40 hover:decoration-paper">One page to forward (PDF)</a>
+        </p>
+      </div>
+    </div>
+  </article>
+</Base>

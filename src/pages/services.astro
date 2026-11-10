@@ -67,6 +67,8 @@ const W = [480, 800, 1200];
               <p class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <a href={`/contact?type=${o.id}`} class={`inline-block text-sm font-semibold px-7 py-4 transition-colors ${dark ? 'bg-saffron text-chocolate hover:bg-paper' : 'bg-ink text-paper hover:bg-burgundy'}`}>{o.cta}</a>
                 {o.href && <a href={o.href} class="text-sm underline underline-offset-4 decoration-current/40">How the sessions and the monthly work run</a>}
+                {o.id === 'brands' && <a href="/work/isa-tailored-and-made" class="text-sm underline underline-offset-4 decoration-current/40">Isa Tailored & Made</a>}
+                {o.id === 'brands' && <a href="/work/talea-ensemble" class="text-sm underline underline-offset-4 decoration-current/40">Talea Ensemble</a>}
                 {(o.id === 'brands' || o.id === 'campaign') && <a href="/drewimages-studio.pdf" class="text-sm underline underline-offset-4 decoration-current/40">One page to forward (PDF)</a>}
               </p>
             </div>

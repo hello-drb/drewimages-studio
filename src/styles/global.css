@@ -1,5 +1,5 @@
-@import '@fontsource-variable/bodoni-moda/standard.css';
-@import '@fontsource-variable/bodoni-moda/standard-italic.css';
+@import '@fontsource-variable/libre-caslon-condensed/wght.css';
+@import '@fontsource-variable/libre-caslon-condensed/wght-italic.css';
 @import '@fontsource-variable/archivo/standard.css';
 @import '@fontsource-variable/newsreader/opsz.css';
 @import '@fontsource-variable/newsreader/opsz-italic.css';
@@ -63,4 +63,13 @@ body {
   @view-transition {
     navigation: none;
   }
+}
+
+/* v4 type. Named here as well as in the Tailwind config so a running dev server picks it up. */
+.font-serif,
+.font-didone {
+  font-family: 'Libre Caslon Condensed Variable', 'Libre Caslon Condensed', Georgia, serif;
+}
+.font-text {
+  font-family: 'Newsreader Variable', Newsreader, Georgia, serif;
 }

@@ -6,12 +6,14 @@ import Base from '../layouts/Base.astro';
 import { publishedCaseStudies } from '../data/case-studies';
 import { WALL, BRAND_WORK, artistSlug } from '../data/artists';
 import { breadcrumbs } from '../data/schema';
+import { BRAND_STORIES } from '../data/brand-stories';
 import { cld, srcset } from '../data/cloudinary';
 
 const title = 'Work: album covers, press images and campaigns — DrewImages';
 const description = 'Art direction and photography by Drew Bordeaux: album covers, press images and campaigns for musicians, labels, ensembles and brands.';
 const studies = publishedCaseStudies();
 const seen = new Set<string>();
+const storyFor = (name: string) => BRAND_STORIES.find((s) => s.client === name)?.slug;
 const W = [400, 700, 1000, 1400];
 ---
 <Base title={title} description={description} pageType="CollectionPage" schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }])]}>
@@ -74,7 +76,10 @@ const W = [400, 700, 1000, 1400];
         {BRAND_WORK.map((b) => (
           <li id={artistSlug(b.name)} class="scroll-mt-24 cursor-zoom-in" data-view data-view-name={`${b.name}: ${b.role}`} data-view-full={cld(b.cloud!, 2400)}>
             <img src={cld(b.cloud!, 700)} srcset={srcset(b.cloud!, W)} sizes="(min-width: 768px) 20vw, 50vw" alt={b.alt} class="w-full aspect-[4/5] object-cover bg-paper/5" loading="lazy" decoding="async" />
-            <p class="mt-2.5 text-sm leading-snug"><span class="font-semibold">{b.name}</span><br /><span class="font-text italic text-base text-paper/70">{b.role}</span></p>
+            <p class="mt-2.5 text-sm leading-snug">
+              {storyFor(b.name) ? <a href={`/work/${storyFor(b.name)}`} class="font-semibold underline underline-offset-4 decoration-paper/40 hover:decoration-paper">{b.name}</a> : <span class="font-semibold">{b.name}</span>}
+              <br /><span class="font-text italic text-base text-paper/70">{b.role}</span>
+            </p>
           </li>
         ))}
       </ul>

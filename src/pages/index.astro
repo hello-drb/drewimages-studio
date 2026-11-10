@@ -1,21 +1,19 @@
 ---
 // The home page: the strongest photographs as full-screen covers, the artists by name, the pictures
-// sliding, one client's words, the album covers, and the studio. Pictures and names lead; words are
+// sliding, what clients say, the album covers, and the studio. Pictures and names lead; words are
 // kept for where they help someone decide. What's shown lives in src/data/artists.ts.
 import Base from '../layouts/Base.astro';
 import Covers from '../components/mag/Covers.astro';
 import ArtistIndex from '../components/mag/ArtistIndex.astro';
-import Spread from '../components/mag/Spread.astro';
+import Words from '../components/mag/Words.astro';
 import Pictures from '../components/mag/Pictures.astro';
 import BackPage from '../components/mag/BackPage.astro';
 import Records from '../components/mag/Records.astro';
-import { CASE_STUDIES } from '../data/case-studies';
 import { COVERS } from '../data/artists';
 import { srcset } from '../data/cloudinary';
 
 const title = 'DrewImages — art direction and photography by Drew Bordeaux';
 const description = 'Album covers, press images and campaigns for musicians, labels and brands. Art direction and photography by Drew Bordeaux, New York and the Hudson Valley.';
-const nicole = CASE_STUDIES.find((c) => c.slug === 'the-devil-i-knew')!;
 ---
 <Base title={title} description={description} ogImageAlt="Portrait by DrewImages">
   <link slot="head" rel="preload" as="image" imagesrcset={srcset(COVERS[0].src, [800, 1280, 1920, 2560])} imagesizes="(max-width: 767px) 160vw, 100vw" fetchpriority="high" />
@@ -23,7 +21,7 @@ const nicole = CASE_STUDIES.find((c) => c.slug === 'the-devil-i-knew')!;
   <Covers />
   <ArtistIndex />
   <Pictures />
-  <Spread study={nicole} line={nicole.quote!.text} attribution={`${nicole.quote!.author}, on The Devil I Knew`} art="left" tone="mustard" />
+  <Words />
   <Records />
   <BackPage />
 </Base>
