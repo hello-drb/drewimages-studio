@@ -33,11 +33,11 @@ export interface IndexedArtist {
   line: string;
   /** Cloudinary path for the thumbnail. */
   thumb: string;
-  /** A feature page when there is one; empty opens the artist's cover. */
+  /** A story page when there is one; empty jumps to their photograph on the Work page. */
   href: string;
 }
 
-/** No feature yet: the name opens the artist's cover. */
+/** No story yet: the name jumps to the artist's photograph on the Work page. */
 const archive = '';
 
 export const artistSlug = (name: string) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

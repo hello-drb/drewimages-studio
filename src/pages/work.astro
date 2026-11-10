@@ -4,14 +4,14 @@
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { publishedCaseStudies } from '../data/case-studies';
-import { WALL, BRAND_WORK, ARTIST_INDEX, artistSlug } from '../data/artists';
+import { WALL, BRAND_WORK, artistSlug } from '../data/artists';
 import { breadcrumbs } from '../data/schema';
 import { cld, srcset } from '../data/cloudinary';
 
 const title = 'Work: album covers, press images and campaigns — DrewImages';
 const description = 'Art direction and photography by Drew Bordeaux: album covers, press images and campaigns for musicians, labels, ensembles and brands.';
 const studies = publishedCaseStudies();
-const covered = new Set(ARTIST_INDEX.map((a) => a.name));
+const seen = new Set<string>();
 const W = [400, 700, 1000, 1400];
 ---
 <Base title={title} description={description} pageType="CollectionPage" schema={[breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }])]}>
@@ -53,9 +53,11 @@ const W = [400, 700, 1000, 1400];
               <figcaption class="mt-2 text-sm text-ink/70 min-h-[1.25rem]">{it.name}</figcaption>
             </>
           );
+          const first = it.name && !seen.has(it.name);
+          if (it.name) seen.add(it.name);
           return (
-            <figure class="mb-5 md:mb-7 break-inside-avoid">
-              {it.name && covered.has(it.name) ? <a href={`/cover/${artistSlug(it.name)}`} class="block hover:opacity-90 transition-opacity">{inner}</a> : inner}
+            <figure id={first ? artistSlug(it.name) : undefined} class="mb-5 md:mb-7 break-inside-avoid scroll-mt-24">
+              {inner}
             </figure>
           );
         })}
