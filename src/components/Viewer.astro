@@ -1,0 +1,99 @@
+---
+// A full-screen viewer for photographs. Anything marked data-view opens in it; arrow keys, the
+// on-screen arrows or a swipe move through every marked photograph on the page. Esc or a click
+// outside the picture closes it. data-view-name is the caption; data-view-full is the large file
+// (otherwise the largest file in the image's srcset is used).
+---
+<dialog data-viewer class="fixed inset-0 m-0 p-0 w-screen h-[100dvh] max-w-none max-h-none bg-black text-paper open:flex flex-col backdrop:bg-black" aria-label="Photograph">
+  <div class="flex items-center justify-between gap-4 px-4 md:px-6 py-3 text-sm">
+    <p class="min-w-0 truncate"><span class="font-semibold" data-viewer-name></span></p>
+    <p class="flex items-center gap-5 shrink-0">
+      <span class="text-paper/60 tabular-nums" data-viewer-count></span>
+      <button type="button" class="underline underline-offset-4 decoration-paper/40 hover:decoration-paper" data-viewer-close>Close</button>
+    </p>
+  </div>
+  <div class="relative flex-1 min-h-0 flex items-center justify-center px-2 md:px-16 pb-4 md:pb-6" data-viewer-stage>
+    <img data-viewer-img alt="" class="max-w-full max-h-full w-auto h-auto object-contain select-none" draggable="false" />
+    <button type="button" class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center border border-paper/30 hover:bg-paper hover:text-ink transition-colors" data-viewer-prev aria-label="Previous photograph">&larr;</button>
+    <button type="button" class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center border border-paper/30 hover:bg-paper hover:text-ink transition-colors" data-viewer-next aria-label="Next photograph">&rarr;</button>
+  </div>
+</dialog>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-viewer]');
+  if (dlg) {
+    const img = dlg.querySelector<HTMLImageElement>('[data-viewer-img]')!;
+    const name = dlg.querySelector<HTMLElement>('[data-viewer-name]')!;
+    const count = dlg.querySelector<HTMLElement>('[data-viewer-count]')!;
+    let items: HTMLElement[] = [];
+    let index = 0;
+    let downX = 0;
+    let downY = 0;
+
+    const largest = (el: HTMLElement) => {
+      if (el.dataset.viewFull) return el.dataset.viewFull;
+      const i = el.querySelector('img');
+      const set = i?.getAttribute('srcset');
+      if (set) {
+        const files = set.split(',').map((s) => s.trim().split(/\s+/));
+        files.sort((a, b) => parseInt(b[1] ?? '0') - parseInt(a[1] ?? '0'));
+        return files[0][0];
+      }
+      return i?.currentSrc || i?.src || '';
+    };
+
+    const show = (n: number) => {
+      index = (n + items.length) % items.length;
+      const el = items[index];
+      const small = el.querySelector('img');
+      // What's already on the page first, then the large file once it has loaded
+      img.src = small?.currentSrc || small?.src || '';
+      img.alt = small?.alt ?? '';
+      const big = largest(el);
+      const pre = new Image();
+      pre.onload = () => {
+        if (items[index] === el) img.src = big;
+      };
+      pre.src = big;
+      name.textContent = el.dataset.viewName ?? '';
+      count.textContent = `${index + 1} / ${items.length}`;
+    };
+
+    document.addEventListener('pointerdown', (e) => {
+      downX = e.clientX;
+      downY = e.clientY;
+    });
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (dlg.open) {
+        if (target.closest('[data-viewer-close]')) dlg.close();
+        else if (target.closest('[data-viewer-next]')) show(index + 1);
+        else if (target.closest('[data-viewer-prev]')) show(index - 1);
+        else if (!target.closest('[data-viewer-img]') && !target.closest('button')) dlg.close();
+        return;
+      }
+      const el = target.closest<HTMLElement>('[data-view]');
+      if (!el) return;
+      // A drag along a strip isn't a click
+      if (Math.hypot(e.clientX - downX, e.clientY - downY) > 8) return;
+      e.preventDefault();
+      items = Array.from(document.querySelectorAll<HTMLElement>('[data-view]'));
+      dlg.showModal();
+      show(items.indexOf(el));
+    });
+
+    dlg.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') show(index + 1);
+      if (e.key === 'ArrowLeft') show(index - 1);
+    });
+
+    // Swipe on a phone
+    let touchX = 0;
+    dlg.addEventListener('touchstart', (e) => (touchX = e.touches[0].clientX), { passive: true });
+    dlg.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>

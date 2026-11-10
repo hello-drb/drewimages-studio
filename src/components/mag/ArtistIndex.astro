@@ -8,14 +8,14 @@ import { ARTIST_INDEX, artistSlug } from '../../data/artists';
 const thumb = (src: string, w: number) => `https://res.cloudinary.com/diduw1fmf/image/upload/c_fill,g_auto,w_${w},h_${Math.round(w * 1.25)},f_auto,q_auto/${src}`;
 ---
 <section class="bg-paper text-ink px-4 md:px-8 pt-8 md:pt-12 pb-16 md:pb-24" aria-labelledby="index-title">
-  <div class="text-chocolate [&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
+  <div class="text-[color:var(--accent,#3D1118)] transition-colors duration-[1400ms] [&>svg]:w-full [&>svg]:h-auto" set:html={Masthead} aria-hidden="true" />
 
   <div class="mt-10 md:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
     <div class="lg:col-span-4">
       <h1 class="font-didone text-[clamp(2.1rem,3.3vw,3.5rem)] leading-[1.04] tracking-tight text-balance">Art direction and photography for records, and the people who make them.</h1>
       <p class="mt-6 font-text text-xl md:text-[1.35rem] leading-relaxed text-ink/80">I write and produce records too, so every project starts with the music. Then we decide what it looks like.</p>
       <p class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <a href="/contact" class="inline-block text-sm font-semibold px-7 py-4 bg-ink text-paper hover:bg-burgundy transition-colors">Start a project</a>
+        <a href="/contact" class="inline-block text-sm font-semibold px-7 py-4 bg-[color:var(--accent,#0C0C0C)] text-paper hover:bg-ink transition-colors duration-[1400ms]">Start a project</a>
         <span class="text-sm text-ink/60">Now booking spring 2027 releases.</span>
       </p>
     </div>

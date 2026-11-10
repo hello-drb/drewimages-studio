@@ -38,7 +38,7 @@ const strong = tone === 'dark' ? 'text-paper' : 'text-ink';
 >
   {items.map((it, n) => (
     <li class="snap-start shrink-0">
-      <div class="h-[56svh] md:h-[72vh] max-h-[820px] overflow-hidden bg-black/10" style={`aspect-ratio: ${ratio(it).toFixed(4)};`}>
+      <div class="h-[56svh] md:h-[72vh] max-h-[820px] overflow-hidden bg-black/10" style={`aspect-ratio: ${ratio(it).toFixed(4)};`} data-view data-view-name={it.name} data-view-full={it.cloud ? cld(it.cloud, 2400) : undefined}>
         {it.local ? (
           <Picture src={it.local} alt={it.alt} widths={[480, 800, 1200, 1600]} sizes={`${Math.round(ratio(it) * 72)}vh`} formats={['avif', 'webp']} class="w-full h-full object-cover" loading={n < 2 ? 'eager' : 'lazy'} draggable="false" />
         ) : (

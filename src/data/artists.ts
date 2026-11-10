@@ -13,18 +13,20 @@ export interface CoverPhoto {
   /** object-position on desktop (wide) and on phones (tall crop). */
   focus: string;
   focusPhone: string;
+  /** A color taken from the photograph. The nameplate and the main button wear it while this cover is up. */
+  accent: string;
 }
 
 /** The live site's eight hero photographs, as full-screen covers. */
 export const COVERS: CoverPhoto[] = [
-  { src: 'v1768230325/jazzmeia_wide_ieefeg.png', name: 'Jazzmeia Horn', alt: 'Jazzmeia Horn in a marigold dress and purple head wrap, a length of purple fabric blowing behind her in a sunlit field', focus: '50% 30%', focusPhone: '68% 50%' },
-  { src: 'v1768230293/Cyrille_Green_ug4lzg.png', name: 'Cyrille Aimée', alt: 'Cyrille Aimée seated on the floor in a rust-colored dress against a deep green backdrop', focus: '50% 35%', focusPhone: '52% 50%' },
-  { src: 'v1768231551/katie_jacoby_dress_cxexe9.png', name: 'Katie Jacoby', alt: 'Katie Jacoby in a long floral dress, sitting on a boulder at the edge of a river under a stormy sky', focus: '50% 40%', focusPhone: '50% 50%' },
-  { src: 'v1768230081/Kimberly_Hawkey_Water_uk76le.webp', name: 'Kimberly Hawkey', alt: 'Kimberly Hawkey floating on her back in dark water, arms open, in a sheer dress', focus: '50% 30%', focusPhone: '38% 50%' },
-  { src: 'v1768345533/A7400898-Edit_2_xl7gtf.jpg', name: '', alt: 'A musician in a floral dress seated on draped fabric among fruit, flowers and a cello, like a painted still life', focus: '50% 45%', focusPhone: '58% 50%' },
-  { src: 'v1768230077/Chelsea_Lane_j9zlaq.webp', name: 'Chelsea Lane', alt: 'Harpist Chelsea Lane resting her arm on the curve of her gold harp against a dark backdrop', focus: '50% 30%', focusPhone: '62% 50%' },
-  { src: 'v1768230554/A7404274-Edit_ngnbu0.jpg', name: '', alt: 'A three-piece band in a sepia studio portrait, two men standing with guitars and a woman seated between them', focus: '50% 30%', focusPhone: '45% 50%' },
-  { src: 'v1768230056/Carissa_Johnson_Banner_xalq1v.webp', name: 'Carissa Johnson', alt: 'Three frames of Carissa Johnson in a red jacket, perched on a blue mailbox on a city street', focus: '50% 40%', focusPhone: '15% 50%' },
+  { src: 'v1768230325/jazzmeia_wide_ieefeg.png', name: 'Jazzmeia Horn', alt: 'Jazzmeia Horn in a marigold dress and purple head wrap, a length of purple fabric blowing behind her in a sunlit field', focus: '50% 30%', focusPhone: '68% 50%', accent: '#5B2A86' },
+  { src: 'v1768230293/Cyrille_Green_ug4lzg.png', name: 'Cyrille Aimée', alt: 'Cyrille Aimée seated on the floor in a rust-colored dress against a deep green backdrop', focus: '50% 35%', focusPhone: '52% 50%', accent: '#0E4A3F' },
+  { src: 'v1768231551/katie_jacoby_dress_cxexe9.png', name: 'Katie Jacoby', alt: 'Katie Jacoby in a long floral dress, sitting on a boulder at the edge of a river under a stormy sky', focus: '50% 40%', focusPhone: '50% 50%', accent: '#2F4A4F' },
+  { src: 'v1768230081/Kimberly_Hawkey_Water_uk76le.webp', name: 'Kimberly Hawkey', alt: 'Kimberly Hawkey floating on her back in dark water, arms open, in a sheer dress', focus: '50% 30%', focusPhone: '38% 50%', accent: '#123E49' },
+  { src: 'v1768345533/A7400898-Edit_2_xl7gtf.jpg', name: '', alt: 'A musician in a floral dress seated on draped fabric among fruit, flowers and a cello, like a painted still life', focus: '50% 45%', focusPhone: '58% 50%', accent: '#7A4B12' },
+  { src: 'v1768230077/Chelsea_Lane_j9zlaq.webp', name: 'Chelsea Lane', alt: 'Harpist Chelsea Lane resting her arm on the curve of her gold harp against a dark backdrop', focus: '50% 30%', focusPhone: '62% 50%', accent: '#8A5A16' },
+  { src: 'v1768230554/A7404274-Edit_ngnbu0.jpg', name: '', alt: 'A three-piece band in a sepia studio portrait, two men standing with guitars and a woman seated between them', focus: '50% 30%', focusPhone: '45% 50%', accent: '#4A3F33' },
+  { src: 'v1768230056/Carissa_Johnson_Banner_xalq1v.webp', name: 'Carissa Johnson', alt: 'Three frames of Carissa Johnson in a red jacket, perched on a blue mailbox on a city street', focus: '50% 40%', focusPhone: '15% 50%', accent: '#A31E2B' },
 ];
 
 export interface IndexedArtist {

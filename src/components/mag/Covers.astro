@@ -10,7 +10,7 @@ const WIDTHS = [800, 1280, 1920, 2560];
 <section class="relative bg-ink text-paper md:h-[100svh] md:min-h-[620px]" data-covers aria-label="Photographs by Drew Bordeaux" aria-roledescription="carousel">
   <div class="relative h-[66svh] min-h-[420px] md:absolute md:inset-0 md:h-auto overflow-hidden">
     {COVERS.map((c, i) => (
-      <div class="absolute inset-0 transition-opacity duration-[1400ms] ease-in-out opacity-0 data-[active=true]:opacity-100" data-cover-slide data-active={String(i === 0)} aria-hidden={i === 0 ? undefined : 'true'}>
+      <div class="absolute inset-0 transition-opacity duration-[1400ms] ease-in-out opacity-0 data-[active=true]:opacity-100" data-cover-slide data-accent={c.accent} data-active={String(i === 0)} aria-hidden={i === 0 ? undefined : 'true'}>
         <img
           src={i === 0 ? cld(c.src, 1920) : undefined}
           srcset={i === 0 ? srcset(c.src, WIDTHS) : undefined}
@@ -41,7 +41,7 @@ const WIDTHS = [800, 1280, 1920, 2560];
     </div>
     <div class="shrink-0 flex items-center gap-4 pb-1">
       <div class="hidden sm:flex gap-1.5" aria-hidden="true">
-        {COVERS.map((_, i) => <span class="h-[3px] w-3 bg-paper/35 transition-all duration-500 data-[active=true]:w-9 data-[active=true]:bg-saffron" data-cover-tick data-active={String(i === 0)}></span>)}
+        {COVERS.map((_, i) => <span class="h-[3px] w-3 bg-paper/35 transition-all duration-500 data-[active=true]:w-9 data-[active=true]:bg-paper" data-cover-tick data-active={String(i === 0)}></span>)}
       </div>
       <button type="button" class="text-sm underline underline-offset-4 decoration-paper/50 hover:decoration-paper" data-cover-next>Next</button>
     </div>
@@ -64,6 +64,7 @@ const WIDTHS = [800, 1280, 1920, 2560];
       current = (i + count) % count;
       load(current);
       load((current + 1) % count);
+      document.documentElement.style.setProperty('--accent', groups[0][current].dataset.accent ?? '');
       groups.forEach((g) =>
         g.forEach((el, n) => {
           el.dataset.active = String(n === current);
@@ -83,6 +84,7 @@ const WIDTHS = [800, 1280, 1920, 2560];
       show(current + 1);
       start();
     });
+    document.documentElement.style.setProperty('--accent', groups[0][0].dataset.accent ?? '');
     window.addEventListener('load', () => load(1), { once: true });
     start();
   }
